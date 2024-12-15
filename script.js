@@ -1,4 +1,4 @@
-const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+const alertPlaceholder = document.getElementById('registerPlaceholder')
 var wrapper = null;
 const appendAlert = (message, type) => {
     if (!wrapper) {
@@ -13,28 +13,28 @@ const appendAlert = (message, type) => {
     ].join('')
 }
 
-const nameInput = document.getElementById('yourName');
-const emailInput = document.getElementById('yourEmail');
-const yourNumber = document.getElementById('yourNumber');
-const yourComments = document.getElementById('yourComments');
+const nameInput = document.getElementById('yourFirstName');
+const premiumInput = document.getElementById('yourPremium');
+const yourEmail = document.getElementById('yourEmailRegister');
+const yourPassword = document.getElementById('yourPasswordRegister');
 
 function validateForm() {
     if (nameInput.value === '') {
         return false;
     }
-    if (emailInput.value === '') {
+    if (premiumInput.value === '') {
         return false;
     }
-    if (yourNumber.value === '') {
+    if (yourEmail.value === '') {
         return false;
     }
-    if (yourComments.value === '') {
+    if (yourPassword.value === '') {
         return false;
     }
     return true;
 }
 
-const alertTrigger = document.getElementById('liveAlertBtn');
+const alertTrigger = document.getElementById('registerBtn');
 alertTrigger.addEventListener('click', (event) => {
 
     if (validateForm()) {
@@ -45,7 +45,7 @@ alertTrigger.addEventListener('click', (event) => {
             url: 'form_capture.php',
             data: $('#myForm').serialize(),
             success: function (response) {
-                appendAlert('Thank you, we received your message and we will be in touch soon!', 'success');
+                appendAlert('Thank you, we received your data and we will be in touch soon!', 'success');
                 document.getElementById('spinner').style.display = 'none';
                 document.getElementById("myForm").reset();
             },
