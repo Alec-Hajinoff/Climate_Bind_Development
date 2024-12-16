@@ -43,11 +43,11 @@ alertTrigger.addEventListener('click', (event) => {
         $.ajax({
             type: 'POST',
             url: 'form_capture.php',
-            data: $('#myFormRegister').serialize(), 
+            data: $('#myFormRegister').serialize(),
             success: function (response) {
                 appendAlert('Thank you, we received your data and we will be in touch soon!', 'success');
                 document.getElementById('spinnerRegister').style.display = 'none';
-                document.getElementById("myFormRegister").reset(); 
+                document.getElementById("myFormRegister").reset();
             },
             error: function (xhr, status, error) {
                 appendAlert('There was an error processing your request. Please try again.', 'danger');
