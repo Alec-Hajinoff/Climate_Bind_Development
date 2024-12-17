@@ -1,21 +1,22 @@
 <?php
-$servername = "127.0.0.1";
-$username = "root";
-$passwordServer = "";
-$dbname = "climate_bind";
-$conn = new mysqli($servername, $username, $passwordServer, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-$name = $_POST['name'];
-$premium = $_POST['premium'];
+session_start();
 $email = $_POST['email'];
 $password = $_POST['password'];
-$sql = "INSERT INTO user_data (email, password, name, premium) VALUES (?, ?, ?, ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("sssi", $email, $password, $name, $premium);
-$stmt->execute();
-$stmt->close();
-$conn->close();
-echo "Data inserted!";
+
+// Database connection (using PDO for security)
+$pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', ''); 
+
+$stmt = $pdo->prepare('SELECT * FROM user_data WHERE email = ?');
+$stmt->execute([$email]);
+$user = $stmt->fetch();
+
+if ($user && password_verify($password)) {
+    $_SESSION['user_id'] = $user['id'];
+    // Redirect to a logged-in page
+    header('Location: http://localhost:8001/Climate_Bind_Development/login_capture.php');
+} else {
+    // Display an error message
+    echo 'Invalid email or password.';
+}
+echo "You are now logged in!"; 
 ?>

@@ -17,7 +17,7 @@ const appendAlert = (message, type) => {
 const nameInput = document.getElementById('yourFirstName');
 const premiumInput = document.getElementById('yourPremium');
 const yourEmail = document.getElementById('yourEmailRegister');
-const yourPassword = document.getElementById('yourPasswordRegister'); 
+const yourPassword = document.getElementById('yourPasswordRegister');
 
 function validateForm() {
     if (nameInput.value === '') {
@@ -59,41 +59,29 @@ alertTrigger.addEventListener('click', (event) => {
 });
 //Code that deals with new user registration end!
 //Code that deals with user login start:
-const nameInput = document.getElementById('yourFirstName');
-const premiumInput = document.getElementById('yourPremium');
-const yourEmail = document.getElementById('yourEmailRegister');
-const yourPassword = document.getElementById('yourPasswordRegister');
+const yourEmailLogin = document.getElementById('yourEmailLogin');
+const yourPasswordLogin = document.getElementById('yourPasswordLogin');
 
 function validateForm() {
-    if (nameInput.value === '') {
+    if (yourEmailLogin.value === '') {
         return false;
     }
-    if (premiumInput.value === '') {
-        return false;
-    }
-    if (yourEmail.value === '') {
-        return false;
-    }
-    if (yourPassword.value === '') {
+    if (yourPasswordLogin.value === '') {
         return false;
     }
     return true;
 }
 
-const alertTrigger = document.getElementById('registerBtn');
-alertTrigger.addEventListener('click', (event) => {
+const alertTriggerLogin = document.getElementById('loginBtn');
+alertTriggerLogin.addEventListener('click', () => {
 
     if (validateForm()) {
-        event.preventDefault();
-        document.getElementById('spinnerRegister').style.display = 'block';
         $.ajax({
             type: 'POST',
-            url: 'form_capture.php',
-            data: $('#myFormRegister').serialize(),
+            url: 'login_capture.php',
+            data: $('#myFormLogin').serialize(),
             success: function (response) {
-                appendAlert('Thank you, we received your data and we will be in touch soon!', 'success');
-                document.getElementById('spinnerRegister').style.display = 'none';
-                document.getElementById("myFormRegister").reset();
+                appendAlert('Thank you, you are now logged in!', 'success');
             },
             error: function (xhr, status, error) {
                 appendAlert('There was an error processing your request. Please try again.', 'danger');
