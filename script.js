@@ -59,14 +59,14 @@ alertTrigger.addEventListener('click', (event) => {
 });
 //Code that deals with new user registration end!
 //Code that deals with user login start:
-const yourEmailLogin = document.getElementById('yourEmailLogin');
-const yourPasswordLogin = document.getElementById('yourPasswordLogin');
+const yourEmailLoginOne = document.getElementById('yourEmailLogin');
+const yourPasswordLoginOne = document.getElementById('yourPasswordLogin');
 
-function validateForm() {
-    if (yourEmailLogin.value === '') {
+function validateFormLog() {
+    if (yourEmailLoginOne.value === '') {
         return false;
     }
-    if (yourPasswordLogin.value === '') {
+    if (yourPasswordLoginOne.value === '') {
         return false;
     }
     return true;
@@ -75,16 +75,15 @@ function validateForm() {
 const alertTriggerLogin = document.getElementById('loginBtn');
 alertTriggerLogin.addEventListener('click', () => {
 
-    if (validateForm()) {
+    if (validateFormLog()) { 
         $.ajax({
             type: 'POST',
             url: 'login_capture.php',
             data: $('#myFormLogin').serialize(),
             success: function (response) {
-                appendAlert('Thank you, you are now logged in!', 'success');
+                console.log("Success!"); 
             },
             error: function (xhr, status, error) {
-                appendAlert('There was an error processing your request. Please try again.', 'danger');
                 console.error('Error:', error);
             }
         });
