@@ -73,15 +73,15 @@ function validateFormLog() {
 }
 
 const alertTriggerLogin = document.getElementById('loginBtn');
-alertTriggerLogin.addEventListener('click', () => {
-
-    if (validateFormLog()) { 
+alertTriggerLogin.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (validateFormLog()) {
         $.ajax({
             type: 'POST',
             url: 'login_capture.php',
             data: $('#myFormLogin').serialize(),
             success: function (response) {
-                console.log("Success!"); 
+                console.log("Success!");
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);
