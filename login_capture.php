@@ -1,13 +1,20 @@
 <?php
-session_start();
-$pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '');
 if (isset($_POST['email'], $_POST['password'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    session_start();
+    echo "1";
+    $pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '');
     $stmt = $pdo->prepare('SELECT * FROM user_data WHERE email = ?');
     $stmt->execute([$email]);
     $user = $stmt->fetch();
-    if ($user && $password) {
-        $_SESSION['user_id'] = $user['id'];
+    echo "2";
+    if ($user && $user['password'] === $password) {
+        echo "3";
+        $_SESSION["user_id"] = $user["email"]; 
         header('Location: http://localhost:8001/Climate_Bind_Development/login_capture.php');
+        echo 'You are now logged in!';
+        exit();
     } else {
         echo 'Invalid email or password.';
     }
