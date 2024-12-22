@@ -1,25 +1,16 @@
 <?php
 try {
-    // Connection
     $pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Query
-    $stmt = $pdo->prepare('SELECT premium FROM user_data');
+    $stmt = $pdo->prepare('SELECT * FROM user_data'); 
     $stmt->execute();
-
-    // Fetch the data
-    $premiumData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // Calculations
-    $totalPremium = 0;
-    foreach ($premiumData as $data) {
-        $totalPremium += $data['premium'];
+    $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $totalPremiumsCommitted = 0;
+    foreach ($userData as $data) { 
+        $totalPremiumsCommitted += $data['premium'];
     }
-
-    // Output
-    echo "Total Premium: " . $totalPremium;
+    echo "Total premiums committed: " . $totalPremiumsCommitted;
 } catch (PDOException $e) {
     echo 'Connection failed: ' . $e->getMessage();
 }
-?>
+?> 
