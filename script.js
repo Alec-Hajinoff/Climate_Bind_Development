@@ -19,20 +19,24 @@ const nameInput = document.getElementById('yourFirstName');
 const yourEmail = document.getElementById('yourEmailRegister');
 const yourPassword = document.getElementById('yourPasswordRegister');
 
-function validateForm() {
+function validateForm(event) {
     const nameRegex = /^[A-Za-z]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (nameInput.value === '' || !nameRegex.test(nameInput.value)) {
+    const errorMessage = document.getElementById('error-message');
+
+    if (!nameInput || !nameRegex.test(nameInput.value)) {
         return false;
     }
     /* if (premiumInput.value === '') {
         return false;
     }
     */
-    if (yourEmail.value === '' || !emailRegex.test(yourEmail.value)) {
+    if (!yourEmail || !emailRegex.test(yourEmail.value)) {
         return false;
     }
-    if (yourPassword.value === '' || (yourPassword.value.length < 8)) {
+    if (!yourPassword || yourPassword.value.length < 8) {
+        event.preventDefault();
+        errorMessage.textContent = 'Password must be at least 8 characters long.';
         return false;
     }
     return true;
@@ -41,7 +45,7 @@ function validateForm() {
 const alertTrigger = document.getElementById('registerBtn');
 alertTrigger.addEventListener('click', (event) => {
 
-    if (validateForm()) {
+    if (validateForm(event)) {
         event.preventDefault();
         document.getElementById('spinnerRegister').style.display = 'block';
         $.ajax({
