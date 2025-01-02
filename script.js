@@ -20,17 +20,19 @@ const yourEmail = document.getElementById('yourEmailRegister');
 const yourPassword = document.getElementById('yourPasswordRegister');
 
 function validateForm() {
-    if (nameInput.value === '') {
+    const nameRegex = /^[A-Za-z]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (nameInput.value === '' || !nameRegex.test(nameInput.value)) {
         return false;
     }
     /* if (premiumInput.value === '') {
         return false;
     }
     */
-    if (yourEmail.value === '') {
+    if (yourEmail.value === '' || !emailRegex.test(yourEmail.value)) {
         return false;
     }
-    if (yourPassword.value === '') {
+    if (yourPassword.value === '' || (yourPassword.value.length < 8)) {
         return false;
     }
     return true;
