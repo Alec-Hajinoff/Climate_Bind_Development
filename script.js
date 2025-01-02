@@ -15,7 +15,7 @@ const appendAlert = (message, type) => {
 }
 
 const nameInput = document.getElementById('yourFirstName');
-const premiumInput = document.getElementById('yourPremium');
+//const premiumInput = document.getElementById('yourPremium');
 const yourEmail = document.getElementById('yourEmailRegister');
 const yourPassword = document.getElementById('yourPasswordRegister');
 
@@ -23,9 +23,10 @@ function validateForm() {
     if (nameInput.value === '') {
         return false;
     }
-    if (premiumInput.value === '') {
+    /* if (premiumInput.value === '') {
         return false;
     }
+    */
     if (yourEmail.value === '') {
         return false;
     }

@@ -8,14 +8,13 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $name = $_POST['name'];
-$premium = $_POST['premium'];
+//$premium = $_POST['premium'];
 $email = $_POST['email'];
 $password = $_POST['password'];
-$sql = "INSERT INTO user_data (email, password, name, premium) VALUES (?, ?, ?, ?)";
+$sql = "INSERT INTO user_data (email, password, name /* premium */) VALUES (?, ?, ? /* ? */)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssi", $email, $password, $name, $premium);
+$stmt->bind_param("sss", $email, $password, $name /* $premium */); /*If "premium" is used, the "sss" value on line 16 must include "i" to be "sssi"*/
 $stmt->execute();
 $stmt->close();
 $conn->close();
 echo "Data inserted!";
-?>
