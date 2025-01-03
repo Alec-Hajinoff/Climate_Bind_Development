@@ -16,13 +16,12 @@ if (isset($_POST['email'], $_POST['password'])) {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-            session_regenerate_id(true); // Regenerate session ID for security
             $_SESSION["user_id"] = $user["email"];
-            
+
             $response = ['status' => 'success', 'data' => 'Login successful'];
             file_put_contents('log.txt', json_encode($response) . PHP_EOL, FILE_APPEND);
 
-            header('Location: http://localhost:8001/Climate_Bind_Development/login_capture.php');
+            echo json_encode($response);
             exit();
         } else {
             echo 'Invalid credentials.';
@@ -33,4 +32,3 @@ if (isset($_POST['email'], $_POST['password'])) {
         echo 'An error occurred. Please try again later.';
     }
 }
-?>
