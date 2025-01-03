@@ -11,9 +11,10 @@ $name = $_POST['name'];
 //$premium = $_POST['premium'];
 $email = $_POST['email'];
 $password = $_POST['password'];
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 $sql = "INSERT INTO user_data (email, password, name /* premium */) VALUES (?, ?, ? /* ? */)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sss", $email, $password, $name /* $premium */); /*If "premium" is used, the "sss" value on line 16 must include "i" to be "sssi"*/
+$stmt->bind_param("sss", $email, $hashedPassword, $name /* $premium */); /*If "premium" is used, the "sss" value on line 16 must include "i" to be "sssi"*/
 $stmt->execute();
 $stmt->close();
 $conn->close();

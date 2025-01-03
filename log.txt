@@ -1,2 +1,0 @@
-{"status":"success","data":"Test data"}
-{"status":"success","data":"Test data"}

@@ -22,7 +22,6 @@ const yourPassword = document.getElementById('yourPasswordRegister');
 function validateForm(event) {
     const nameRegex = /^[A-Za-z]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const errorMessage = document.getElementById('error-message');
 
     if (!nameInput || !nameRegex.test(nameInput.value)) {
         return false;
@@ -36,7 +35,7 @@ function validateForm(event) {
     }
     if (!yourPassword || yourPassword.value.length < 8) {
         event.preventDefault();
-        errorMessage.textContent = 'Password must be at least 8 characters long.';
+        $('#error-message').text('Password must be at least 8 characters long.').fadeOut(3000);
         return false;
     }
     return true;
@@ -81,7 +80,7 @@ function validateFormLog() {
 
 const alertTriggerLogin = document.getElementById('loginBtn');
 alertTriggerLogin.addEventListener('click', (event) => {
-    event.preventDefault();
+    //event.preventDefault();
     if (validateFormLog()) {
         $.ajax({
             type: 'POST',
