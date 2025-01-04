@@ -68,11 +68,14 @@ alertTrigger.addEventListener('click', (event) => {
 const yourEmailLoginOne = document.getElementById('yourEmailLogin');
 const yourPasswordLoginOne = document.getElementById('yourPasswordLogin');
 
-function validateFormLog() {
-    if (yourEmailLoginOne.value === '') {
+function validateFormLog(event) {
+    const emailRegexOne = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (yourEmailLoginOne.value === '' || !emailRegexOne.test(yourEmailLoginOne.value)) {
         return false;
     }
-    if (yourPasswordLoginOne.value === '') {
+    if (yourPasswordLoginOne.value === '' || yourPasswordLoginOne.value.length < 8) {
+        event.preventDefault();
+        $('#error-message-one').text('Password must be at least 8 characters long.').fadeOut(3000);
         return false;
     }
     return true;
@@ -81,7 +84,7 @@ function validateFormLog() {
 const alertTriggerLogin = document.getElementById('loginBtn');
 alertTriggerLogin.addEventListener('click', (event) => {
     //event.preventDefault();
-    if (validateFormLog()) {
+    if (validateFormLog(event)) {
         $.ajax({
             type: 'POST',
             url: 'login_capture.php',

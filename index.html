@@ -59,7 +59,7 @@
                     <div id="registerPlaceholder"></div>
                 </form>
                 <p id="footer">Existing user? Please login:</p>
-                <form class="row g-2" id="myFormLogin">
+                <form class="row g-2" id="myFormLogin" method="POST" action="login_capture.php">
                     <div class="form-group">
                         <input autocomplete="off" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
                             class="form-control" id="yourEmailLogin" name="email" required placeholder="Email address">
@@ -68,6 +68,7 @@
                         <input autocomplete="off" type="password" class="form-control" id="yourPasswordLogin"
                             name="password" required placeholder="Password">
                     </div>
+                    <div id="error-message-one" class="error"></div>
                     <button type="submit" class="btn btn-secondary" id="loginBtn">Login<span
                             class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinnerLogin"
                             style="display: none;"></span></button>

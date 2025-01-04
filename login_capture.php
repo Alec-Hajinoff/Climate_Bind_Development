@@ -1,11 +1,12 @@
 <?php
 if (isset($_POST['email'], $_POST['password'])) {
     session_start();
-
+    echo "1";
     $email = trim($_POST['email']);
     $password = $_POST['password'];
-
+    echo "2";
     try {
+        echo "3";
         $pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '', [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
@@ -14,8 +15,14 @@ if (isset($_POST['email'], $_POST['password'])) {
         $stmt = $pdo->prepare('SELECT * FROM user_data WHERE email = ?');
         $stmt->execute([$email]);
         $user = $stmt->fetch();
-
-        if ($user && password_verify($password, $user['password'])) {
+        echo "4";
+        var_dump($user);
+        var_dump($password);
+        var_dump($user['password']);
+        var_dump($user['email']);
+        var_dump(password_verify($password, $user['password']));
+        if ($user['email'] && password_verify($password, $user['password'])) {
+            echo "5";
             $_SESSION["user_id"] = $user["email"];
 
             $response = ['status' => 'success', 'data' => 'Login successful'];
