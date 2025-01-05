@@ -60,18 +60,18 @@
                     <div id="registerPlaceholder"></div>
                 </form>
                 -->
-                <p id="footer">Thank you for registering! Your account is now set up, please log in :</p>
-                <form class="row g-2" id="myFormLogin" method="POST" action="login_capture.php">
+                <p id="footer">Thank you for registering! Your account is now set up, please log in:</p>
+                <form class="row g-2" id="myFormLogin" method="POST" action="logged_in_account.php">
                     <div class="form-group">
                         <input autocomplete="off" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
-                            class="form-control" id="yourEmailLogin" name="email" required placeholder="Email address">
+                            class="form-control" id="yourEmailLoginOne" name="email" required placeholder="Email address">
                     </div>
                     <div class="form-group">
-                        <input autocomplete="off" type="password" class="form-control" id="yourPasswordLogin"
+                        <input autocomplete="off" type="password" class="form-control" id="yourPasswordLoginOne"
                             name="password" required placeholder="Password">
                     </div>
                     <div id="error-message-one" class="error"></div>
-                    <button type="submit" class="btn btn-secondary" id="loginBtn">Login<span
+                    <button type="submit" class="btn btn-secondary" id="loginBtnOne">Login<span
                             class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinnerLogin"
                             style="display: none;"></span></button>
                     <div id="liveAlertPlaceholder"></div>

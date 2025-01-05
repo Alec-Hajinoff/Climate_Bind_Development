@@ -100,3 +100,38 @@ alertTriggerLogin.addEventListener('click', (event) => {
     }
 });
 //Code that deals with user login end!
+//Code that deals with user login from the file registered_login.php, start:
+const yourEmailLoginTwo = document.getElementById('yourEmailLoginOne');
+const yourPasswordLoginTwo = document.getElementById('yourPasswordLoginOne');
+
+function validateFormLog(event) {
+    const emailRegexTwo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (yourEmailLoginTwo.value === '' || !emailRegexTwo.test(yourEmailLoginTwo.value)) {
+        return false;
+    }
+    if (yourPasswordLoginTwo.value === '' || yourPasswordLoginTwo.value.length < 8) {
+        event.preventDefault();
+        $('#error-message-one').text('Password must be at least 8 characters long.').fadeOut(3000);
+        return false;
+    }
+    return true;
+}
+
+const alertTriggerLoginOne = document.getElementById('loginBtnOne');
+alertTriggerLoginOne.addEventListener('click', (event) => {
+    //event.preventDefault();
+    if (validateFormLog(event)) {
+        $.ajax({
+            type: 'POST',
+            url: 'login_capture.php',
+            data: $('#myFormLogin').serialize(),
+            success: function (response) {
+                console.log("Success!");
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+});
+//Code that deals with user login from the file registered_login.php, end!
