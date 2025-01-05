@@ -27,22 +27,22 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-8">
-                <p>Climate Bind is an open-source, free-to-use peer-to-peer insurance web application offering
-                    insurance cover for damage to residential buildings caused by severe weather events.</p>
+                <p>Thank you for logging in. This is your account page</p>
             </div>
+            <!--
             <div class="col-12 col-md-4">
                 <p id="footer">New user? Please register:</p>
-                <form class="row g-2" id="myFormRegister" method="POST" action="registered_login.php"> 
+                <form class="row g-2" id="myFormRegister">
                     <div class="form-group">
                         <input autocomplete="off" type="text" pattern="[a-zA-Z ]+" class="form-control"
                             id="yourFirstName" name="name" required placeholder="Your first name">
                     </div>
-                    <!--
+                   
                     <div class="form-group">
                         <input autocomplete="off" type="number" pattern="[a-zA-Z ]+" class="form-control"
                             id="yourPremium" name="premium" required placeholder="Set monthly premium">
                     </div>
-                    -->
+                    
                     <div class="form-group">
                         <input autocomplete="off" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
                             class="form-control" id="yourEmailRegister" name="email" required
@@ -58,7 +58,7 @@
                             id="spinnerRegister" style="display: none;"></span></button>
                     <div id="registerPlaceholder"></div>
                 </form>
-                <p id="footer">Existing user? Please login:</p>
+                <p id="footer">Thank you for registering! Your account is now set up, please log in :</p>
                 <form class="row g-2" id="myFormLogin" method="POST" action="login_capture.php">
                     <div class="form-group">
                         <input autocomplete="off" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
@@ -75,6 +75,7 @@
                     <div id="liveAlertPlaceholder"></div>
                 </form>
             </div>
+            -->
         </div>
         <br>
         <div class="row">

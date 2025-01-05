@@ -1,4 +1,5 @@
 //Code that deals with new user registration start:
+/*
 const alertPlaceholder = document.getElementById('registerPlaceholder')
 var wrapper = null;
 const appendAlert = (message, type) => {
@@ -13,7 +14,7 @@ const appendAlert = (message, type) => {
         '</div>'
     ].join('')
 }
-
+*/
 const nameInput = document.getElementById('yourFirstName');
 //const premiumInput = document.getElementById('yourPremium');
 const yourEmail = document.getElementById('yourEmailRegister');
@@ -45,7 +46,7 @@ const alertTrigger = document.getElementById('registerBtn');
 alertTrigger.addEventListener('click', (event) => {
 
     if (validateForm(event)) {
-        event.preventDefault();
+        //event.preventDefault();
         document.getElementById('spinnerRegister').style.display = 'block';
         $.ajax({
             type: 'POST',
@@ -53,7 +54,7 @@ alertTrigger.addEventListener('click', (event) => {
             data: $('#myFormRegister').serialize(),
             success: function (response) {
                 appendAlert('Thank you, we received your data and we will be in touch soon!', 'success');
-                document.getElementById('spinnerRegister').style.display = 'none';
+                //document.getElementById('spinnerRegister').style.display = 'none';
                 document.getElementById("myFormRegister").reset();
             },
             error: function (xhr, status, error) {
