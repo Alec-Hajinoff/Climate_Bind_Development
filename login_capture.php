@@ -17,7 +17,7 @@ if (isset($_POST['email'], $_POST['password'])) {
         //var_dump($user['password']);
         //var_dump($user['email']);
         //var_dump(password_verify($password, $user['password']));
-        if ($user['email'] && password_verify($password, $user['password'])) {
+        if ($user/*['email']*/ && password_verify($password, $user['password'])) {
             $_SESSION["user_id"] = $user["email"];
 
             $response = ['status' => 'success', 'data' => 'Login successful'];
