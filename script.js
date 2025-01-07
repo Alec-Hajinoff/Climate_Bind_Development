@@ -47,13 +47,13 @@ alertTrigger.addEventListener('click', (event) => {
 
     if (validateForm(event)) {
         //event.preventDefault();
-        document.getElementById('spinnerRegister').style.display = 'block';
+        //document.getElementById('spinnerRegister').style.display = 'block';
         $.ajax({
             type: 'POST',
             url: 'form_capture.php',
             data: $('#myFormRegister').serialize(),
             success: function (response) {
-                appendAlert('Thank you, we received your data and we will be in touch soon!', 'success');
+                //appendAlert('Thank you, we received your data and we will be in touch soon!', 'success');
                 //document.getElementById('spinnerRegister').style.display = 'none';
                 document.getElementById("myFormRegister").reset();
             },

@@ -7,7 +7,7 @@ $conn = new mysqli($servername, $username, $passwordServer, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-$name = $_POST['name'];
+$name = $_POST['name']; 
 //$premium = $_POST['premium'];
 $email = $_POST['email'];
 $password = $_POST['password'];
@@ -18,4 +18,6 @@ $stmt->bind_param("sss", $email, $hashedPassword, $name /* $premium */); /*If "p
 $stmt->execute();
 $stmt->close();
 $conn->close();
-echo "Data inserted!";
+header("Location: registered_login.php");
+exit();
+//echo "Data inserted!"; 
