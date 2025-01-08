@@ -36,7 +36,7 @@ function validateForm(event) {
     }
     if (!yourPassword || yourPassword.value.length < 8) {
         event.preventDefault();
-        $('#error-message').text('Password must be at least 8 characters long.').show().fadeOut(3000); 
+        $('#error-message').text('Password must be at least 8 characters long.').show().fadeOut(3000);
         return false;
     }
     return true;

@@ -21,7 +21,7 @@ if (isset($_POST['email'], $_POST['password'])) {
             //$response = ['status' => 'success', 'data' => 'Login successful'];
             //file_put_contents('log.txt', json_encode($response) . PHP_EOL, FILE_APPEND);
             //echo json_encode($response);
-            header("Location: logged_in_account.html"); 
+            header("Location: logged_in_account.html");
             exit();
         } else {
             echo 'Invalid credentials.';

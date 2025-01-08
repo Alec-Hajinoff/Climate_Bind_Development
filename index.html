@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <title>Climate Bind</title>
     <meta charset="UTF-8">
+    <title>Climate Bind</title>
     <meta name="description" content="Climate Bind is an open-source, free-to-use peer-to-peer insurance web application offering insurance
         cover for damage to residential buildings caused by severe weather events.">
     <meta name="keywords" content="Climate, Insurance, Weather, Damage, Buildings">
@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="index.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-
 </head>
 
 <body>
@@ -31,8 +30,8 @@
                     insurance cover for damage to residential buildings caused by severe weather events.</p>
             </div>
             <div class="col-12 col-md-4">
-                <p id="footer">New user? Please register:</p>
-                <form class="row g-2" id="myFormRegister" method="POST" action="form_capture.php">
+                <p class="footer">New user? Please register:</p>
+                <form class="row g-2" id="myFormRegister" method="POST" action="registered_login.html">
                     <div class="form-group">
                         <input autocomplete="off" type="text" pattern="[a-zA-Z ]+" class="form-control"
                             id="yourFirstName" name="name" required placeholder="Your first name">
@@ -58,7 +57,7 @@
                             id="spinnerRegister" style="display: none;"></span></button>
                     <div id="registerPlaceholder"></div>
                 </form>
-                <p id="footer">Existing user? Please login:</p>
+                <p class="footer">Existing user? Please login:</p>
                 <form class="row g-2" id="myFormLogin" method="POST" action="login_capture.php">
                     <div class="form-group">
                         <input autocomplete="off" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
@@ -78,7 +77,7 @@
         </div>
         <br>
         <div class="row">
-            <p id="footer"><em>Company address: 4 Bridge Gate, London, N21 2AH, United Kingdom. Email address:
+            <p class="footer"><em>Company address: 4 Bridge Gate, London, N21 2AH, United Kingdom. Email address:
                     <a href="mailto:team@climatebind.com">team@climatebind.com</a></em></p>
         </div>
     </div>

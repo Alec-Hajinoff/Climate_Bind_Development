@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <title>Climate Bind</title>
     <meta charset="UTF-8">
+    <title>Climate Bind</title>
     <meta name="description" content="Climate Bind is an open-source, free-to-use peer-to-peer insurance web application offering insurance
         cover for damage to residential buildings caused by severe weather events.">
     <meta name="keywords" content="Climate, Insurance, Weather, Damage, Buildings">
@@ -32,7 +32,7 @@
             </div>
             <div class="col-12 col-md-4">
                 <!--
-                <p id="footer">New user? Please register:</p>
+                <p class="footer">New user? Please register:</p>
                 <form class="row g-2" id="myFormRegister">
                     <div class="form-group">
                         <input autocomplete="off" type="text" pattern="[a-zA-Z ]+" class="form-control"
@@ -60,11 +60,12 @@
                     <div id="registerPlaceholder"></div>
                 </form>
                 -->
-                <p id="footer">Thank you for registering! Your account is now set up, please log in:</p>
+                <p class="footer">Thank you for registering! Your account is now set up, please log in:</p>
                 <form class="row g-2" id="myFormLoginRegistered" method="POST" action="registered_login_capture.php">
                     <div class="form-group">
                         <input autocomplete="off" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
-                            class="form-control" id="yourEmailLoginRegistered" name="email" required placeholder="Email address">
+                            class="form-control" id="yourEmailLoginRegistered" name="email" required
+                            placeholder="Email address">
                     </div>
                     <div class="form-group">
                         <input autocomplete="off" type="password" class="form-control" id="yourPasswordLoginRegistered"
@@ -80,7 +81,7 @@
         </div>
         <br>
         <div class="row">
-            <p id="footer"><em>Company address: 4 Bridge Gate, London, N21 2AH, United Kingdom. Email address:
+            <p class="footer"><em>Company address: 4 Bridge Gate, London, N21 2AH, United Kingdom. Email address:
                     <a href="mailto:team@climatebind.com">team@climatebind.com</a></em></p>
         </div>
     </div>
