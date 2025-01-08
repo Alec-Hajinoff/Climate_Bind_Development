@@ -23,6 +23,6 @@ $stmt->execute();
 $stmt->close();
 $conn->close();
 echo "Reached header()";
-header("Location: registered_login.php"); 
+header("Location: registered_login.html"); 
 exit();
 //echo "Data inserted!"; 

@@ -100,9 +100,9 @@ alertTriggerLogin.addEventListener('click', (event) => {
     }
 });
 //Code that deals with user login end!
-//Code that deals with user login from the file registered_login.php, start:
-const yourEmailLoginTwo = document.getElementById('yourEmailLoginOne');
-const yourPasswordLoginTwo = document.getElementById('yourPasswordLoginOne');
+//Code that deals with user login from the file registered_login.html, start:
+const yourEmailLoginTwo = document.getElementById('yourEmailLoginRegistered');
+const yourPasswordLoginTwo = document.getElementById('yourPasswordLoginRegistered');
 
 function validateFormLogOne(event) {
     const emailRegexTwo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -123,8 +123,8 @@ alertTriggerLoginOne.addEventListener('click', (event) => {
     if (validateFormLogOne(event)) {
         $.ajax({
             type: 'POST',
-            url: 'login_capture.php',
-            data: $('#myFormLogin').serialize(),
+            url: 'registered_login_capture.php',
+            data: $('#myFormLoginRegistered').serialize(),
             success: function (response) {
                 console.log("Success!");
             },
@@ -134,4 +134,4 @@ alertTriggerLoginOne.addEventListener('click', (event) => {
         });
     }
 });
-//Code that deals with user login from the file registered_login.php, end!
+//Code that deals with user login from the file registered_login.html, end!
