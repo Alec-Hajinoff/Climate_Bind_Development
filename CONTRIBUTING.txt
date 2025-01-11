@@ -6,7 +6,7 @@ In this guide you will get an overview of the contribution workflow from opening
 
 # New contributor guide
 
-To get an overview of the project, read the README.md file.
+To get an overview of the project, read the README.md file. Please email us at team@climatebind.com for a list of features that we are working on.
 
 # Create a new issue
 
