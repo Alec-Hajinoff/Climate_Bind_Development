@@ -1,7 +1,15 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
+import HomePage from './HomeTest';  
+import React from 'react'; 
 
 function App() {
+  
+  return (
+    <HomePage /> 
+  )
+
+  /*
   return (
     <div className="App">
       <header className="App-header">
@@ -20,6 +28,7 @@ function App() {
       </header>
     </div>
   );
+  */
 }
 
 export default App;
