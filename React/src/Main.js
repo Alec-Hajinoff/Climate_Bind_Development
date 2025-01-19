@@ -1,13 +1,10 @@
 import React from 'react';
 import blue from './blue.svg';
-import './HomeTest.css';
+import './Main.css';
 
-function HomePage() {
+function Main() {
   return (
     <div class="container text-center">
-      <div class="row">
-        <img id="logo" src={blue} alt="A company logo" title="A company logo" />
-      </div>
       <div class="row-auto">
         <br />
       </div>
@@ -18,12 +15,8 @@ function HomePage() {
         </div>
       </div>
       <br />
-      <div class="row">
-        <p class="footer"><em>Company address: 4 Bridge Gate, London, N21 2AH, United Kingdom. Email address:<span> </span>
-          <a href="mailto:team@climatebind.com">team@climatebind.com</a></em></p>
-      </div>
     </div>
   );
 }
 
-export default HomePage;
+export default Main;
