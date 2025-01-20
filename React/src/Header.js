@@ -4,11 +4,11 @@ import './Header.css';
 
 function Header() {
   return (
-    <div class="container text-center">
-      <div class="row">
+    <div className="container text-center">
+      <div className="row">
         <img id="logo" src={blue} alt="A company logo" title="A company logo" />
       </div>
-      <div class="row-auto">
+      <div className="row-auto">
         <br />
       </div>
     </div>
