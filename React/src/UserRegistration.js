@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import blue from './blue.svg';
 import './UserRegistration.css';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import RegisteredPage from './RegisteredPage.js';
 
 function UserRegistration() {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -35,7 +36,7 @@ function UserRegistration() {
       .then(data => {
         if (data.success) {
           alert('Registration successful!');
-          //navigate('/login');
+          navigate('./RegisteredPage');
         } else {
           setErrorMessage('Registration failed. Please try again.');
         }
@@ -50,19 +51,18 @@ function UserRegistration() {
   return (
     <form className="row g-2" onSubmit={handleSubmit}>
       <div className="form-group">
-        <input autoComplete="off" type="text" pattern="[a-zA-Z ]+" className="form-control"
-          id="yourFirstName" name="name" value={formData.name} onChange={handleChange} required placeholder="Your first name" />
+        <input autoComplete="off" type="text" pattern="[a-zA-Z ]+" className="form-control" name="name" value={formData.name} onChange={handleChange} required placeholder="Your first name" />
       </div>
       <div className="form-group">
-        <input autoComplete="off" type="email" className="form-control" id="yourEmailRegister" name="email" 
+        <input autoComplete="off" type="email" className="form-control" name="email"
           value={formData.email} onChange={handleChange} required placeholder="Email address" />
       </div>
       <div className="form-group">
-        <input autoComplete="off" type="password" className="form-control" id="yourPasswordRegister"
+        <input autoComplete="off" type="password" className="form-control"
           name="password" value={formData.password} onChange={handleChange} required placeholder="Choose a strong password" />
       </div>
       <div id="error-message" className="error" aria-live="polite">{errorMessage}</div>
-      <button type="submit" className="btn btn-secondary" id="registerBtn">
+      <button type="submit" className="btn btn-secondary">
         Register
         <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"
           id="spinnerRegister" style={{ display: loading ? 'inline-block' : 'none' }}></span>
