@@ -15,12 +15,11 @@ function App() {
     <div>
       <Router>
         <Header />
-        <MainRegLog />
-        <Footer />
         <Routes>
-          <Route path="/" element={<UserRegistration />} />
-          <Route path="/RegisteredPage" element={<RegisteredPage />} />
+          <Route path="/" element={<MainRegLog />} />
+          <Route path="RegisteredPage" element={<RegisteredPage />} />
         </Routes>
+        <Footer />
       </Router>
     </div>
   )

@@ -2,6 +2,7 @@
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header('Content-Type: application/json'); 
 $servername = "127.0.0.1";
 $username = "root";
 $passwordServer = "";
@@ -20,4 +21,5 @@ $stmt->bind_param("sss", $email, $hashedPassword, $name);
 $stmt->execute();
 $stmt->close();
 $conn->close();
-echo "Success";
+echo json_encode(['success' => true]); 
+//echo "Success";

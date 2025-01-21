@@ -5,7 +5,7 @@ import './RegisteredPage.css';
 function RegisteredPage() {
   return (
     <div>
-      <p>Thank you for registering! Please log in using your crendentials.</p>
+      <p>Thank you for registering! Please log in using your credentials.</p>
     </div>
   );
 }
