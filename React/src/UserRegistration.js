@@ -23,26 +23,33 @@ function UserRegistration() {
   };
 
   const handleSubmit = (e) => {
+    console.log('1: handleSubmit started');
     e.preventDefault();
+    console.log('2: e.preventDefault() called');
     setLoading(true);
+    console.log('3: setLoading(true) called');
     fetch('http://localhost:8001/Climate_Bind_Development/form_capture.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
-    })
+    }) 
       .then(response => response.json())
       .then(data => {
+        console.log('5: response.json() processed', data);
         if (data.success) {
+          console.log('6: Registration successful');
           alert('Registration successful!');
           navigate('./RegisteredPage');
         } else {
+          console.log('7: Registration failed');
           setErrorMessage('Registration failed. Please try again.');
         }
       })
       .catch(error => {
         console.error('Error:', error);
+        console.log('8: fetch catch block executed')
         setErrorMessage('An error occurred.');
       })
       .finally(() => setLoading(false));
