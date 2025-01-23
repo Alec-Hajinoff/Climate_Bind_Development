@@ -4,7 +4,6 @@ import './AccountPage.css';
 
 function AccountPage() {
   return (
-
     <div className="container text-center">
       <div className="row">
         <div className="col-12 col-md-8">
