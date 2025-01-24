@@ -35,7 +35,7 @@ function UserRegistration() {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          navigate('./RegisteredPage');
+          navigate('/RegisteredPage');
         } else {
           setErrorMessage('Registration failed. Please try again.');
         }

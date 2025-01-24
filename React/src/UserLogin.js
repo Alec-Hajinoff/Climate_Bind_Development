@@ -35,7 +35,7 @@ function UserLogin() {
       .then(data => {
         console.log('Response data:', data);
         if (data.status === 'success') {
-          navigate('./AccountPage');
+          navigate('/AccountPage');
         } else {
           setErrorMessage('Sign in failed. Please try again.');
         }
