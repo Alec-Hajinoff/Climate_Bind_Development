@@ -8,7 +8,7 @@ if (isset($_POST['email'], $_POST['password'])) {
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ]);
-        $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?'); 
+        $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
         $stmt->execute([$email]);
         $user = $stmt->fetch();
         if ($user && password_verify($password, $user['password'])) {

@@ -1,9 +1,9 @@
-import React from 'react';
-import blue from './blue.svg';
-import './MainRegLog.css';
-import Main from './Main.js';
-import UserRegistration from './UserRegistration.js';
-import UserLogin from './UserLogin.js';
+import React from "react";
+import blue from "./blue.svg";
+import "./MainRegLog.css";
+import Main from "./Main.js";
+import UserRegistration from "./UserRegistration.js";
+import UserLogin from "./UserLogin.js";
 
 function MainRegLog() {
   return (
@@ -20,7 +20,7 @@ function MainRegLog() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default MainRegLog;

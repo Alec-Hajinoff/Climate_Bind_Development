@@ -1,48 +1,48 @@
-import React, { useState } from 'react';
-import blue from './blue.svg';
-import './UserRegistration.css';
-import { useNavigate } from 'react-router-dom';
-import RegisteredPage from './RegisteredPage.js';
+import React, { useState } from "react";
+import blue from "./blue.svg";
+import "./UserRegistration.css";
+import { useNavigate } from "react-router-dom";
+import RegisteredPage from "./RegisteredPage.js";
 
 function UserRegistration() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    first_name: '',
-    email: '',
-    password: ''
+    first_name: "",
+    email: "",
+    password: "",
   });
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    fetch('http://localhost:8001/Climate_Bind_Development/form_capture.php', {
-      method: 'POST',
+    fetch("http://localhost:8001/Climate_Bind_Development/form_capture.php", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(formData),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.success) {
-          navigate('/RegisteredPage');
+          navigate("/RegisteredPage");
         } else {
-          setErrorMessage('Registration failed. Please try again.');
+          setErrorMessage("Registration failed. Please try again.");
         }
       })
-      .catch(error => {
-        console.error('Error:', error);
-        setErrorMessage('An error occurred.');
+      .catch((error) => {
+        console.error("Error:", error);
+        setErrorMessage("An error occurred.");
       })
       .finally(() => setLoading(false));
   };
@@ -50,21 +50,54 @@ function UserRegistration() {
   return (
     <form className="row g-2" onSubmit={handleSubmit}>
       <div className="form-group">
-        <input autoComplete="off" type="text" pattern="[a-zA-Z ]+" className="form-control" name="first_name" value={formData.name} onChange={handleChange} required placeholder="Your first name" />
+        <input
+          autoComplete="off"
+          type="text"
+          pattern="[a-zA-Z ]+"
+          className="form-control"
+          name="first_name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          placeholder="Your first name"
+        />
       </div>
       <div className="form-group">
-        <input autoComplete="off" type="email" className="form-control" name="email"
-          value={formData.email} onChange={handleChange} required placeholder="Email address" />
+        <input
+          autoComplete="off"
+          type="email"
+          className="form-control"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          placeholder="Email address"
+        />
       </div>
       <div className="form-group">
-        <input autoComplete="off" type="password" className="form-control"
-          name="password" value={formData.password} onChange={handleChange} required placeholder="Choose a strong password" />
+        <input
+          autoComplete="off"
+          type="password"
+          className="form-control"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+          placeholder="Choose a strong password"
+        />
       </div>
-      <div id="error-message" className="error" aria-live="polite">{errorMessage}</div>
+      <div id="error-message" className="error" aria-live="polite">
+        {errorMessage}
+      </div>
       <button type="submit" className="btn btn-secondary">
         Register
-        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-          id="spinnerRegister" style={{ display: loading ? 'inline-block' : 'none' }}></span>
+        <span
+          className="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+          id="spinnerRegister"
+          style={{ display: loading ? "inline-block" : "none" }}
+        ></span>
       </button>
       <div id="registerPlaceholder"></div>
     </form>

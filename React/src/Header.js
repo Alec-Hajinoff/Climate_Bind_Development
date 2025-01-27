@@ -1,6 +1,6 @@
-import React from 'react';
-import blue from './blue.svg';
-import './Header.css';
+import React from "react";
+import blue from "./blue.svg";
+import "./Header.css";
 
 function Header() {
   return (
