@@ -15,7 +15,7 @@ function AccountDataCapture() {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Surname"
+                //placeholder="Surname"
                 required
               />
             </td>
@@ -43,63 +43,87 @@ function AccountDataCapture() {
           </tr>
           <tr>
             <th scope="row" className="align-middle">
-              Last Name
-            </th>
-            <td>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Last Name"
-                required
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" className="align-middle">
-              Email
-            </th>
-            <td>
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Enter Email"
-                required
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" className="align-middle">
               Phone Number
             </th>
             <td>
               <input
                 type="tel"
                 className="form-control"
-                placeholder="Enter Phone Number"
+                //placeholder="Enter Phone Number"
+                required
               />
             </td>
           </tr>
           <tr>
             <th scope="row" className="align-middle">
-              Address
+              National Insurance Number
             </th>
             <td>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter Address"
+                placeholder="(or National Security Number)"
+                required
               />
             </td>
           </tr>
           <tr>
             <th scope="row" className="align-middle">
-              Password
+              Address of the property you are insuring
             </th>
             <td>
               <input
-                type="password"
+                type="text"
                 className="form-control"
-                placeholder="Enter Password"
+                placeholder="(including the post code or zip code)"
+                required
+              />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" className="align-middle">
+              Upload Proof of Ownership (page showing your name)
+            </th>
+            <td>
+              <input
+                type="file"
+                className="form-control"
+                accept="image/*,.pdf"
+                required
+              />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" className="align-middle">
+              Date of the construction of the property
+            </th>
+            <td>
+              <input type="date" className="form-control" required />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" className="align-middle">
+              Square footage of the property
+            </th>
+            <td>
+              <input
+                type="number"
+                className="form-control"
+                //placeholder="National Insurance Number"
+                required
+              />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" className="align-middle">
+              Type of home
+            </th>
+            <td>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="(e.g., semi-detached, townhouse, flat, etc.)"
+                required
               />
             </td>
           </tr>
