@@ -128,6 +128,7 @@ function AccountDataCapture() {
               <input
                 type="date"
                 className="form-control" //required
+                name="date_of_construction"
               />
             </td>
           </tr>
@@ -139,6 +140,7 @@ function AccountDataCapture() {
               <input
                 type="number"
                 className="form-control"
+                name="square_footage"
                 //placeholder="National Insurance Number"
                 //required
               />
@@ -153,6 +155,7 @@ function AccountDataCapture() {
                 type="text"
                 className="form-control"
                 placeholder="(e.g., semi-detached, townhouse, flat, etc.)"
+                name="type_home"
                 //required
               />
             </td>
@@ -166,6 +169,7 @@ function AccountDataCapture() {
                 type="text"
                 className="form-control"
                 placeholder="(e.g., wood, brick, etc.)"
+                name="building_materials"
                 //required
               />
             </td>
@@ -178,6 +182,7 @@ function AccountDataCapture() {
               <input
                 type="number"
                 className="form-control"
+                name="number_levels"
                 //placeholder="(e.g., wood, brick, etc.)"
                 //required
               />
@@ -192,6 +197,7 @@ function AccountDataCapture() {
                 type="text"
                 className="form-control"
                 placeholder="(e.g., shingle, tile, etc.)"
+                name="roof_type"
                 //required
               />
             </td>
