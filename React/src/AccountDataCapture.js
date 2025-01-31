@@ -139,6 +139,7 @@ function AccountDataCapture() {
             <td>
               <input
                 type="number"
+                step="1"
                 className="form-control"
                 name="square_footage"
                 //placeholder="National Insurance Number"
@@ -181,6 +182,7 @@ function AccountDataCapture() {
             <td>
               <input
                 type="number"
+                step="1"
                 className="form-control"
                 name="number_levels"
                 //placeholder="(e.g., wood, brick, etc.)"
@@ -211,6 +213,7 @@ function AccountDataCapture() {
                 type="text"
                 className="form-control"
                 placeholder="(age, type, and condition)"
+                name="heating_systems"
                 //required
               />
             </td>
@@ -224,6 +227,7 @@ function AccountDataCapture() {
                 type="text"
                 className="form-control"
                 placeholder="(e.g., smoke detectors, fire extinguishers, deadbolt locks, etc.)"
+                name="safety_features"
                 //required
               />
             </td>
@@ -237,6 +241,7 @@ function AccountDataCapture() {
                 type="text"
                 className="form-control"
                 placeholder="(e.g., updated plumbing, new roof, etc.)"
+                name="home_renovations"
                 //required
               />
             </td>
@@ -250,6 +255,7 @@ function AccountDataCapture() {
                 type="text"
                 className="form-control"
                 placeholder="(if any)"
+                name="previous_claims_externally"
                 //required
               />
             </td>
@@ -263,6 +269,7 @@ function AccountDataCapture() {
                 type="text"
                 className="form-control"
                 placeholder="(if mortgaged)"
+                name="mortgage_lender"
                 //required
               />
             </td>
@@ -275,6 +282,7 @@ function AccountDataCapture() {
               <input
                 type="text"
                 className="form-control"
+                name="current_previous_insurance"
                 //placeholder="(if mortgaged)"
                 //required
               />
@@ -288,6 +296,7 @@ function AccountDataCapture() {
               <input
                 type="text"
                 className="form-control"
+                name="list_previous_disasters"
                 //placeholder="(if mortgaged)"
                 //required
               />
@@ -299,8 +308,10 @@ function AccountDataCapture() {
             </th>
             <td>
               <input
-                type="text"
+                type="number"
+                step="1"
                 className="form-control"
+                name="monthly_premium"
                 //placeholder="(if mortgaged)"
                 //required
               />
@@ -314,6 +325,30 @@ function AccountDataCapture() {
               <input
                 type="text"
                 className="form-control"
+                name="bank_account_number"
+                //placeholder="(if mortgaged)"
+                //required
+              />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" className="align-middle">
+              <button type="submit" className="btn btn-secondary" id="loginBtnOne">
+                Submit
+                <span
+                  //className="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                  id="spinnerLogin"
+                  //style={{ display: loading ? "inline-block" : "none" }}
+                ></span>
+              </button>
+            </th>
+            <td>
+              <input
+                type="text"
+                className="form-control"
+                name="bank_account_number"
                 //placeholder="(if mortgaged)"
                 //required
               />
