@@ -1,8 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import blue from "./blue.svg";
 import "./AccountDataCapture.css";
+import { useNavigate } from "react-router-dom";
 
 function AccountDataCapture() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    first_name: "",
+    email: "",
+    password: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    fetch("http://localhost:8001/Climate_Bind_Development/form_capture.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          navigate("/RegisteredPage");
+        } else {
+          setErrorMessage("Registration failed. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setErrorMessage("An error occurred.");
+      })
+      .finally(() => setLoading(false));
+  };
   return (
     <div className="container text-center">
       <table className="table table-bordered">
@@ -333,7 +375,11 @@ function AccountDataCapture() {
           </tr>
           <tr>
             <th scope="row" className="align-middle">
-              <button type="submit" className="btn btn-secondary" id="loginBtnOne">
+              <button
+                type="submit"
+                className="btn btn-secondary"
+                id="loginBtnOne"
+              >
                 Submit
                 <span
                   //className="spinner-border spinner-border-sm"
