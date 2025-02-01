@@ -56,7 +56,7 @@ function UserRegistration() {
           pattern="[a-zA-Z ]+"
           className="form-control"
           name="first_name"
-          value={formData.name}
+          value={formData.first_name}
           onChange={handleChange}
           required
           placeholder="Your first name"
