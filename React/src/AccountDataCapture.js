@@ -8,35 +8,54 @@ function AccountDataCapture() {
   const [formData, setFormData] = useState({
     last_name: "",
     date_of_birth: "",
-    //passport_copy: "",
+    //new code start
+    passport_copy: null,
+    //new code end
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      //new code start
+      [name]: files ? files[0] : value,
+      //new code end
+      //[name]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    //new code start
+    const data = new FormData();
+    for (const key in formData) {
+      data.append(key, formData[key]);
+    }
+    //new code end
+    console.log("1");
     fetch(
       "http://localhost:8001/Climate_Bind_Development/account_data_capture.php",
       {
         method: "POST",
+        //new code start
+        body: data,
+        //new code end
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        //body: JSON.stringify(formData),
       }
     )
       .then((response) => response.json())
       .then((data) => {
-        if (data.success) {
+        console.log("2");
+        console.log(data);
+        console.log(data.status);
+        if (data.status === "success") {
+          console.log("3");
           navigate("/AccountDataCaptureSubmitted");
         } else {
           setErrorMessage("Submission failed. Please try again.");
@@ -96,6 +115,7 @@ function AccountDataCapture() {
                   className="form-control"
                   accept="image/*,.pdf"
                   name="passport_copy"
+                  onChange={handleChange}
                   //value={formData.passport_copy}
                   //onChange={handleChange}
                   //required

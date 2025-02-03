@@ -22,19 +22,20 @@ if ($input === null) {
 
 $last_name = $input['last_name'] ?? null;
 $date_of_birth = $input['date_of_birth'] ?? null;
-//$passport_copy = $_FILES['passport_copy'] ?? null; 
-/*
-if (!$name || !$email || !$password) {
+$passport_copy = $_FILES['passport_copy'] ?? null; 
+
+if (!$last_name || !$date_of_birth || !$passport_copy) {
     echo json_encode(['success' => false, 'message' => 'Missing required fields']);
     exit;
 }
-*/
+
 //$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-$sql = "INSERT INTO users (last_name, date_of_birth) VALUES (?, ?)";
+$sql = "INSERT INTO users (last_name, date_of_birth, passport_copy) VALUES (?, ?, ?)";
 $stmt = $conn->prepare($sql);
 if ($stmt) {
-    $stmt->bind_param("ss", $last_name, $date_of_birth);
-    //$stmt->send_long_data(2, file_get_contents($passport_copy['tmp_name']));
+    $null = NULL;
+    $stmt->bind_param("ssb", $last_name, $date_of_birth, $null);
+    $stmt->send_long_data(2, file_get_contents($passport_copy['tmp_name']));
     $stmt->execute();
     $stmt->close();
     echo json_encode(['success' => true]);
