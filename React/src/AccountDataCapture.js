@@ -8,30 +8,31 @@ function AccountDataCapture() {
   const [formData, setFormData] = useState({
     last_name: "",
     date_of_birth: "",
-    //passport_copy: "",
+    passport_copy: null,
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: files ? files[0] : value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    const data = new FormData();
+    for (const key in formData) {
+      data.append(key, formData[key]);
+    }
     fetch(
       "http://localhost:8001/Climate_Bind_Development/account_data_capture.php",
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: data,
       }
     )
       .then((response) => response.json())
@@ -66,8 +67,6 @@ function AccountDataCapture() {
                   name="last_name"
                   value={formData.last_name}
                   onChange={handleChange}
-                  //placeholder="Surname"
-                  //required
                 />
               </td>
             </tr>
@@ -78,7 +77,7 @@ function AccountDataCapture() {
               <td>
                 <input
                   type="date"
-                  className="form-control" //required
+                  className="form-control"
                   autoComplete="off"
                   name="date_of_birth"
                   value={formData.date_of_birth}
@@ -96,9 +95,7 @@ function AccountDataCapture() {
                   className="form-control"
                   accept="image/*,.pdf"
                   name="passport_copy"
-                  //value={formData.passport_copy}
-                  //onChange={handleChange}
-                  //required
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -107,13 +104,7 @@ function AccountDataCapture() {
                 Phone number
               </th>
               <td>
-                <input
-                  type="tel"
-                  className="form-control"
-                  name="phone"
-                  //placeholder="Enter Phone Number"
-                  //required
-                />
+                <input type="tel" className="form-control" name="phone" />
               </td>
             </tr>
             <tr>
@@ -126,7 +117,6 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(or National security number)"
                   name="national_insurance"
-                  //required
                 />
               </td>
             </tr>
@@ -140,7 +130,6 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(including the post code or zip code)"
                   name="address"
-                  //required
                 />
               </td>
             </tr>
@@ -154,7 +143,6 @@ function AccountDataCapture() {
                   className="form-control"
                   accept="image/*,.pdf"
                   name="images"
-                  //required
                 />
               </td>
             </tr>
@@ -168,7 +156,6 @@ function AccountDataCapture() {
                   className="form-control"
                   accept="image/*,.pdf"
                   name="ownership_proof"
-                  //required
                 />
               </td>
             </tr>
@@ -179,7 +166,7 @@ function AccountDataCapture() {
               <td>
                 <input
                   type="date"
-                  className="form-control" //required
+                  className="form-control"
                   name="date_of_construction"
                 />
               </td>
@@ -194,8 +181,6 @@ function AccountDataCapture() {
                   step="1"
                   className="form-control"
                   name="square_footage"
-                  //placeholder="National Insurance Number"
-                  //required
                 />
               </td>
             </tr>
@@ -209,7 +194,6 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(e.g., semi-detached, townhouse, flat, etc.)"
                   name="type_home"
-                  //required
                 />
               </td>
             </tr>
@@ -223,7 +207,6 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(e.g., wood, brick, etc.)"
                   name="building_materials"
-                  //required
                 />
               </td>
             </tr>
@@ -237,8 +220,6 @@ function AccountDataCapture() {
                   step="1"
                   className="form-control"
                   name="number_levels"
-                  //placeholder="(e.g., wood, brick, etc.)"
-                  //required
                 />
               </td>
             </tr>
@@ -252,7 +233,6 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(e.g., shingle, tile, etc.)"
                   name="roof_type"
-                  //required
                 />
               </td>
             </tr>
@@ -266,7 +246,6 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(age, type, and condition)"
                   name="heating_systems"
-                  //required
                 />
               </td>
             </tr>
@@ -280,7 +259,6 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(e.g., smoke detectors, fire extinguishers, deadbolt locks, etc.)"
                   name="safety_features"
-                  //required
                 />
               </td>
             </tr>
@@ -294,7 +272,6 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(e.g., updated plumbing, new roof, etc.)"
                   name="home_renovations"
-                  //required
                 />
               </td>
             </tr>
@@ -308,7 +285,6 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(if any)"
                   name="previous_claims_externally"
-                  //required
                 />
               </td>
             </tr>
@@ -322,7 +298,6 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(if mortgaged)"
                   name="mortgage_lender"
-                  //required
                 />
               </td>
             </tr>
@@ -335,8 +310,6 @@ function AccountDataCapture() {
                   type="text"
                   className="form-control"
                   name="current_previous_insurance"
-                  //placeholder="(if mortgaged)"
-                  //required
                 />
               </td>
             </tr>
@@ -349,8 +322,6 @@ function AccountDataCapture() {
                   type="text"
                   className="form-control"
                   name="list_previous_disasters"
-                  //placeholder="(if mortgaged)"
-                  //required
                 />
               </td>
             </tr>
@@ -364,8 +335,6 @@ function AccountDataCapture() {
                   step="1"
                   className="form-control"
                   name="monthly_premium"
-                  //placeholder="(if mortgaged)"
-                  //required
                 />
               </td>
             </tr>
@@ -378,8 +347,6 @@ function AccountDataCapture() {
                   type="text"
                   className="form-control"
                   name="bank_account_number"
-                  //placeholder="(if mortgaged)"
-                  //required
                 />
               </td>
             </tr>
@@ -395,7 +362,6 @@ function AccountDataCapture() {
                 >
                   Submit
                   <span
-                    //className="spinner-border spinner-border-sm"
                     role="status"
                     aria-hidden="true"
                     id="spinnerLogin"
@@ -408,8 +374,6 @@ function AccountDataCapture() {
                   type="text"
                   className="form-control"
                   name="bank_account_number"
-                  //placeholder="(if mortgaged)"
-                  //required
                 />
               </td>
             </tr>

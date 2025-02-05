@@ -10,8 +10,10 @@ If two different policyholders insure each other, they each make a legally bindi
 
 We are currently in development, and we would love to hear from you if you are interested in insuring your home, if you are a web developer interested in working with us, or if you would like to financially sponsor the project.
 
+
 2/2/2025
 
 3/2/2025
 
 Another edit on 5/2/2025
+
