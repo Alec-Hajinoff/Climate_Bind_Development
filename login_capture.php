@@ -8,7 +8,7 @@ header('Content-Type: application/json');
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (isset($input['email'], $input['password'])) {
-    
+
     $email = trim($input['email']);
     $password = $input['password'];
     try {
@@ -21,8 +21,6 @@ if (isset($input['email'], $input['password'])) {
         $user = $stmt->fetch();
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION["id"] = $user["id"];
-            //var_dump(session_id());
-            //var_dump($_SESSION);
             echo json_encode(['status' => 'success', 'message' => 'Login successful']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid credentials']);

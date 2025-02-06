@@ -33,6 +33,7 @@ function AccountDataCapture() {
       {
         method: "POST",
         body: data,
+        credentials: "include",
       }
     )
       .then((response) => response.json())
@@ -41,7 +42,6 @@ function AccountDataCapture() {
           navigate("/AccountDataCaptureSubmitted");
         } else {
           setErrorMessage("Submission failed. Please try again.");
-          console.log(data);
         }
       })
       .catch((error) => {
