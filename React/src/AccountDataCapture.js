@@ -9,6 +9,9 @@ function AccountDataCapture() {
     last_name: "",
     date_of_birth: "",
     passport_copy: null,
+    phone: "",
+    national_insurance: "",
+    address: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -105,7 +108,13 @@ function AccountDataCapture() {
                 Phone number
               </th>
               <td>
-                <input type="tel" className="form-control" name="phone" />
+                <input
+                  type="tel"
+                  className="form-control"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
               </td>
             </tr>
             <tr>
@@ -118,6 +127,8 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(or National security number)"
                   name="national_insurance"
+                  value={formData.national_insurance}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -131,6 +142,8 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(including the post code or zip code)"
                   name="address"
+                  value={formData.address}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
