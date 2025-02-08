@@ -12,6 +12,7 @@ function AccountDataCapture() {
     phone: "",
     national_insurance: "",
     address: "",
+    images: null,
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -157,6 +158,8 @@ function AccountDataCapture() {
                   className="form-control"
                   accept="image/*,.pdf"
                   name="images"
+                  //value={formData.images}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
