@@ -28,8 +28,10 @@ $date_of_construction = $_POST['date_of_construction'] ?? null;
 $square_footage = $_POST['square_footage'] ?? null;
 $type_home = $_POST['type_home'] ?? null;
 $building_materials = $_POST['building_materials'] ?? null;
+$number_levels = $_POST['number_levels'] ?? null;
+$roof_type = $_POST['roof_type'] ?? null;
 
-if (!$id || !$last_name || !$date_of_birth || !$passport_copy || !$phone || !$national_insurance || !$address || !$images || !$ownership_proof || !$date_of_construction || !$square_footage || !$type_home || !$building_materials) {
+if (!$id || !$last_name || !$date_of_birth || !$passport_copy || !$phone || !$national_insurance || !$address || !$images || !$ownership_proof || !$date_of_construction || !$square_footage || !$type_home || !$building_materials || !$number_levels || !$roof_type) {
     echo json_encode(['success' => false, 'message' => 'Missing required fields']);
     exit;
 }
@@ -46,11 +48,11 @@ if ($stmt) {
     echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
 }
 
-$sql1 = "INSERT INTO properties (images, ownership_proof, date_of_construction, square_footage, type_home, building_materials) VALUES (?, ?, ?, ?, ?, ?)";
+$sql1 = "INSERT INTO properties (images, ownership_proof, date_of_construction, square_footage, type_home, building_materials, number_levels, roof_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt1 = $conn->prepare($sql1);
 if ($stmt1) {
     $null1 = NULL;
-    $stmt1->bind_param("bbsiss", $null1, $null1, $date_of_construction, $square_footage, $type_home, $building_materials);
+    $stmt1->bind_param("bbsissis", $null1, $null1, $date_of_construction, $square_footage, $type_home, $building_materials, $number_levels, $roof_type);
     $stmt1->send_long_data(0, file_get_contents($images['tmp_name']));
     $stmt1->send_long_data(1, file_get_contents($ownership_proof['tmp_name']));
     $stmt1->execute();

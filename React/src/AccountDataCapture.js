@@ -18,6 +18,8 @@ function AccountDataCapture() {
     square_footage: null,
     type_home: "", 
     building_materials: "",
+    number_levels: null,
+    roof_type: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -256,6 +258,9 @@ function AccountDataCapture() {
                   step="1"
                   className="form-control"
                   name="number_levels"
+                  autoComplete="off"
+                  value={formData.number_levels}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -269,6 +274,10 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(e.g., shingle, tile, etc.)"
                   name="roof_type"
+                  autoComplete="off"
+                  //pattern="[a-zA-Z ]+"
+                  value={formData.roof_type}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
