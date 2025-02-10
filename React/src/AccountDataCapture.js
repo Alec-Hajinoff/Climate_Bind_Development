@@ -16,10 +16,17 @@ function AccountDataCapture() {
     ownership_proof: null,
     date_of_construction: "",
     square_footage: null,
-    type_home: "", 
+    type_home: "",
     building_materials: "",
     number_levels: null,
     roof_type: "",
+    heating_systems: "",
+    safety_features: "",
+    home_renovations: "",
+    previous_claims_externally: "",
+    mortgage_lender: "",
+    current_previous_insurance: "",
+    list_previous_disasters: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -291,6 +298,10 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(age, type, and condition)"
                   name="heating_systems"
+                  autoComplete="off"
+                  //pattern="[a-zA-Z ]+"
+                  value={formData.heating_systems}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -304,6 +315,10 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(e.g., smoke detectors, fire extinguishers, deadbolt locks, etc.)"
                   name="safety_features"
+                  autoComplete="off"
+                  //pattern="[a-zA-Z ]+"
+                  value={formData.safety_features}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -317,6 +332,10 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(e.g., updated plumbing, new roof, etc.)"
                   name="home_renovations"
+                  autoComplete="off"
+                  //pattern="[a-zA-Z ]+"
+                  value={formData.home_renovations}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -330,6 +349,10 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(if any)"
                   name="previous_claims_externally"
+                  autoComplete="off"
+                  //pattern="[a-zA-Z ]+"
+                  value={formData.previous_claims_externally}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -343,6 +366,10 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(if mortgaged)"
                   name="mortgage_lender"
+                  autoComplete="off"
+                  //pattern="[a-zA-Z ]+"
+                  value={formData.mortgage_lender}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -355,6 +382,10 @@ function AccountDataCapture() {
                   type="text"
                   className="form-control"
                   name="current_previous_insurance"
+                  autoComplete="off"
+                  //pattern="[a-zA-Z ]+"
+                  value={formData.current_previous_insurance}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -367,6 +398,10 @@ function AccountDataCapture() {
                   type="text"
                   className="form-control"
                   name="list_previous_disasters"
+                  autoComplete="off"
+                  //pattern="[a-zA-Z ]+"
+                  value={formData.list_previous_disasters}
+                  onChange={handleChange}
                 />
               </td>
             </tr>

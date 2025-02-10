@@ -30,8 +30,15 @@ $type_home = $_POST['type_home'] ?? null;
 $building_materials = $_POST['building_materials'] ?? null;
 $number_levels = $_POST['number_levels'] ?? null;
 $roof_type = $_POST['roof_type'] ?? null;
+$heating_systems = $_POST['heating_systems'] ?? null;
+$safety_features = $_POST['safety_features'] ?? null;
+$home_renovations = $_POST['home_renovations'] ?? null;
+$previous_claims_externally = $_POST['previous_claims_externally'] ?? null;
+$mortgage_lender = $_POST['mortgage_lender'] ?? null;
+$current_previous_insurance = $_POST['current_previous_insurance'] ?? null;
+$list_previous_disasters = $_POST['list_previous_disasters'] ?? null;
 
-if (!$id || !$last_name || !$date_of_birth || !$passport_copy || !$phone || !$national_insurance || !$address || !$images || !$ownership_proof || !$date_of_construction || !$square_footage || !$type_home || !$building_materials || !$number_levels || !$roof_type) {
+if (!$id || !$last_name || !$date_of_birth || !$passport_copy || !$phone || !$national_insurance || !$address || !$images || !$ownership_proof || !$date_of_construction || !$square_footage || !$type_home || !$building_materials || !$number_levels || !$roof_type || !$heating_systems || !$safety_features || !$home_renovations || !$previous_claims_externally || !$mortgage_lender || !$current_previous_insurance || !$list_previous_disasters) {
     echo json_encode(['success' => false, 'message' => 'Missing required fields']);
     exit;
 }
@@ -48,15 +55,25 @@ if ($stmt) {
     echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
 }
 
-$sql1 = "INSERT INTO properties (images, ownership_proof, date_of_construction, square_footage, type_home, building_materials, number_levels, roof_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+$sql1 = "INSERT INTO properties (images, ownership_proof, date_of_construction, square_footage, type_home, building_materials, number_levels, roof_type, heating_systems, safety_features, home_renovations, mortgage_lender, current_previous_insurance, list_previous_disasters) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt1 = $conn->prepare($sql1);
 if ($stmt1) {
     $null1 = NULL;
-    $stmt1->bind_param("bbsissis", $null1, $null1, $date_of_construction, $square_footage, $type_home, $building_materials, $number_levels, $roof_type);
+    $stmt1->bind_param("bbsississsssss", $null1, $null1, $date_of_construction, $square_footage, $type_home, $building_materials, $number_levels, $roof_type, $heating_systems, $safety_features, $home_renovations, $mortgage_lender, $current_previous_insurance, $list_previous_disasters);
     $stmt1->send_long_data(0, file_get_contents($images['tmp_name']));
     $stmt1->send_long_data(1, file_get_contents($ownership_proof['tmp_name']));
     $stmt1->execute();
     $stmt1->close();
+} else {
+    echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
+}
+
+$sql2 = "INSERT INTO claims (previous_claims_externally) VALUES (?)";
+$stmt2 = $conn->prepare($sql2);
+if ($stmt2) {
+    $stmt2->bind_param("s", $previous_claims_externally);
+    $stmt2->execute();
+    $stmt2->close();
     echo json_encode(['success' => true]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
