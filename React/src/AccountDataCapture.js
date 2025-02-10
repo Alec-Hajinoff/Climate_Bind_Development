@@ -13,6 +13,11 @@ function AccountDataCapture() {
     national_insurance: "",
     address: "",
     images: null,
+    ownership_proof: null,
+    date_of_construction: "",
+    square_footage: null,
+    type_home: "", 
+    building_materials: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -158,7 +163,6 @@ function AccountDataCapture() {
                   className="form-control"
                   accept="image/*,.pdf"
                   name="images"
-                  //value={formData.images}
                   onChange={handleChange}
                 />
               </td>
@@ -173,6 +177,7 @@ function AccountDataCapture() {
                   className="form-control"
                   accept="image/*,.pdf"
                   name="ownership_proof"
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -185,6 +190,9 @@ function AccountDataCapture() {
                   type="date"
                   className="form-control"
                   name="date_of_construction"
+                  autoComplete="off"
+                  value={formData.date_of_construction}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -198,6 +206,9 @@ function AccountDataCapture() {
                   step="1"
                   className="form-control"
                   name="square_footage"
+                  autoComplete="off"
+                  value={formData.square_footage}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -211,6 +222,10 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(e.g., semi-detached, townhouse, flat, etc.)"
                   name="type_home"
+                  autoComplete="off"
+                  //pattern="[a-zA-Z ]+"
+                  value={formData.type_home}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
@@ -224,6 +239,10 @@ function AccountDataCapture() {
                   className="form-control"
                   placeholder="(e.g., wood, brick, etc.)"
                   name="building_materials"
+                  autoComplete="off"
+                  //pattern="[a-zA-Z ]+"
+                  value={formData.building_materials}
+                  onChange={handleChange}
                 />
               </td>
             </tr>
