@@ -37,8 +37,10 @@ $previous_claims_externally = $_POST['previous_claims_externally'] ?? null;
 $mortgage_lender = $_POST['mortgage_lender'] ?? null;
 $current_previous_insurance = $_POST['current_previous_insurance'] ?? null;
 $list_previous_disasters = $_POST['list_previous_disasters'] ?? null;
+$monthly_premium = $_POST['monthly_premium'] ?? null;
+$bank_account_number = $_POST['bank_account_number'] ?? null;
 
-if (!$id || !$last_name || !$date_of_birth || !$passport_copy || !$phone || !$national_insurance || !$address || !$images || !$ownership_proof || !$date_of_construction || !$square_footage || !$type_home || !$building_materials || !$number_levels || !$roof_type || !$heating_systems || !$safety_features || !$home_renovations || !$previous_claims_externally || !$mortgage_lender || !$current_previous_insurance || !$list_previous_disasters) {
+if (!$id || !$last_name || !$date_of_birth || !$passport_copy || !$phone || !$national_insurance || !$address || !$images || !$ownership_proof || !$date_of_construction || !$square_footage || !$type_home || !$building_materials || !$number_levels || !$roof_type || !$heating_systems || !$safety_features || !$home_renovations || !$previous_claims_externally || !$mortgage_lender || !$current_previous_insurance || !$list_previous_disasters || !$monthly_premium || !$bank_account_number) {
     echo json_encode(['success' => false, 'message' => 'Missing required fields']);
     exit;
 }
@@ -74,9 +76,20 @@ if ($stmt2) {
     $stmt2->bind_param("s", $previous_claims_externally);
     $stmt2->execute();
     $stmt2->close();
+} else {
+    echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
+}
+
+$sql3 = "INSERT INTO premiums (monthly_premium, bank_account_number) VALUES (?, ?)";
+$stmt3 = $conn->prepare($sql3);
+if ($stmt3) {
+    $stmt3->bind_param("ss", $monthly_premium, $bank_account_number);
+    $stmt3->execute();
+    $stmt3->close();
     echo json_encode(['success' => true]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
 }
 
 $conn->close();
+?>
