@@ -65,6 +65,26 @@ function ClaimsDataCapture(){
         // );
     }
 
+    // State to store the list of input sets with values
+    const [inputSets, setInputSets] = useState([
+    { id: 1, incident_location: "", property_purchase_date: "" },
+    ]);
+
+    // Function to add a new set of inputs
+    const addInputSet = () => {
+        const newSet = {
+        id: inputSets.length + 1,
+        incident_location: "",
+        property_purchase_date: "",
+        };
+        setInputSets([...inputSets, newSet]);
+    };
+
+    // Function to remove a specific set of inputs
+    const removeInputSet = (id) => {
+        setInputSets(inputSets.filter((set) => set.id !== id));
+    };
+
     return(
         <div className="container text-center">
             <h1>File a claim</h1>
@@ -185,28 +205,42 @@ function ClaimsDataCapture(){
                             <th scope="row" className="align-middle ">
                                 Damaged Property and Date of Purchase
                             </th>
-                                <td>
-                                <input
-                                        type="text"
-                                        className="form-control"
-                                        autoComplete="off"
-                                        pattern="[a-zA-Z ]+"
-                                        name="incident_location"
-                                        value={formData.property_damaged}
-                                        onChange={handleChange}
-                                    />
-                                    <input
-                                        type="date"
-                                        className="form-control"
-                                        autoComplete="off"
-                                        name="property_purchase_date"
-                                        value={formData.property_purchase_date}
-                                        onChange={handleChange}
-                                    />
-                                    {/* This can be used to add another set */}
-                                    <button>Add new item</button>
-                                </td>
                         </tr>
+                        {inputSets.map((set) => (
+                        <tr key={set.id}>
+                            <td>
+                            <input
+                                type="text"
+                                className="form-control"
+                                autoComplete="off"
+                                pattern="[a-zA-Z ]+"
+                                name="property_damaged"
+                                value={formData.property_damaged}
+                                onChange={(e) =>
+                                handleChange(set.id, "property_damaged", e.target.value)
+                                }
+                            />
+                            <input
+                                type="date"
+                                className="form-control"
+                                autoComplete="off"
+                                name="property_purchase_date"
+                                value={formData.property_purchase_date}
+                                onChange={(e) =>
+                                handleChange(set.id, "property_purchase_date", e.target.value)
+                                }
+                            />
+                            {/* Remove button for this set */}
+                            <button onClick={() => removeInputSet(set.id)}>Remove</button>
+                            </td>
+                        </tr>
+                        ))}
+                        <tr>
+                        <td>
+                            {/* Button to add a new set of inputs */}
+                            <button onClick={addInputSet}>Add new item</button>
+                        </td>
+                        </tr>     
 
                         <tr>
                             <th scope="row" className="align-middle ">
