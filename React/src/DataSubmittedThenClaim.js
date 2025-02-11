@@ -1,9 +1,9 @@
 import React from "react";
 import blue from "./blue.svg";
-import "./AccountDataCaptureSubmitted.css";
+import "./DataSubmittedThenClaim.css";
 import UserLogin from "./UserLogin.js";
 
-function AccountDataCaptureSubmitted() {
+function DataSubmittedThenClaim() {
   return (
     <div className="container text-center">
       <div className="row">
@@ -21,4 +21,4 @@ function AccountDataCaptureSubmitted() {
   );
 }
 
-export default AccountDataCaptureSubmitted;
+export default DataSubmittedThenClaim;

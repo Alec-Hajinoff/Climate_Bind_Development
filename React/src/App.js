@@ -7,7 +7,8 @@ import MainRegLog from "./MainRegLog";
 import Footer from "./Footer";
 import RegisteredPage from "./RegisteredPage";
 import AccountPage from "./AccountPage";
-import AccountDataCaptureSubmitted from "./AccountDataCaptureSubmitted";
+import DataSubmittedThenClaim from "./DataSubmittedThenClaim";
+import SubmittedClaim from "./SubmittedClaim";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           <Route path="/" element={<MainRegLog />} />
           <Route path="RegisteredPage" element={<RegisteredPage />} />
           <Route path="AccountPage" element={<AccountPage />} />
-          <Route path="AccountDataCaptureSubmitted" element={<AccountDataCaptureSubmitted />} /> 
+          <Route path="DataSubmittedThenClaim" element={<DataSubmittedThenClaim />} /> 
+          <Route path="SubmittedClaim" element={<SubmittedClaim />} />
         </Routes>
         <Footer />
       </Router>

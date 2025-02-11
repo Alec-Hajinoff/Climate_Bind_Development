@@ -59,7 +59,7 @@ function AccountDataCapture() {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          navigate("/AccountDataCaptureSubmitted");
+          navigate("/DataSubmittedThenClaim");
         } else {
           setErrorMessage("Submission failed. Please try again.");
         }
