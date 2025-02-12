@@ -62,7 +62,7 @@ function ClaimDataCapture() {
       data.append(key, formData[key]);
     }
     fetch(
-      "http://localhost:8001/Climate_Bind_Development/account_data_capture.php",
+      "http://localhost:8001/Climate_Bind_Development/claim_data_capture.php",
       {
         method: "POST",
         body: data,
@@ -72,7 +72,7 @@ function ClaimDataCapture() {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          navigate("/DataSubmittedThenClaim");
+          navigate("/SubmittedClaim");
         } else {
           setErrorMessage("Submission failed. Please try again.");
         }
