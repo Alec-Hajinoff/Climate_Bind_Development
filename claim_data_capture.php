@@ -32,6 +32,8 @@ if (!$id || !$damage_loss_cause || !$incident_time_date || !$local_authority_rep
     exit;
 }
 
+$_SESSION['claim_amount'] = $claim_amount;
+
 $sql2 = "INSERT INTO claims (damage_loss_cause, incident_time_date, damaged_items_list, replacement_value, contractor_repair_estimates, claim_amount, bank_account_number_claim) VALUES (?, ?, ?, ?, ?, ?, ?)";
 $stmt2 = $conn->prepare($sql2);
 if ($stmt2) {
