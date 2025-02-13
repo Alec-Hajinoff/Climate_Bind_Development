@@ -5,7 +5,7 @@ function ClaimCalculations() {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8001/Climate_Bind_Development/claim_calculations", {
+    fetch("http://localhost:8001/Climate_Bind_Development/claim_calculations.php", {
       method: "GET",
       credentials: "include",
     })
