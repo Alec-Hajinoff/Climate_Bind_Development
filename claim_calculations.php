@@ -9,17 +9,14 @@ try {
     $pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Fetch user data
     $stmt = $pdo->prepare('SELECT first_name, last_name, email FROM users');
     $stmt->execute();
     $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Fetch premiums data
     $stmt = $pdo->prepare('SELECT monthly_premium FROM premiums');
     $stmt->execute();
     $premiumData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Fetch claims data
     $claim_amount = $_SESSION['claim_amount'] ?? null;
 
     $totalPremiumsCommitted = 0;
