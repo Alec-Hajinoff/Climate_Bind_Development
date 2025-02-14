@@ -19,9 +19,9 @@ function ClaimCalculations() {
       <table className="table table-bordered">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Payout</th>
+            <th>Name of your insurer</th>
+            <th>Their email address</th>
+            <th>The amount they owe you</th>
           </tr>
         </thead>
         <tbody>
