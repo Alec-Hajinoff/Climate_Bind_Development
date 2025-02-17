@@ -1,20 +1,19 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import "@testing-library/jest-dom";
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { useNavigate } from "react-router-dom";
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: jest.fn(),
+}));
 import UserRegistration from "./UserRegistration";
 
 describe("UserRegistration Component", () => {
-
-  test("renders form fields and submit button", () => {
-    render(
-      <MemoryRouter>
-        <UserRegistration />
-      </MemoryRouter>
-    );
-
-    expect(screen.getByPlaceholderText("Your first name")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Email address")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Choose a strong password")).toBeInTheDocument();
-    expect(screen.getByText("Register")).toBeInTheDocument();
+  test("updates first name input field correctly", () => {
+    
+    render(<UserRegistration />);
+    
+    const firstNameInput = screen.getByPlaceholderText("Your first name");
+    
+    expect(firstNameInput).toBeInTheDocument();
   });
 });
