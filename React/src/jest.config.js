@@ -1,4 +1,11 @@
 module.exports = {
-    moduleDirectories: ["node_modules", "<rootDir>/src"],
-  };
-  
+  transformIgnorePatterns: [], // Empty array - don't ignore anything
+};
+{/*}
+module.exports = {
+  transformIgnorePatterns: [
+    "/node_modules/(?!react-router-dom/)", // Corrected regex
+  ],
+};
+console.log(module.exports.transformIgnorePatterns)
+*/}
