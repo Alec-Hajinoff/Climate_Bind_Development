@@ -34,6 +34,22 @@ describe("AccountDataCapture", () => {
     expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
   });
 
+  it("updates form data when input values change", () => {
+    render(<AccountDataCapture />);
+
+    const lastNameInput = screen.getByLabelText(/surname/i);
+    {/*const dobInput = screen.getByLabelText(/dateofbirth/i);*/}
+    const phoneInput = screen.getByLabelText(/phone/i);
+
+    fireEvent.change(lastNameInput, { target: { value: "Doe" } });
+    {/*fireEvent.change(dobInput, { target: { value: "1990-01-01" } });*/}
+    fireEvent.change(phoneInput, { target: { value: "1234567890" } });
+
+    expect(lastNameInput.value).toBe("Doe");
+    {/*expect(dobInput.value).toBe("1990-01-01");*/}
+    expect(phoneInput.value).toBe("1234567890");
+});
+
   {/*
   it("updates form data when input values change", () => {
     render(<AccountDataCapture />);

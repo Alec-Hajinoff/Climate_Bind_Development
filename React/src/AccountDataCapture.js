@@ -77,10 +77,11 @@ function AccountDataCapture() {
           <tbody>
             <tr>
               <th scope="row" className="align-middle ">
-                Surname
+                <label htmlFor="surname">Surname</label>
               </th>
               <td>
                 <input
+                  id="surname"
                   type="text"
                   className="form-control"
                   autoComplete="off"
@@ -93,10 +94,11 @@ function AccountDataCapture() {
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Date of birth
+                <label htmlFor="dateofbirth">Date of birth</label>
               </th>
               <td>
                 <input
+                  id="dateofbirth"
                   type="date"
                   className="form-control"
                   autoComplete="off"
@@ -122,10 +124,11 @@ function AccountDataCapture() {
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Phone number
+                <label htmlFor="phone">Phone number</label>
               </th>
               <td>
                 <input
+                  id="phone"
                   type="tel"
                   className="form-control"
                   name="phone"
