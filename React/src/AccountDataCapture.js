@@ -94,11 +94,10 @@ function AccountDataCapture() {
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                <label htmlFor="dateofbirth">Date of birth</label>
+                Date of birth
               </th>
               <td>
                 <input
-                  id="dateofbirth"
                   type="date"
                   className="form-control"
                   autoComplete="off"
