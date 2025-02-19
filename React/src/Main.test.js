@@ -12,5 +12,3 @@ test("Main component renders without crashing", () => {
     const textElement = screen.getByText(/Climate Bind is an open-source, free-to-use peer-to-peer insurance web application offering insurance cover for damage to residential buildings caused by severe weather events./i);
     expect(textElement).toBeInTheDocument();
   });
-
-  // This does not required further testing.

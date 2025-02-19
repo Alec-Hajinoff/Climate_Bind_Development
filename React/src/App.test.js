@@ -9,4 +9,3 @@ test("Checks the component is rendered", () => {
   expect(linkElement).toBeInTheDocument();
 });
 
-//This does not required further testing.

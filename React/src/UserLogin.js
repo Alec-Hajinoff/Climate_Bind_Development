@@ -33,7 +33,6 @@ function UserLogin() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Response data:", data);
         if (data.status === "success") {
           navigate("/AccountPage");
         } else {
