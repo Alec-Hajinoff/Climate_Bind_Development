@@ -81,10 +81,13 @@ function ClaimDataCapture() {
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Select the date of the incident
+                <label for="incidenttime">
+                  Select the date of the incident
+                </label>
               </th>
               <td>
                 <input
+                  id="incidenttime"
                   type="date"
                   className="form-control"
                   autoComplete="off"
@@ -153,10 +156,13 @@ function ClaimDataCapture() {
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Estimate the repair or replacement value
+                <label for="replacementvalue">
+                  Estimate the repair or replacement value
+                </label>
               </th>
               <td>
                 <input
+                  id="replacementvalue"
                   type="number"
                   step="1"
                   className="form-control"
