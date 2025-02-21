@@ -23,7 +23,6 @@ function AccountDataCapture() {
     heating_systems: "",
     safety_features: "",
     home_renovations: "",
-    previous_claims_externally: "",
     mortgage_lender: "",
     current_previous_insurance: "",
     list_previous_disasters: "",
@@ -339,22 +338,6 @@ function AccountDataCapture() {
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Previous claims history for the home
-              </th>
-              <td>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="(if any)"
-                  name="previous_claims_externally"
-                  autoComplete="off"
-                  value={formData.previous_claims_externally}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" className="align-middle">
                 Mortgage balance & lender information
               </th>
               <td>
@@ -468,3 +451,8 @@ function AccountDataCapture() {
 }
 
 export default AccountDataCapture;
+
+
+
+
+

@@ -21,8 +21,8 @@ function App() {
           <Route path="RegisteredPage" element={<RegisteredPage />} />
           <Route path="AccountPage" element={<AccountPage />} />
           <Route path="DataSubmittedThenClaim" element={<DataSubmittedThenClaim />} /> 
-          <Route path="SubmittedClaim" element={<SubmittedClaim />} />
           <Route path="AccountDataCapture" element={<AccountDataCapture />} />
+          <Route path="SubmittedClaim" element={<SubmittedClaim />} />
         </Routes>
         <Footer />
       </Router>
