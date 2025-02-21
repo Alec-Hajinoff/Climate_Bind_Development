@@ -34,7 +34,11 @@ function UserLogin() {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "success") {
-          navigate("/AccountPage");
+          if (data.registration_status === "Registration data is complete") {
+            navigate("/DataSubmittedThenClaim");
+          } else if (data.registration_status === "Registration data is not complete") {
+            navigate("/AccountDataCapture");
+          }
         } else {
           setErrorMessage("Sign in failed. Please try again.");
         }
@@ -45,6 +49,7 @@ function UserLogin() {
       })
       .finally(() => setLoading(false));
   };
+
   return (
     <form className="row g-2" onSubmit={handleSubmit}>
       <div className="form-group">

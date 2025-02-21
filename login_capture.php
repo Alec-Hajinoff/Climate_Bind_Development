@@ -21,7 +21,17 @@ if (isset($input['email'], $input['password'])) {
         $user = $stmt->fetch();
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION["id"] = $user["id"];
-            echo json_encode(['status' => 'success', 'message' => 'Login successful']);
+            
+            // Check if registration data is complete
+            $stmt = $pdo->prepare('SELECT phone FROM users WHERE id = ?');
+            $stmt->execute([$user['id']]);
+            $registrationData = $stmt->fetch();
+
+            if ($registrationData && !empty($registrationData['phone'])) {
+                echo json_encode(['status' => 'success', 'message' => 'Login successful', 'registration_status' => 'Registration data is complete']);
+            } else {
+                echo json_encode(['status' => 'success', 'message' => 'Login successful', 'registration_status' => 'Registration data is not complete']);
+            }
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid credentials']);
         }
@@ -32,3 +42,4 @@ if (isset($input['email'], $input['password'])) {
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Email and password are required']);
 }
+?>

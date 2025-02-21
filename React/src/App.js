@@ -9,6 +9,7 @@ import RegisteredPage from "./RegisteredPage";
 import AccountPage from "./AccountPage";
 import DataSubmittedThenClaim from "./DataSubmittedThenClaim";
 import SubmittedClaim from "./SubmittedClaim";
+import AccountDataCapture from "./AccountDataCapture";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="AccountPage" element={<AccountPage />} />
           <Route path="DataSubmittedThenClaim" element={<DataSubmittedThenClaim />} /> 
           <Route path="SubmittedClaim" element={<SubmittedClaim />} />
+          <Route path="AccountDataCapture" element={<AccountDataCapture />} />
         </Routes>
         <Footer />
       </Router>
