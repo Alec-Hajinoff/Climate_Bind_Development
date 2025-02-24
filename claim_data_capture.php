@@ -41,6 +41,18 @@ if ($stmt2) {
     $stmt2->bind_param("sssibis", $damage_loss_cause, $incident_time_date, $damaged_items_list, $replacement_value, $null, $claim_amount, $bank_account_number_claim);
     $stmt2->send_long_data(4, file_get_contents($contractor_repair_estimates['tmp_name']));
     $stmt2->execute();
+
+    $last_claim_id = $conn->insert_id;
+
+    $sql_update = "UPDATE users SET claims_id = ? WHERE id = ?";
+    $stmt_update = $conn->prepare($sql_update);
+    if ($stmt_update) {
+        $stmt_update->bind_param("ii", $last_claim_id, $id);
+        $stmt_update->execute();
+        $stmt_update->close();
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
+    }
     $stmt2->close();
 } else {
     echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
@@ -55,6 +67,18 @@ if ($stmt3) {
     $stmt3->send_long_data(1, file_get_contents($damaged_items_receipts['tmp_name']));
     $stmt3->send_long_data(2, file_get_contents($photographs['tmp_name']));
     $stmt3->execute();
+
+    $last_claim_doc_id = $conn->insert_id;
+
+    $sql_update_claim_doc = "UPDATE users SET claim_doc_id = ? WHERE id = ?";
+    $stmt_update_claim_doc = $conn->prepare($sql_update_claim_doc);
+    if ($stmt_update_claim_doc) {
+        $stmt_update_claim_doc->bind_param("ii", $last_claim_doc_id, $id);
+        $stmt_update_claim_doc->execute();
+        $stmt_update_claim_doc->close();
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
+    }
     $stmt3->close();
     echo json_encode(['success' => true]);
 } else {
