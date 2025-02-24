@@ -21,16 +21,27 @@ if (isset($input['email'], $input['password'])) {
         $user = $stmt->fetch();
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION["id"] = $user["id"];
-            
-            // Check if registration data is complete
-            $stmt = $pdo->prepare('SELECT phone FROM users WHERE id = ?');
+
+            $stmt = $pdo->prepare('SELECT phone, last_name, address, date_of_birth, national_insurance, passport_copy FROM users WHERE id = ?');
             $stmt->execute([$user['id']]);
             $registrationData = $stmt->fetch();
 
-            if ($registrationData && !empty($registrationData['phone'])) {
-                echo json_encode(['status' => 'success', 'message' => 'Login successful', 'registration_status' => 'Registration data is complete']);
+            if (
+                !empty($registrationData['phone']) && !empty($registrationData['last_name']) &&
+                !empty($registrationData['address']) && !empty($registrationData['date_of_birth']) &&
+                !empty($registrationData['national_insurance']) && !empty($registrationData['passport_copy'])
+            ) {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Login successful',
+                    'registration_status' => 'Registration data is complete'
+                ]);
             } else {
-                echo json_encode(['status' => 'success', 'message' => 'Login successful', 'registration_status' => 'Registration data is not complete']);
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Login successful',
+                    'registration_status' => 'Registration data is not complete'
+                ]);
             }
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid credentials']);
