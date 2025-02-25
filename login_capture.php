@@ -22,15 +22,11 @@ if (isset($input['email'], $input['password'])) {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION["id"] = $user["id"];
 
-            $stmt = $pdo->prepare('SELECT phone, last_name, address, date_of_birth, national_insurance, passport_copy FROM users WHERE id = ?');
+            $stmt = $pdo->prepare('SELECT profile_complete FROM users WHERE id = ?');
             $stmt->execute([$user['id']]);
             $registrationData = $stmt->fetch();
 
-            if (
-                !empty($registrationData['phone']) && !empty($registrationData['last_name']) &&
-                !empty($registrationData['address']) && !empty($registrationData['date_of_birth']) &&
-                !empty($registrationData['national_insurance']) && !empty($registrationData['passport_copy'])
-            ) {
+            if ($registrationData['profile_complete'] == '1') {
                 echo json_encode([
                     'status' => 'success',
                     'message' => 'Login successful',

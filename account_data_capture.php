@@ -44,11 +44,12 @@ if (!$id || !$last_name || !$date_of_birth || !$passport_copy || !$phone || !$na
     exit;
 }
 
-$sql = "UPDATE users SET last_name = ?, date_of_birth = ?, passport_copy = ?, phone = ?, national_insurance = ?, address = ? WHERE id = ?";
+$sql = "UPDATE users SET last_name = ?, date_of_birth = ?, passport_copy = ?, phone = ?, national_insurance = ?, address = ?, profile_complete = ? WHERE id = ?";
 $stmt = $conn->prepare($sql);
 if ($stmt) {
     $null = NULL;
-    $stmt->bind_param("ssbsssi", $last_name, $date_of_birth, $null, $phone, $national_insurance, $address, $id);
+    $profile_complete = 1;
++   $stmt->bind_param("ssbsssis", $last_name, $date_of_birth, $null, $phone, $national_insurance, $address, $profile_complete, $id);
     $stmt->send_long_data(2, file_get_contents($passport_copy['tmp_name']));
     $stmt->execute();
     $stmt->close();
