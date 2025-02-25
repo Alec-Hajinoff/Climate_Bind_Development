@@ -10,6 +10,7 @@ import AccountPage from "./AccountPage";
 import DataSubmittedThenClaim from "./DataSubmittedThenClaim";
 import SubmittedClaim from "./SubmittedClaim";
 import AccountDataCapture from "./AccountDataCapture";
+import LogoutComponent from "./LogoutComponent";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="DataSubmittedThenClaim" element={<DataSubmittedThenClaim />} /> 
           <Route path="AccountDataCapture" element={<AccountDataCapture />} />
           <Route path="SubmittedClaim" element={<SubmittedClaim />} />
+          <Route path="LogoutComponent" component={LogoutComponent} />
         </Routes>
         <Footer />
       </Router>

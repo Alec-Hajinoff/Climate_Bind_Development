@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import blue from "./blue.svg";
 import "./AccountDataCapture.css";
 import { useNavigate } from "react-router-dom";
+import LogoutComponent from "./LogoutComponent";
 
 function AccountDataCapture() {
   const navigate = useNavigate();
@@ -71,6 +72,9 @@ function AccountDataCapture() {
   };
   return (
     <div className="container text-center">
+      <div className="d-flex justify-content-end mb-3">
+        <LogoutComponent />
+      </div>
       <form onSubmit={handleSubmit}>
         <table className="table table-bordered">
           <tbody>
@@ -451,8 +455,3 @@ function AccountDataCapture() {
 }
 
 export default AccountDataCapture;
-
-
-
-
-
