@@ -1,5 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
 import ClaimCalculations from "./ClaimCalculations";
 
 global.fetch = jest.fn(() =>
@@ -18,7 +19,11 @@ describe("ClaimCalculations Component", () => {
   });
 
   test("renders table with fetched data", async () => {
-    render(<ClaimCalculations />);
+    render(
+      <Router>
+        <ClaimCalculations />
+      </Router>
+    );
 
     await new Promise((resolve) => setTimeout(resolve, 50));
 

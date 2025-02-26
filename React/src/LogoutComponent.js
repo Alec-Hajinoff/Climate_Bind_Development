@@ -6,13 +6,15 @@ const LogoutComponent = () => {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      const response = await fetch("logout.php", {
-        method: "POST",
-        credentials: "include", // Include cookies in the request
-      });
+      const response = await fetch(
+        "http://localhost:8001/Climate_Bind_Development/logout_component.php",
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
 
       if (response.ok) {
-        // Redirect to MainRegLog.js after successful logout
         navigate("/");
       } else {
         console.error("Logout failed");

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./ClaimCalculations.css";
+import LogoutComponent from "./LogoutComponent";
 
 function ClaimCalculations() {
   const [tableData, setTableData] = useState([]);
@@ -16,6 +17,9 @@ function ClaimCalculations() {
 
   return (
     <div className="container text-center">
+      <div className="d-flex justify-content-end mb-3">
+        <LogoutComponent />
+      </div>
       <table className="table table-bordered">
         <thead>
           <tr>

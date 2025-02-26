@@ -16,7 +16,11 @@ describe("UserLogin", () => {
 
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        json: () => Promise.resolve({ status: "success" }),
+        json: () =>
+          Promise.resolve({
+            status: "success",
+            registration_status: "Registration data is not complete",
+          }),
       })
     );
   });
@@ -57,7 +61,7 @@ describe("UserLogin", () => {
     fireEvent.change(passwordInput, { target: { value: "password123" } });
     fireEvent.click(submitButton);
 
-    await new Promise((resolve) => setTimeout(resolve, 30));
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
     expect(global.fetch).toHaveBeenCalledWith(
       "http://localhost:8001/Climate_Bind_Development/login_capture.php",
@@ -74,7 +78,7 @@ describe("UserLogin", () => {
       }
     );
 
-    expect(navigateMock).toHaveBeenCalledWith("/AccountPage");
+    expect(navigateMock).toHaveBeenCalledWith("/AccountDataCapture");
   });
 
   it("displays an error message when login fails", async () => {
