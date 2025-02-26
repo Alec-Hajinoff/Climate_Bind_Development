@@ -72,6 +72,19 @@ function AccountDataCapture() {
   };
   return (
     <div className="container text-center">
+      <div>
+        <p>
+          To initiate your insurance policy, please complete the form below.
+          Please be advised that the insurance cover you provide to another user
+          constitutes a legally binding commitment. You agree to process and
+          make payment for any valid claim within ten working days of receiving
+          a formal pay-out request, which will be sent via email. You warrant
+          that the information provided in the form below is accurate to the
+          best of your knowledge. You agree to be bound by the laws of your
+          country of residence as well as the laws of the country in which the
+          claimant is based.
+        </p>
+      </div>
       <div className="d-flex justify-content-end mb-3">
         <LogoutComponent />
       </div>

@@ -24,6 +24,10 @@ function UserRegistration() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (formData.password.length < 8) {
+      setErrorMessage("Password must be at least 8 characters long");
+      return;
+    }
     setLoading(true);
     fetch("http://localhost:8001/Climate_Bind_Development/form_capture.php", {
       method: "POST",
@@ -66,6 +70,7 @@ function UserRegistration() {
         <input
           autoComplete="off"
           type="email"
+          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
           className="form-control"
           name="email"
           value={formData.email}
@@ -83,7 +88,8 @@ function UserRegistration() {
           value={formData.password}
           onChange={handleChange}
           required
-          placeholder="Choose a strong password"
+          minLength="8"
+          placeholder="Choose a strong password (minimum 8 characters)"
         />
       </div>
       <div id="error-message" className="error" aria-live="polite">
