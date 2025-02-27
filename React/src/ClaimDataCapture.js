@@ -68,10 +68,10 @@ function ClaimDataCapture() {
         <table className="table table-bordered">
           <tbody>
             <tr>
-              <th scope="row" className="align-middle ">
+              <th scope="row" className="col-8 align-middle ">
                 Describe the weather event that caused the damage
               </th>
-              <td>
+              <td className="col-8">
                 <input
                   type="text"
                   className="form-control"
@@ -80,6 +80,7 @@ function ClaimDataCapture() {
                   name="damage_loss_cause"
                   value={formData.last_name}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -98,6 +99,7 @@ function ClaimDataCapture() {
                   name="incident_time_date"
                   value={formData.date_of_birth}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -113,6 +115,7 @@ function ClaimDataCapture() {
                   accept="image/*,.pdf"
                   name="local_authority_report"
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -127,12 +130,14 @@ function ClaimDataCapture() {
                   name="damaged_items_list"
                   value={formData.phone}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                If available, upload receipts for damaged / lost items
+                Upload receipts for damaged / lost items (take a photo of all
+                receipts and upload one image or multiple images in one PDF)
               </th>
               <td>
                 <input
@@ -141,12 +146,14 @@ function ClaimDataCapture() {
                   accept="image/*,.pdf"
                   name="damaged_items_receipts"
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Upload a photo of the damages
+                Upload a photo of the damages (one image or multiple images in
+                one PDF)
               </th>
               <td>
                 <input
@@ -155,13 +162,14 @@ function ClaimDataCapture() {
                   accept="image/*,.pdf"
                   name="photographs"
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
             <tr>
               <th scope="row" className="align-middle">
                 <label for="replacementvalue">
-                  Estimate the repair or replacement value
+                  Estimate the repair or replacement value in USD $
                 </label>
               </th>
               <td>
@@ -174,12 +182,14 @@ function ClaimDataCapture() {
                   autoComplete="off"
                   value={formData.replacement_value}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Upload contractor repair estimates
+                Upload contractor repair estimates (take a photo of all
+                estimates and upload one image or multiple estimates in one PDF)
               </th>
               <td>
                 <input
@@ -188,12 +198,13 @@ function ClaimDataCapture() {
                   accept="image/*,.pdf"
                   name="contractor_repair_estimates"
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Please enter amount are you claiming in insurance
+                Please enter the amount you are claiming in insurance in USD $
               </th>
               <td>
                 <input
@@ -204,6 +215,7 @@ function ClaimDataCapture() {
                   autoComplete="off"
                   value={formData.claim_amount}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -220,38 +232,32 @@ function ClaimDataCapture() {
                   autoComplete="off"
                   value={formData.bank_account_number_claim}
                   onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" className="align-middle">
-                <div id="error-message" className="error" aria-live="polite">
-                  {errorMessage}
-                </div>
-                <button
-                  type="submit"
-                  className="btn btn-secondary"
-                  id="loginBtnOne"
-                >
-                  Submit
-                  <span
-                    role="status"
-                    aria-hidden="true"
-                    id="spinnerLogin"
-                    style={{ display: loading ? "inline-block" : "none" }}
-                  ></span>
-                </button>
-              </th>
-              <td>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="bank_account_number"
+                  required
                 />
               </td>
             </tr>
           </tbody>
         </table>
+        <div className="d-flex justify-content-end mb-3">
+          <th scope="row" className="align-middle">
+            <div id="error-message" className="error" aria-live="polite">
+              {errorMessage}
+            </div>
+            <button
+              type="submit"
+              className="btn btn-secondary"
+              id="loginBtnOne"
+            >
+              Submit
+              <span
+                role="status"
+                aria-hidden="true"
+                id="spinnerLogin"
+                style={{ display: loading ? "inline-block" : "none" }}
+              ></span>
+            </button>
+          </th>
+        </div>
       </form>
     </div>
   );

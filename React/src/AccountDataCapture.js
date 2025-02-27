@@ -92,10 +92,10 @@ function AccountDataCapture() {
         <table className="table table-bordered">
           <tbody>
             <tr>
-              <th scope="row" className="align-middle ">
+              <th scope="row" className="col-8 align-middle">
                 <label htmlFor="surname">Surname</label>
               </th>
-              <td>
+              <td className="col-8">
                 <input
                   id="surname"
                   type="text"
@@ -105,6 +105,7 @@ function AccountDataCapture() {
                   name="last_name"
                   value={formData.last_name}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -120,6 +121,7 @@ function AccountDataCapture() {
                   name="date_of_birth"
                   value={formData.date_of_birth}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -134,6 +136,7 @@ function AccountDataCapture() {
                   accept="image/*,.pdf"
                   name="passport_copy"
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -149,6 +152,7 @@ function AccountDataCapture() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -164,12 +168,14 @@ function AccountDataCapture() {
                   name="national_insurance"
                   value={formData.national_insurance}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Address of the property you are insuring
+                Address of the property you are insuring (must be your home
+                address)
               </th>
               <td>
                 <input
@@ -179,6 +185,7 @@ function AccountDataCapture() {
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -193,6 +200,7 @@ function AccountDataCapture() {
                   accept="image/*,.pdf"
                   name="images"
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -207,6 +215,7 @@ function AccountDataCapture() {
                   accept="image/*,.pdf"
                   name="ownership_proof"
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -222,6 +231,7 @@ function AccountDataCapture() {
                   autoComplete="off"
                   value={formData.date_of_construction}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -238,6 +248,7 @@ function AccountDataCapture() {
                   autoComplete="off"
                   value={formData.square_footage}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -254,6 +265,7 @@ function AccountDataCapture() {
                   autoComplete="off"
                   value={formData.type_home}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -270,6 +282,7 @@ function AccountDataCapture() {
                   autoComplete="off"
                   value={formData.building_materials}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -286,6 +299,7 @@ function AccountDataCapture() {
                   autoComplete="off"
                   value={formData.number_levels}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -302,6 +316,7 @@ function AccountDataCapture() {
                   autoComplete="off"
                   value={formData.roof_type}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -318,6 +333,7 @@ function AccountDataCapture() {
                   autoComplete="off"
                   value={formData.heating_systems}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -334,6 +350,7 @@ function AccountDataCapture() {
                   autoComplete="off"
                   value={formData.safety_features}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -350,6 +367,7 @@ function AccountDataCapture() {
                   autoComplete="off"
                   value={formData.home_renovations}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -361,11 +379,12 @@ function AccountDataCapture() {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="(if mortgaged)"
+                  placeholder="(type 'not mortgaged' if not applicable)"
                   name="mortgage_lender"
                   autoComplete="off"
                   value={formData.mortgage_lender}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -379,9 +398,10 @@ function AccountDataCapture() {
                   className="form-control"
                   name="current_previous_insurance"
                   autoComplete="off"
-                  placeholder="(if any)"
+                  placeholder="(type 'not insured' if not applicable)"
                   value={formData.current_previous_insurance}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
@@ -395,15 +415,18 @@ function AccountDataCapture() {
                   className="form-control"
                   name="list_previous_disasters"
                   autoComplete="off"
-                  placeholder="(if any)"
+                  placeholder="(type 'unknown' if not applicable)"
                   value={formData.list_previous_disasters}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Amount of monthly premium committed to the policy
+                Amount of cover you can offer in USD $. This is the maximum
+                amount you can pay out in the event of a claim. The maximum you
+                can claim is 100 times of this amount.
               </th>
               <td>
                 <input
@@ -414,12 +437,14 @@ function AccountDataCapture() {
                   autoComplete="off"
                   value={formData.monthly_premium}
                   onChange={handleChange}
+                  required
                 />
               </td>
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Bank account details of where the premium amount is held
+                Bank account details of where the amount that you offer to pay
+                out is held
               </th>
               <td>
                 <input
@@ -430,38 +455,26 @@ function AccountDataCapture() {
                   autoComplete="off"
                   value={formData.bank_account_number}
                   onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" className="align-middle">
-                <div id="error-message" className="error" aria-live="polite">
-                  {errorMessage}
-                </div>
-                <button
-                  type="submit"
-                  className="btn btn-secondary"
-                  id="loginBtnOne"
-                >
-                  Submit
-                  <span
-                    role="status"
-                    aria-hidden="true"
-                    id="spinnerLogin"
-                    style={{ display: loading ? "inline-block" : "none" }}
-                  ></span>
-                </button>
-              </th>
-              <td>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="bank_account_number"
+                  required
                 />
               </td>
             </tr>
           </tbody>
         </table>
+        <div className="d-flex justify-content-end mb-3">
+          <div id="error-message" className="error" aria-live="polite">
+            {errorMessage}
+          </div>
+          <button type="submit" className="btn btn-secondary" id="loginBtnOne">
+            Submit
+            <span
+              role="status"
+              aria-hidden="true"
+              id="spinnerLogin"
+              style={{ display: loading ? "inline-block" : "none" }}
+            ></span>
+          </button>
+        </div>
       </form>
     </div>
   );
