@@ -9,7 +9,12 @@ function SubmittedClaim() {
     <div className="container text-center">
       <div className="row">
         <div className="col-12">
-          <p>Thank you for submitting your insurance claim! Your insurers, amounts they each owe you, and their contacts are listed below:</p>
+          <p>
+            Thank you for submitting your insurance claim! Below, you will find
+            a list of your insurers, the amounts they owe you, and their contact
+            details. Please reach out to them directly to arrange your claim
+            payout.
+          </p>
           <ClaimCalculations />
         </div>
       </div>

@@ -9,7 +9,7 @@ try {
     $pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $stmt = $pdo->prepare('SELECT first_name, last_name, email FROM users');
+    $stmt = $pdo->prepare('SELECT first_name, last_name, email, phone, address FROM users');
     $stmt->execute();
     $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -32,7 +32,9 @@ try {
         $userResponse = [
             'name' => $user['first_name'] . ' ' . $user['last_name'],
             'email' => $user['email'],
-            'payout' => $premiumPercentage * $claim_amount / 100,
+            'phone' => $user['phone'],
+            'address' => $user['address'],
+            'payout' => round(($premiumPercentage * $claim_amount / 100), 2),
         ];
 
         $response[] = $userResponse;

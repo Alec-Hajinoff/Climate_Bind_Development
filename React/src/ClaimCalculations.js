@@ -6,10 +6,13 @@ function ClaimCalculations() {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8001/Climate_Bind_Development/claim_calculations.php", {
-      method: "GET",
-      credentials: "include",
-    })
+    fetch(
+      "http://localhost:8001/Climate_Bind_Development/claim_calculations.php",
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    )
       .then((response) => response.json())
       .then((data) => setTableData(data))
       .catch((error) => console.error("Error fetching table data:", error));
@@ -25,7 +28,9 @@ function ClaimCalculations() {
           <tr>
             <th>Name of your insurer</th>
             <th>Their email address</th>
-            <th>The amount they owe you</th>
+            <th>Phone number</th>
+            <th>Address</th>
+            <th>The amount they owe you USD $</th>
           </tr>
         </thead>
         <tbody>
@@ -33,6 +38,8 @@ function ClaimCalculations() {
             <tr key={index}>
               <td>{row.name}</td>
               <td>{row.email}</td>
+              <td>{row.phone}</td>
+              <td>{row.address}</td>
               <td>{row.payout}</td>
             </tr>
           ))}
