@@ -15,8 +15,8 @@ function Footer() {
             Email address:<span> </span>
             <a href="team@climatebind.com">team@climatebind.com</a>
           </em>
+          <p>&copy; Copyright 2024 - {currentYear}</p>
         </p>
-        <p>&copy; 2024 - {currentYear} Climate Bind. All rights reserved.</p>
       </div>
     </div>
   );
