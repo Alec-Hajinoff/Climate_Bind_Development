@@ -19,6 +19,24 @@ try {
 
     $claim_amount = $_SESSION['claim_amount'] ?? null;
 
+    if (!$claim_amount && isset($_SESSION['id'])) {
+        $user_id = $_SESSION['id'];
+
+        $stmt = $pdo->prepare('SELECT claims_id FROM users WHERE id = ?');
+        $stmt->execute([$user_id]);
+        $user_claims = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user_claims && $user_claims['claims_id']) {
+            $stmt = $pdo->prepare('SELECT claim_amount FROM claims WHERE id = ?');
+            $stmt->execute([$user_claims['claims_id']]);
+            $claim_data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($claim_data && isset($claim_data['claim_amount'])) {
+                $claim_amount = $claim_data['claim_amount'];
+                $_SESSION['claim_amount'] = $claim_amount;
+            }
+        }
+    }
     $totalPremiumsCommitted = 0;
     foreach ($premiumData as $data) {
         $totalPremiumsCommitted += $data['monthly_premium'];

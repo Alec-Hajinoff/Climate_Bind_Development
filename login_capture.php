@@ -41,8 +41,14 @@ if (isset($input['email'], $input['password'])) {
                 $response['claims_status'] = 'No claim submitted';
             } else {
                 $response['claims_status'] = 'Claim active';
-            }
+                $stmt = $pdo->prepare('SELECT claim_amount FROM claims WHERE id = ?');
+                $stmt->execute([$registrationData['claims_id']]);
+                $claimData = $stmt->fetch();
 
+                if ($claimData && isset($claimData['claim_amount'])) {
+                    $_SESSION['claim_amount'] = $claimData['claim_amount'];
+                }
+            }
             echo json_encode($response);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid credentials']);
@@ -54,3 +60,4 @@ if (isset($input['email'], $input['password'])) {
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Email and password are required']);
 }
+?>
