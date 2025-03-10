@@ -46,15 +46,16 @@ try {
     foreach ($userData as $index => $user) {
         $premium = $premiumData[$index]['monthly_premium'];
         $premiumPercentage = ($premium / $totalPremiumsCommitted) * 100;
-
+        $payout = round(($premiumPercentage * $claim_amount / 100), 2);
         $userResponse = [
             'name' => $user['first_name'] . ' ' . $user['last_name'],
             'email' => $user['email'],
             'phone' => $user['phone'],
             'address' => $user['address'],
-            'payout' => round(($premiumPercentage * $claim_amount / 100), 2),
+            'payout' => $payout,
         ];
-
+        $stmt = $pdo->prepare('UPDATE users SET claims_payor_amount = ? WHERE email = ?');
+        $stmt->execute([$payout, $user['email']]);
         $response[] = $userResponse;
     }
 
