@@ -21,8 +21,7 @@ if (isset($input['email'], $input['password'])) {
         $user = $stmt->fetch();
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION["id"] = $user["id"];
-
-            $stmt = $pdo->prepare('SELECT profile_complete, claims_id FROM users WHERE id = ?');
+            $stmt = $pdo->prepare('SELECT profile_complete, claims_id, claims_payor_amount FROM users WHERE id = ?');
             $stmt->execute([$user['id']]);
             $registrationData = $stmt->fetch();
 
@@ -48,6 +47,11 @@ if (isset($input['email'], $input['password'])) {
                 if ($claimData && isset($claimData['claim_amount'])) {
                     $_SESSION['claim_amount'] = $claimData['claim_amount'];
                 }
+            }
+            if ($registrationData['claims_payor_amount'] === NULL) {
+                $response['payor_status'] = 'Payor null';
+            } else {
+                $response['payor_status'] = 'Payor active';
             }
             echo json_encode($response);
         } else {
