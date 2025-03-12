@@ -22,20 +22,32 @@ try {
         if ($userData && isset($userData['claims_payor_id'])) {
             $claims_payor_id = $userData['claims_payor_id'];
 
-            $stmt = $pdo->prepare('SELECT address FROM users WHERE claims_id = ?');
+            $stmt = $pdo->prepare('SELECT address, first_name, last_name, email, phone FROM users WHERE claims_id = ?');
             $stmt->execute([$claims_payor_id]);
             $matchingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($matchingUser && isset($matchingUser['address'])) {
+            if (
+                $matchingUser &&
+                isset($matchingUser['address']) &&
+                isset($matchingUser['first_name']) &&
+                isset($matchingUser['last_name']) &&
+                isset($matchingUser['email']) &&
+                isset($matchingUser['phone'])
+            ) {
+
                 $response = [
                     'status' => 'success',
-                    'message' => 'Matching address found',
-                    'address' => $matchingUser['address']
+                    'message' => 'Matching user information found',
+                    'address' => $matchingUser['address'],
+                    'full_name' => $matchingUser['first_name'] . ' ' . $matchingUser['last_name'],
+                    'email' => $matchingUser['email'],
+                    'phone' => $matchingUser['phone']
                 ];
             } else {
+
                 $response = [
                     'status' => 'error',
-                    'message' => 'No matching user found with claims_id equal to the claims_payor_id'
+                    'message' => 'User found but complete information is missing'
                 ];
             }
         } else {

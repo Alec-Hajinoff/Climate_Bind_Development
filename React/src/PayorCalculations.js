@@ -23,15 +23,32 @@ function PayorCalculations() {
       <div className="d-flex justify-content-end mb-3">
         <LogoutComponent />
       </div>
+
       <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th>Address</th>
-          </tr>
-        </thead>
         <tbody>
           <tr>
-            <td>{addressData.address || "No address found"}</td>
+            <th style={{ width: "33%" }}>Claimant Name</th>
+            <td style={{ width: "67%" }}>
+              {addressData.full_name || "No name found"}
+            </td>
+          </tr>
+          <tr>
+            <th style={{ width: "33%" }}>Their Email</th>
+            <td style={{ width: "67%" }}>
+              {addressData.email || "No email found"}
+            </td>
+          </tr>
+          <tr>
+            <th style={{ width: "33%" }}>Phone Number</th>
+            <td style={{ width: "67%" }}>
+              {addressData.phone || "No phone found"}
+            </td>
+          </tr>
+          <tr>
+            <th style={{ width: "33%" }}>Address</th>
+            <td style={{ width: "67%" }}>
+              {addressData.address || "No address found"}
+            </td>
           </tr>
         </tbody>
       </table>
