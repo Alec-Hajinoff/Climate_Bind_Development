@@ -4,6 +4,7 @@ import LogoutComponent from "./LogoutComponent";
 
 function PayorCalculations() {
   const [addressData, setAddressData] = useState({});
+  const [claimData, setClaimData] = useState({});
 
   useEffect(() => {
     fetch(
@@ -14,7 +15,15 @@ function PayorCalculations() {
       }
     )
       .then((response) => response.json())
-      .then((data) => setAddressData(data))
+      .then((data) => {
+   
+        setAddressData(data);
+       
+        if (data && data.claim_data) {
+          console.log("Claim data found:", data.claim_data);
+          setClaimData(data.claim_data);
+        }
+      })
       .catch((error) => console.error("Error fetching address data:", error));
   }, []);
 
@@ -48,6 +57,48 @@ function PayorCalculations() {
             <th style={{ width: "33%" }}>Address</th>
             <td style={{ width: "67%" }}>
               {addressData.address || "No address found"}
+            </td>
+          </tr>
+          <tr>
+            <th style={{ width: "33%" }}>Incident Date</th>
+            <td style={{ width: "67%" }}>
+              {claimData.incident_date || "Not provided"}
+            </td>
+          </tr>
+          <tr>
+            <th style={{ width: "33%" }}>Claim Submission Date</th>
+            <td style={{ width: "67%" }}>
+              {claimData.submission_date || "Not provided"}
+            </td>
+          </tr>
+          <tr>
+            <th style={{ width: "33%" }}>Damage/Loss Cause</th>
+            <td style={{ width: "67%" }}>
+              {claimData.damage_cause || "Not provided"}
+            </td>
+          </tr>
+          <tr>
+            <th style={{ width: "33%" }}>Damaged Items</th>
+            <td style={{ width: "67%" }}>
+              {claimData.damaged_items || "None listed"}
+            </td>
+          </tr>
+          <tr>
+            <th style={{ width: "33%" }}>Replacement Value</th>
+            <td style={{ width: "67%" }}>
+              {claimData.replacement_value || "0"}
+            </td>
+          </tr>
+          <tr>
+            <th style={{ width: "33%" }}>Claim Amount</th>
+            <td style={{ width: "67%" }}>
+              {claimData.claim_amount || "0"}
+            </td>
+          </tr>
+          <tr>
+            <th style={{ width: "33%" }}>Bank Account Number</th>
+            <td style={{ width: "67%" }}>
+              {claimData.bank_account || "Not provided"}
             </td>
           </tr>
         </tbody>

@@ -26,28 +26,52 @@ try {
             $stmt->execute([$claims_payor_id]);
             $matchingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            $stmt = $pdo->prepare('SELECT
+                incident_time_date,
+                claim_submission_date,
+                damage_loss_cause,
+                damaged_items_list,
+                replacement_value,
+                contractor_repair_estimates,
+                claim_amount,
+                bank_account_number_claim
+                FROM claims
+                WHERE id = ?');
+            $stmt->execute([$claims_payor_id]);
+            $claimData = $stmt->fetch(PDO::FETCH_ASSOC);
+
             if (
                 $matchingUser &&
                 isset($matchingUser['address']) &&
                 isset($matchingUser['first_name']) &&
                 isset($matchingUser['last_name']) &&
                 isset($matchingUser['email']) &&
-                isset($matchingUser['phone'])
+                isset($matchingUser['phone']) &&
+
+                $claimData
             ) {
 
                 $response = [
                     'status' => 'success',
-                    'message' => 'Matching user information found',
+                    'message' => 'Matching user and claim information found',
                     'address' => $matchingUser['address'],
                     'full_name' => $matchingUser['first_name'] . ' ' . $matchingUser['last_name'],
                     'email' => $matchingUser['email'],
-                    'phone' => $matchingUser['phone']
+                    'phone' => $matchingUser['phone'],
+                    'claim_data' => [
+                        'incident_date' => $claimData['incident_time_date'] ?? 'N/A',
+                        'submission_date' => $claimData['claim_submission_date'] ?? 'N/A',
+                        'damage_cause' => $claimData['damage_loss_cause'] ?? 'N/A',
+                        'damaged_items' => $claimData['damaged_items_list'] ?? 'N/A',
+                        'replacement_value' => $claimData['replacement_value'] ?? 0,
+                        'claim_amount' => $claimData['claim_amount'] ?? 0,
+                        'bank_account' => $claimData['bank_account_number_claim'] ?? 'N/A'
+                    ]
                 ];
             } else {
-
                 $response = [
                     'status' => 'error',
-                    'message' => 'User found but complete information is missing'
+                    'message' => 'User or claim information is incomplete or missing'
                 ];
             }
         } else {

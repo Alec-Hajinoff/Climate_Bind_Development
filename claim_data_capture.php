@@ -34,11 +34,15 @@ if (!$id || !$damage_loss_cause || !$incident_time_date || !$local_authority_rep
 
 $_SESSION['claim_amount'] = $claim_amount;
 
-$sql2 = "INSERT INTO claims (damage_loss_cause, incident_time_date, damaged_items_list, replacement_value, contractor_repair_estimates, claim_amount, bank_account_number_claim) VALUES (?, ?, ?, ?, ?, ?, ?)";
+$claim_submission_date = date('Y-m-d');
+
+$sql2 = "INSERT INTO claims (damage_loss_cause, incident_time_date, damaged_items_list, replacement_value, contractor_repair_estimates, claim_amount, bank_account_number_claim, claim_submission_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
 $stmt2 = $conn->prepare($sql2);
 if ($stmt2) {
     $null = NULL;
-    $stmt2->bind_param("sssibis", $damage_loss_cause, $incident_time_date, $damaged_items_list, $replacement_value, $null, $claim_amount, $bank_account_number_claim);
+    $stmt2->bind_param("sssibiss", $damage_loss_cause, $incident_time_date, $damaged_items_list, $replacement_value, $null, $claim_amount, $bank_account_number_claim, $claim_submission_date);
+
     $stmt2->send_long_data(4, file_get_contents($contractor_repair_estimates['tmp_name']));
     $stmt2->execute();
 
