@@ -15,14 +15,15 @@ try {
     $user_id = $_SESSION['id'] ?? null;
 
     if ($user_id) {
-        $stmt = $pdo->prepare('SELECT claims_payor_id FROM users WHERE id = ?');
+        $stmt = $pdo->prepare('SELECT claims_payor_id, claims_payor_amount FROM users WHERE id = ?');
         $stmt->execute([$user_id]);
         $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($userData && isset($userData['claims_payor_id'])) {
             $claims_payor_id = $userData['claims_payor_id'];
+            $claims_payor_amount = $userData['claims_payor_amount'] ?? 0;
 
-            $stmt = $pdo->prepare('SELECT address, first_name, last_name, email, phone FROM users WHERE claims_id = ?');
+            $stmt = $pdo->prepare('SELECT address, first_name, last_name, email, phone, claim_doc_id FROM users WHERE claims_id = ?');
             $stmt->execute([$claims_payor_id]);
             $matchingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -40,6 +41,14 @@ try {
             $stmt->execute([$claims_payor_id]);
             $claimData = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            $claimDocuments = null;
+            if ($matchingUser && isset($matchingUser['claim_doc_id'])) {
+                $claim_doc_id = $matchingUser['claim_doc_id'];
+                $stmt = $pdo->prepare('SELECT local_authority_report, photographs, damaged_items_receipts FROM claim_documents WHERE id = ?');
+                $stmt->execute([$claim_doc_id]);
+                $claimDocuments = $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+
             if (
                 $matchingUser &&
                 isset($matchingUser['address']) &&
@@ -47,7 +56,6 @@ try {
                 isset($matchingUser['last_name']) &&
                 isset($matchingUser['email']) &&
                 isset($matchingUser['phone']) &&
-
                 $claimData
             ) {
 
@@ -58,6 +66,8 @@ try {
                     'full_name' => $matchingUser['first_name'] . ' ' . $matchingUser['last_name'],
                     'email' => $matchingUser['email'],
                     'phone' => $matchingUser['phone'],
+                    'claims_payor_amount' => $claims_payor_amount,
+
                     'claim_data' => [
                         'incident_date' => $claimData['incident_time_date'] ?? 'N/A',
                         'submission_date' => $claimData['claim_submission_date'] ?? 'N/A',
@@ -66,7 +76,13 @@ try {
                         'replacement_value' => $claimData['replacement_value'] ?? 0,
                         'claim_amount' => $claimData['claim_amount'] ?? 0,
                         'bank_account' => $claimData['bank_account_number_claim'] ?? 'N/A'
-                    ]
+                    ],
+
+                    'claim_documents' => $claimDocuments ? [
+                        'local_authority_report' => base64_encode($claimDocuments['local_authority_report']),
+                        'photographs' => base64_encode($claimDocuments['photographs']),
+                        'damaged_items_receipts' => base64_encode($claimDocuments['damaged_items_receipts'])
+                    ] : null
                 ];
             } else {
                 $response = [
