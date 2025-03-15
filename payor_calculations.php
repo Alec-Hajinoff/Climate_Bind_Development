@@ -23,7 +23,7 @@ try {
             $claims_payor_id = $userData['claims_payor_id'];
             $claims_payor_amount = $userData['claims_payor_amount'] ?? 0;
 
-            $stmt = $pdo->prepare('SELECT address, first_name, last_name, email, phone, claim_doc_id FROM users WHERE claims_id = ?');
+            $stmt = $pdo->prepare('SELECT address, first_name, last_name, email, phone, claim_doc_id, property_id FROM users WHERE claims_id = ?');
             $stmt->execute([$claims_payor_id]);
             $matchingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -47,6 +47,30 @@ try {
                 $stmt = $pdo->prepare('SELECT local_authority_report, photographs, damaged_items_receipts FROM claim_documents WHERE id = ?');
                 $stmt->execute([$claim_doc_id]);
                 $claimDocuments = $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+
+            $propertyData = null;
+            if ($matchingUser && isset($matchingUser['property_id'])) {
+                $property_id = $matchingUser['property_id'];
+                $stmt = $pdo->prepare('SELECT
+                    images,
+                    ownership_proof,
+                    date_of_construction,
+                    square_footage,
+                    type_home,
+                    building_materials,
+                    number_levels,
+                    roof_type,
+                    heating_systems,
+                    safety_features,
+                    home_renovations,
+                    mortgage_lender,
+                    current_previous_insurance,
+                    list_previous_disasters
+                    FROM properties
+                    WHERE id = ?');
+                $stmt->execute([$property_id]);
+                $propertyData = $stmt->fetch(PDO::FETCH_ASSOC);
             }
 
             if (
@@ -75,13 +99,31 @@ try {
                         'damaged_items' => $claimData['damaged_items_list'] ?? 'N/A',
                         'replacement_value' => $claimData['replacement_value'] ?? 0,
                         'claim_amount' => $claimData['claim_amount'] ?? 0,
-                        'bank_account' => $claimData['bank_account_number_claim'] ?? 'N/A'
+                        'bank_account' => $claimData['bank_account_number_claim'] ?? 'N/A',
+                        'contractor_repair_estimates' => base64_encode($claimData['contractor_repair_estimates']),
                     ],
 
                     'claim_documents' => $claimDocuments ? [
                         'local_authority_report' => base64_encode($claimDocuments['local_authority_report']),
                         'photographs' => base64_encode($claimDocuments['photographs']),
                         'damaged_items_receipts' => base64_encode($claimDocuments['damaged_items_receipts'])
+                    ] : null,
+
+                    'property_data' => $propertyData ? [
+                        'images' => base64_encode($propertyData['images']),
+                        'ownership_proof' => base64_encode($propertyData['ownership_proof']),
+                        'date_of_construction' => $propertyData['date_of_construction'] ?? 'N/A',
+                        'square_footage' => $propertyData['square_footage'] ?? 'N/A',
+                        'type_home' => $propertyData['type_home'] ?? 'N/A',
+                        'building_materials' => $propertyData['building_materials'] ?? 'N/A',
+                        'number_levels' => $propertyData['number_levels'] ?? 'N/A',
+                        'roof_type' => $propertyData['roof_type'] ?? 'N/A',
+                        'heating_systems' => $propertyData['heating_systems'] ?? 'N/A',
+                        'safety_features' => $propertyData['safety_features'] ?? 'N/A',
+                        'home_renovations' => $propertyData['home_renovations'] ?? 'N/A',
+                        'mortgage_lender' => $propertyData['mortgage_lender'] ?? 'N/A',
+                        'current_previous_insurance' => $propertyData['current_previous_insurance'] ?? 'N/A',
+                        'list_previous_disasters' => $propertyData['list_previous_disasters'] ?? 'N/A'
                     ] : null
                 ];
             } else {
