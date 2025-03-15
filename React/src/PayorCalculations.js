@@ -44,7 +44,7 @@ function PayorCalculations() {
       <table className="table table-bordered">
         <tbody>
           <tr>
-            <th style={{ width: "33%" }}>Claim amount</th>
+            <th style={{ width: "33%" }}>Claim amount USD $</th>
             <td style={{ width: "67%" }}>
               {addressData.claims_payor_amount || "No amount found"}
             </td>
@@ -97,12 +97,7 @@ function PayorCalculations() {
               {claimData.damaged_items || "None listed"}
             </td>
           </tr>
-          <tr>
-            <th style={{ width: "33%" }}>Estimated replacement value</th>
-            <td style={{ width: "67%" }}>
-              {claimData.replacement_value || "0"}
-            </td>
-          </tr>
+          {/* Removed the replacement value row */}
           <tr>
             <th style={{ width: "33%" }}>Contractor repair estimates</th>
             <td style={{ width: "67%" }}>
@@ -118,7 +113,7 @@ function PayorCalculations() {
             </td>
           </tr>
           <tr>
-            <th style={{ width: "33%" }}>Claim amount</th>
+            <th style={{ width: "33%" }}>Claim amount USD $</th>
             <td style={{ width: "67%" }}>{claimData.claim_amount || "0"}</td>
           </tr>
           <tr>
@@ -259,7 +254,7 @@ function PayorCalculations() {
           </tr>
           <tr>
             <th style={{ width: "33%" }}>
-              Mortgage balance & lender information
+              Mortgage balance USD $ & lender information
             </th>
             <td style={{ width: "67%" }}>
               {propertyData.mortgage_lender || "Not provided"}

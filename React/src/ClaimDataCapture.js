@@ -13,7 +13,6 @@ function ClaimDataCapture() {
     damaged_items_list: "",
     damaged_items_receipts: null,
     photographs: null,
-    replacement_value: null,
     contractor_repair_estimates: null,
     claim_amount: null,
     bank_account_number_claim: "",
@@ -168,26 +167,6 @@ function ClaimDataCapture() {
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                <label for="replacementvalue">
-                  Estimate the repair or replacement value in USD $
-                </label>
-              </th>
-              <td>
-                <input
-                  id="replacementvalue"
-                  type="number"
-                  step="1"
-                  className="form-control"
-                  name="replacement_value"
-                  autoComplete="off"
-                  value={formData.replacement_value}
-                  onChange={handleChange}
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" className="align-middle">
                 Upload contractor repair estimates (take a photo of all
                 estimates and upload one image or multiple estimates in one PDF)
               </th>
@@ -204,7 +183,7 @@ function ClaimDataCapture() {
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Please enter the amount you are claiming in insurance in USD $
+                Please enter the amount you are claiming in insurance USD $
               </th>
               <td>
                 <input

@@ -22,12 +22,11 @@ $local_authority_report = $_FILES['local_authority_report'] ?? null;
 $damaged_items_list = $_POST['damaged_items_list'] ?? null;
 $damaged_items_receipts = $_FILES['damaged_items_receipts'] ?? null;
 $photographs = $_FILES['photographs'] ?? null;
-$replacement_value = $_POST['replacement_value'] ?? null;
 $contractor_repair_estimates = $_FILES['contractor_repair_estimates'] ?? null;
 $claim_amount = $_POST['claim_amount'] ?? null;
 $bank_account_number_claim = $_POST['bank_account_number_claim'] ?? null;
 
-if (!$id || !$damage_loss_cause || !$incident_time_date || !$local_authority_report || !$damaged_items_list || !$damaged_items_receipts || !$photographs || !$replacement_value || !$contractor_repair_estimates || !$claim_amount || !$bank_account_number_claim) {
+if (!$id || !$damage_loss_cause || !$incident_time_date || !$local_authority_report || !$damaged_items_list || !$damaged_items_receipts || !$photographs || !$contractor_repair_estimates || !$claim_amount || !$bank_account_number_claim) {
     echo json_encode(['success' => false, 'message' => 'Missing required fields']);
     exit;
 }
@@ -36,14 +35,14 @@ $_SESSION['claim_amount'] = $claim_amount;
 
 $claim_submission_date = date('Y-m-d');
 
-$sql2 = "INSERT INTO claims (damage_loss_cause, incident_time_date, damaged_items_list, replacement_value, contractor_repair_estimates, claim_amount, bank_account_number_claim, claim_submission_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+$sql2 = "INSERT INTO claims (damage_loss_cause, incident_time_date, damaged_items_list, contractor_repair_estimates, claim_amount, bank_account_number_claim, claim_submission_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 $stmt2 = $conn->prepare($sql2);
 if ($stmt2) {
     $null = NULL;
-    $stmt2->bind_param("sssibiss", $damage_loss_cause, $incident_time_date, $damaged_items_list, $replacement_value, $null, $claim_amount, $bank_account_number_claim, $claim_submission_date);
+    $stmt2->bind_param("sssbiss", $damage_loss_cause, $incident_time_date, $damaged_items_list, $null, $claim_amount, $bank_account_number_claim, $claim_submission_date);
 
-    $stmt2->send_long_data(4, file_get_contents($contractor_repair_estimates['tmp_name']));
+    $stmt2->send_long_data(3, file_get_contents($contractor_repair_estimates['tmp_name']));
     $stmt2->execute();
 
     $last_claim_id = $conn->insert_id;

@@ -424,7 +424,7 @@ function AccountDataCapture() {
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                Amount of cover you can offer in USD $. This is the maximum
+                Amount of cover you can offer USD $. This is the maximum
                 amount you can pay out in the event of a claim. The maximum you
                 can claim is 100 times of this amount.
               </th>
