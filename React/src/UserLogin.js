@@ -20,6 +20,13 @@ function UserLogin() {
     });
   };
 
+  const clearForm = () => {
+    setFormData({
+      email: "",
+      password: "",
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -34,18 +41,38 @@ function UserLogin() {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "success") {
-          if (data.registration_status === "Registration data is complete") {
+          if (
+            data.registration_status === "Registration data is complete" &&
+            data.claims_status === "No claim submitted" &&
+            data.payor_status === "Payor null"
+          ) {
             navigate("/DataSubmittedThenClaim");
-          } else if (data.registration_status === "Registration data is not complete") {
+          } else if (
+            data.registration_status === "Registration data is complete" &&
+            data.claims_status === "No claim submitted" &&
+            data.payor_status === "Payor active"
+          ) {
+            navigate("/PayorData");
+          } else if (
+            data.registration_status === "Registration data is complete" &&
+            data.claims_status === "Claim active"
+          ) {
+            navigate("/SubmittedClaim");
+          } else if (
+            data.registration_status === "Registration data is not complete"
+          ) {
             navigate("/AccountDataCapture");
           }
+          clearForm(); // Clear on successful login
         } else {
           setErrorMessage("Sign in failed. Please try again.");
+          clearForm(); // Clear on failed login
         }
       })
       .catch((error) => {
         console.error("Error:", error);
         setErrorMessage("An error occurred.");
+        clearForm(); // Clear on error
       })
       .finally(() => setLoading(false));
   };
@@ -54,7 +81,7 @@ function UserLogin() {
     <form className="row g-2" onSubmit={handleSubmit}>
       <div className="form-group">
         <input
-          autoComplete="off"
+          autoComplete="new-password" // Updated to new-password
           type="email"
           pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
           className="form-control"
@@ -68,7 +95,7 @@ function UserLogin() {
       </div>
       <div className="form-group">
         <input
-          autoComplete="off"
+          autoComplete="new-password" // Updated to new-password
           type="password"
           className="form-control"
           id="yourPasswordLogin"
