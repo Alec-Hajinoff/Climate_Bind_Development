@@ -97,7 +97,6 @@ function PayorCalculations() {
               {claimData.damaged_items || "None listed"}
             </td>
           </tr>
-          {/* Removed the replacement value row */}
           <tr>
             <th style={{ width: "33%" }}>Contractor repair estimates</th>
             <td style={{ width: "67%" }}>
@@ -111,10 +110,6 @@ function PayorCalculations() {
                 "Not provided"
               )}
             </td>
-          </tr>
-          <tr>
-            <th style={{ width: "33%" }}>Claim amount USD $</th>
-            <td style={{ width: "67%" }}>{claimData.claim_amount || "0"}</td>
           </tr>
           <tr>
             <th style={{ width: "33%" }}>

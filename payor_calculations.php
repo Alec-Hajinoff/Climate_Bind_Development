@@ -33,7 +33,6 @@ try {
                 damage_loss_cause,
                 damaged_items_list,
                 contractor_repair_estimates,
-                claim_amount,
                 bank_account_number_claim
                 FROM claims
                 WHERE id = ?');
@@ -96,7 +95,6 @@ try {
                         'submission_date' => $claimData['claim_submission_date'] ?? 'N/A',
                         'damage_cause' => $claimData['damage_loss_cause'] ?? 'N/A',
                         'damaged_items' => $claimData['damaged_items_list'] ?? 'N/A',
-                        'claim_amount' => $claimData['claim_amount'] ?? 0,
                         'bank_account' => $claimData['bank_account_number_claim'] ?? 'N/A',
                         'contractor_repair_estimates' => base64_encode($claimData['contractor_repair_estimates']),
                     ],
