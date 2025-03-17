@@ -74,7 +74,7 @@ describe("AccountDataCapture", () => {
     const submitButton = screen.getByRole("button", { name: /submit/i });
     fireEvent.click(submitButton);
 
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     expect(
       screen.getByText("Submission failed. Please try again.")
@@ -91,7 +91,7 @@ describe("AccountDataCapture", () => {
     const submitButton = screen.getByRole("button", { name: /submit/i });
     fireEvent.click(submitButton);
 
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     expect(screen.getByText("An error occurred.")).toBeInTheDocument();
   });
