@@ -12,7 +12,7 @@ describe("DataSubmittedThenClaim Component", () => {
     );
 
     expect(
-      screen.getByText(/Thank you for submitting your/i)
+      screen.getByText(/like to make a claim please/i)
     ).toBeInTheDocument();
 
     expect(screen.getByRole("table")).toBeInTheDocument();

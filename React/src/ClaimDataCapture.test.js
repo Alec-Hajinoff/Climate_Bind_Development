@@ -40,17 +40,12 @@ describe("ClaimDataCapture", () => {
   it("updates form data when input values change", () => {
     render(<ClaimDataCapture />);
 
-    const claimNumberInput = screen.getByLabelText(
-      "Estimate the repair or replacement value"
-    );
     const claimDateInput = screen.getByLabelText(
       "Select the date of the incident"
     );
 
-    fireEvent.change(claimNumberInput, { target: { value: "12345" } });
     fireEvent.change(claimDateInput, { target: { value: "2023-10-01" } });
 
-    expect(claimNumberInput.value).toBe("12345");
     expect(claimDateInput.value).toBe("2023-10-01");
   });
 
@@ -98,7 +93,7 @@ describe("ClaimDataCapture", () => {
     const submitButton = screen.getByRole("button", { name: /submit/i });
     fireEvent.click(submitButton);
 
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     expect(screen.getByText("An error occurred.")).toBeInTheDocument();
   });

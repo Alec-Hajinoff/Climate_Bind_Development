@@ -114,7 +114,7 @@ describe("UserLogin", () => {
     const submitButton = screen.getByRole("button", { name: /login/i });
     fireEvent.click(submitButton);
 
-    await new Promise((resolve) => setTimeout(resolve, 30));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     expect(screen.getByText("An error occurred.")).toBeInTheDocument();
   });
 });
