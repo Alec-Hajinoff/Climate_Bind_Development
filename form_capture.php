@@ -10,9 +10,11 @@ $username = "root";
 $passwordServer = "";
 $dbname = "climate_bind";
 
-$conn = new mysqli($servername, $username, $passwordServer, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $passwordServer);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
 
 $input = json_decode(file_get_contents('php://input'), true);
@@ -31,15 +33,16 @@ if (!$name || !$email || !$password) {
 }
 
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-$sql = "INSERT INTO users (email, password, first_name) VALUES (?, ?, ?)";
+
+$sql = "INSERT INTO users (email, password, first_name) VALUES (:email, :password, :name)";
 $stmt = $conn->prepare($sql);
 if ($stmt) {
-    $stmt->bind_param("sss", $email, $hashedPassword, $name);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':password', $hashedPassword);
+    $stmt->bindParam(':name', $name);
     $stmt->execute();
-    $stmt->close();
     echo json_encode(['success' => true]);
 } else {
-    echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
+    echo json_encode(['success' => false, 'message' => 'Database error']);
 }
-
-$conn->close();
+?>

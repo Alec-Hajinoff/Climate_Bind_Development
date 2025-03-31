@@ -10,9 +10,11 @@ $username = "root";
 $passwordServer = "";
 $dbname = "climate_bind";
 
-$conn = new mysqli($servername, $username, $passwordServer, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $passwordServer);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
 
 $id = $_SESSION['id'] ?? null;
@@ -47,64 +49,79 @@ if (!$id || !$last_name || !$date_of_birth || !$passport_copy || !$phone || !$na
 $sql = "UPDATE users SET last_name = ?, date_of_birth = ?, passport_copy = ?, phone = ?, national_insurance = ?, address = ?, profile_complete = ? WHERE id = ?";
 $stmt = $conn->prepare($sql);
 if ($stmt) {
-    $null = NULL;
     $profile_complete = 1;
-+   $stmt->bind_param("ssbsssis", $last_name, $date_of_birth, $null, $phone, $national_insurance, $address, $profile_complete, $id);
-    $stmt->send_long_data(2, file_get_contents($passport_copy['tmp_name']));
+    $stmt->bindParam(1, $last_name);
+    $stmt->bindParam(2, $date_of_birth);
+    $stmt->bindParam(3, $passport_copy_data, PDO::PARAM_LOB);
+    $stmt->bindParam(4, $phone);
+    $stmt->bindParam(5, $national_insurance);
+    $stmt->bindParam(6, $address);
+    $stmt->bindParam(7, $profile_complete);
+    $stmt->bindParam(8, $id);
+    $passport_copy_data = file_get_contents($passport_copy['tmp_name']);
     $stmt->execute();
-    $stmt->close();
 } else {
-    echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
+    echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->errorInfo()[2]]);
 }
 
 $sql1 = "INSERT INTO properties (images, ownership_proof, date_of_construction, square_footage, type_home, building_materials, number_levels, roof_type, heating_systems, safety_features, home_renovations, mortgage_lender, current_previous_insurance, list_previous_disasters) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt1 = $conn->prepare($sql1);
 if ($stmt1) {
-    $null1 = NULL;
-    $stmt1->bind_param("bbsississsssss", $null1, $null1, $date_of_construction, $square_footage, $type_home, $building_materials, $number_levels, $roof_type, $heating_systems, $safety_features, $home_renovations, $mortgage_lender, $current_previous_insurance, $list_previous_disasters);
-    $stmt1->send_long_data(0, file_get_contents($images['tmp_name']));
-    $stmt1->send_long_data(1, file_get_contents($ownership_proof['tmp_name']));
+    $stmt1->bindParam(1, $images_data, PDO::PARAM_LOB);
+    $stmt1->bindParam(2, $ownership_proof_data, PDO::PARAM_LOB);
+    $stmt1->bindParam(3, $date_of_construction);
+    $stmt1->bindParam(4, $square_footage);
+    $stmt1->bindParam(5, $type_home);
+    $stmt1->bindParam(6, $building_materials);
+    $stmt1->bindParam(7, $number_levels);
+    $stmt1->bindParam(8, $roof_type);
+    $stmt1->bindParam(9, $heating_systems);
+    $stmt1->bindParam(10, $safety_features);
+    $stmt1->bindParam(11, $home_renovations);
+    $stmt1->bindParam(12, $mortgage_lender);
+    $stmt1->bindParam(13, $current_previous_insurance);
+    $stmt1->bindParam(14, $list_previous_disasters);
+    $images_data = file_get_contents($images['tmp_name']);
+    $ownership_proof_data = file_get_contents($ownership_proof['tmp_name']);
     $stmt1->execute();
 
-    $property_id = $conn->insert_id;
+    $property_id = $conn->lastInsertId();
 
     $sql2 = "UPDATE users SET property_id = ? WHERE id = ?";
     $stmt2 = $conn->prepare($sql2);
     if ($stmt2) {
-        $stmt2->bind_param("ii", $property_id, $id);
+        $stmt2->bindParam(1, $property_id);
+        $stmt2->bindParam(2, $id);
         $stmt2->execute();
-        $stmt2->close();
     } else {
-        echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
+        echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->errorInfo()[2]]);
     }
-
-    $stmt1->close();
 } else {
-    echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
+    echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->errorInfo()[2]]);
 }
 
 $sql3 = "INSERT INTO premiums (monthly_premium, bank_account_number) VALUES (?, ?)";
 $stmt3 = $conn->prepare($sql3);
 if ($stmt3) {
-    $stmt3->bind_param("ss", $monthly_premium, $bank_account_number);
+    $stmt3->bindParam(1, $monthly_premium);
+    $stmt3->bindParam(2, $bank_account_number);
     $stmt3->execute();
 
-    $premiums_id = $conn->insert_id;
+    $premiums_id = $conn->lastInsertId();
 
     $sql4 = "UPDATE users SET premiums_id = ? WHERE id = ?";
     $stmt4 = $conn->prepare($sql4);
     if ($stmt4) {
-        $stmt4->bind_param("ii", $premiums_id, $id);
+        $stmt4->bindParam(1, $premiums_id);
+        $stmt4->bindParam(2, $id);
         $stmt4->execute();
-        $stmt4->close();
     } else {
-        echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
+        echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->errorInfo()[2]]);
     }
-    $stmt3->close();
     echo json_encode(['success' => true]);
 } else {
-    echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
+    echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->errorInfo()[2]]);
 }
 
-$conn->close();
+$conn = null;
 ?>

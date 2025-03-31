@@ -73,6 +73,7 @@ $stmt3 = $conn->prepare($sql3);
 if ($stmt3) {
     $null1 = NULL;
     $stmt3->bind_param("bbb", $null1, $null1, $null1);
+
     $stmt3->send_long_data(0, file_get_contents($local_authority_report['tmp_name']));
     $stmt3->send_long_data(1, file_get_contents($damaged_items_receipts['tmp_name']));
     $stmt3->send_long_data(2, file_get_contents($photographs['tmp_name']));
