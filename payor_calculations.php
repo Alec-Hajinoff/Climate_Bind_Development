@@ -6,12 +6,15 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
 
 try {
-
     $pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $response = [];
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
+
+    $pdo->beginTransaction();
+
+    $response = [];
     $user_id = $_SESSION['id'] ?? null;
 
     if ($user_id) {
@@ -80,7 +83,6 @@ try {
                 isset($matchingUser['phone']) &&
                 $claimData
             ) {
-
                 $response = [
                     'status' => 'success',
                     'message' => 'Matching user and claim information found',
@@ -141,15 +143,24 @@ try {
         ];
     }
 
+
+    $pdo->commit();
+
     header('Content-Type: application/json');
     echo json_encode($response);
 } catch (PDOException $e) {
+
+    if (isset($pdo)) {
+        $pdo->rollBack();
+    }
     $errorResponse = [
         'status' => 'error',
         'message' => 'Database error: ' . $e->getMessage()
     ];
-
     header('Content-Type: application/json');
     echo json_encode($errorResponse);
+} finally {
+
+    $pdo = null;
 }
 ?>

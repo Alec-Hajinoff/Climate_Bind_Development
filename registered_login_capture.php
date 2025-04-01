@@ -23,3 +23,4 @@ if (isset($_POST['email'], $_POST['password'])) {
         echo 'An error occurred. Please try again later.';
     }
 }
+?>

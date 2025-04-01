@@ -13,6 +13,7 @@ $dbname = "climate_bind";
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $passwordServer);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
@@ -32,17 +33,28 @@ if (!$name || !$email || !$password) {
     exit;
 }
 
-$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+try {
+    $conn->beginTransaction();
 
-$sql = "INSERT INTO users (email, password, first_name) VALUES (:email, :password, :name)";
-$stmt = $conn->prepare($sql);
-if ($stmt) {
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $hashedPassword);
-    $stmt->bindParam(':name', $name);
-    $stmt->execute();
-    echo json_encode(['success' => true]);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Database error']);
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO users (email, password, first_name) VALUES (:email, :password, :name)";
+    $stmt = $conn->prepare($sql);
+    if ($stmt) {
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':name', $name);
+        $stmt->execute();
+
+        $conn->commit();
+        echo json_encode(['success' => true]);
+    } else {
+        throw new Exception('Database error preparing statement');
+    }
+} catch (Exception $e) {
+    $conn->rollBack();
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+} finally {
+    $conn = null;
 }
 ?>

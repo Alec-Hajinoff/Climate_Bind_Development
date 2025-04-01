@@ -8,17 +8,21 @@ header('Content-Type: application/json');
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (isset($input['email'], $input['password'])) {
-
     $email = trim($input['email']);
     $password = $input['password'];
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '', [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false
         ]);
+
+        $pdo->beginTransaction();
+
         $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
         $stmt->execute([$email]);
         $user = $stmt->fetch();
+
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION["id"] = $user["id"];
             $stmt = $pdo->prepare('SELECT profile_complete, claims_id, claims_payor_amount FROM users WHERE id = ?');
@@ -53,13 +57,21 @@ if (isset($input['email'], $input['password'])) {
             } else {
                 $response['payor_status'] = 'Payor active';
             }
+
+            $pdo->commit();
             echo json_encode($response);
         } else {
+            $pdo->rollBack();
             echo json_encode(['status' => 'error', 'message' => 'Invalid credentials']);
         }
     } catch (PDOException $e) {
+        if (isset($pdo)) {
+            $pdo->rollBack();
+        }
         file_put_contents('error_log.txt', $e->getMessage() . PHP_EOL, FILE_APPEND);
         echo json_encode(['status' => 'error', 'message' => 'An error occurred. Please try again later.']);
+    } finally {
+        $pdo = null;
     }
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Email and password are required']);

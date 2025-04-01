@@ -8,6 +8,9 @@ header("Access-Control-Allow-Credentials: true");
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+    $pdo->beginTransaction();
 
     $stmt = $pdo->prepare('SELECT first_name, last_name, email, phone, address FROM users');
     $stmt->execute();
@@ -59,8 +62,14 @@ try {
         $response[] = $userResponse;
     }
 
+    $pdo->commit();
     echo json_encode($response);
 } catch (PDOException $e) {
+    if (isset($pdo)) {
+        $pdo->rollBack();
+    }
     echo 'Connection failed: ' . $e->getMessage();
+} finally {
+    $pdo = null;
 }
 ?>
