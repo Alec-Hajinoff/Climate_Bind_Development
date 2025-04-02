@@ -1,9 +1,26 @@
 <?php
 session_start();
-header("Access-Control-Allow-Origin: http://localhost:3000");
+
+$allowed_origins = [
+    "http://localhost:3000"
+];
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+
+if (in_array($origin, $allowed_origins)) {
+    header("Access-Control-Allow-Origin: $origin");
+} else {
+    header("HTTP/1.1 403 Forbidden");
+    exit;
+}
+
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit; 
+}
 
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '');
@@ -142,7 +159,6 @@ try {
             'message' => 'User not logged in or session expired'
         ];
     }
-
 
     $pdo->commit();
 
