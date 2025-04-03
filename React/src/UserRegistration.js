@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import blue from "./blue.svg";
 import "./UserRegistration.css";
 import { useNavigate } from "react-router-dom";
-import RegisteredPage from "./RegisteredPage.js";
+import { registerUser } from "./ApiService";
 
 function UserRegistration() {
   const navigate = useNavigate();
@@ -22,33 +21,25 @@ function UserRegistration() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password.length < 8) {
       setErrorMessage("Password must be at least 8 characters long");
       return;
     }
     setLoading(true);
-    fetch("http://localhost:8001/Climate_Bind_Development/form_capture.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          navigate("/RegisteredPage");
-        } else {
-          setErrorMessage("Registration failed. Please try again.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setErrorMessage("An error occurred.");
-      })
-      .finally(() => setLoading(false));
+    try {
+      const data = await registerUser(formData);
+      if (data.success) {
+        navigate("/RegisteredPage");
+      } else {
+        setErrorMessage("Registration failed. Please try again.");
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

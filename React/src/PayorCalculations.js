@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./PayorCalculations.css";
 import LogoutComponent from "./LogoutComponent";
+import { fetchPayorCalculations } from "./ApiService"; 
 
 function PayorCalculations() {
   const [addressData, setAddressData] = useState({});
@@ -9,15 +10,9 @@ function PayorCalculations() {
   const [propertyData, setPropertyData] = useState({});
 
   useEffect(() => {
-    fetch(
-      "http://localhost:8001/Climate_Bind_Development/payor_calculations.php",
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchPayorCalculations(); 
         setAddressData(data);
 
         if (data && data.claim_data) {
@@ -31,8 +26,12 @@ function PayorCalculations() {
         if (data && data.property_data) {
           setPropertyData(data.property_data);
         }
-      })
-      .catch((error) => console.error("Error fetching address data:", error));
+      } catch (error) {
+        console.error("Error fetching address data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (

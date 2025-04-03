@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import blue from "./blue.svg";
 import "./AccountDataCapture.css";
 import { useNavigate } from "react-router-dom";
 import LogoutComponent from "./LogoutComponent";
+import { captureAccountData } from "./ApiService";
 
 function AccountDataCapture() {
   const navigate = useNavigate();
@@ -41,35 +41,23 @@ function AccountDataCapture() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const data = new FormData();
-    for (const key in formData) {
-      data.append(key, formData[key]);
-    }
-    fetch(
-      "http://localhost:8001/Climate_Bind_Development/account_data_capture.php",
-      {
-        method: "POST",
-        body: data,
-        credentials: "include",
+    try {
+      const data = await captureAccountData(formData);
+      if (data.success) {
+        navigate("/DataSubmittedThenClaim");
+      } else {
+        setErrorMessage("Submission failed. Please try again.");
       }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          navigate("/DataSubmittedThenClaim");
-        } else {
-          setErrorMessage("Submission failed. Please try again.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setErrorMessage("An error occurred.");
-      })
-      .finally(() => setLoading(false));
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <div className="container text-center">
       <div>

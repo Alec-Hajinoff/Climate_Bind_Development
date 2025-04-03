@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 import "./ClaimCalculations.css";
 import LogoutComponent from "./LogoutComponent";
+import { fetchClaimCalculations } from "./ApiService";
 
 function ClaimCalculations() {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    fetch(
-      "http://localhost:8001/Climate_Bind_Development/claim_calculations.php",
-      {
-        method: "GET",
-        credentials: "include",
+    const fetchData = async () => {
+      try {
+        const data = await fetchClaimCalculations();
+        setTableData(data);
+      } catch (error) {
+        console.error("Error fetching table data:", error);
       }
-    )
-      .then((response) => response.json())
-      .then((data) => setTableData(data))
-      .catch((error) => console.error("Error fetching table data:", error));
+    };
+
+    fetchData();
   }, []);
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import blue from "./blue.svg";
 import "./UserLogin.css";
+import { loginUser } from "./ApiService";
 
 function UserLogin() {
   const navigate = useNavigate();
@@ -20,51 +20,42 @@ function UserLogin() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    fetch("http://localhost:8001/Climate_Bind_Development/login_capture.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === "success") {
-          if (
-            data.registration_status === "Registration data is complete" &&
-            data.claims_status === "No claim submitted" &&
-            data.payor_status === "Payor null"
-          ) {
-            navigate("/DataSubmittedThenClaim");
-          } else if (
-            data.registration_status === "Registration data is complete" &&
-            data.claims_status === "No claim submitted" &&
-            data.payor_status === "Payor active"
-          ) {
-            navigate("/PayorData");
-          } else if (
-            data.registration_status === "Registration data is complete" &&
-            data.claims_status === "Claim active"
-          ) {
-            navigate("/SubmittedClaim");
-          } else if (
-            data.registration_status === "Registration data is not complete"
-          ) {
-            navigate("/AccountDataCapture");
-          }
-        } else {
-          setErrorMessage("Sign in failed. Please try again.");
+    try {
+      const data = await loginUser(formData);
+      if (data.status === "success") {
+        if (
+          data.registration_status === "Registration data is complete" &&
+          data.claims_status === "No claim submitted" &&
+          data.payor_status === "Payor null"
+        ) {
+          navigate("/DataSubmittedThenClaim");
+        } else if (
+          data.registration_status === "Registration data is complete" &&
+          data.claims_status === "No claim submitted" &&
+          data.payor_status === "Payor active"
+        ) {
+          navigate("/PayorData");
+        } else if (
+          data.registration_status === "Registration data is complete" &&
+          data.claims_status === "Claim active"
+        ) {
+          navigate("/SubmittedClaim");
+        } else if (
+          data.registration_status === "Registration data is not complete"
+        ) {
+          navigate("/AccountDataCapture");
         }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setErrorMessage("An error occurred.");
-      })
-      .finally(() => setLoading(false));
+      } else {
+        setErrorMessage("Sign in failed. Please try again.");
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import blue from "./blue.svg";
 import "./ClaimDataCapture.css";
 import LogoutComponent from "./LogoutComponent";
 import { useNavigate } from "react-router-dom";
+import { captureClaimData } from "./ApiService";
 
 function ClaimDataCapture() {
   const navigate = useNavigate();
@@ -29,35 +29,23 @@ function ClaimDataCapture() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const data = new FormData();
-    for (const key in formData) {
-      data.append(key, formData[key]);
-    }
-    fetch(
-      "http://localhost:8001/Climate_Bind_Development/claim_data_capture.php",
-      {
-        method: "POST",
-        body: data,
-        credentials: "include",
+    try {
+      const data = await captureClaimData(formData);
+      if (data.success) {
+        navigate("/SubmittedClaim");
+      } else {
+        setErrorMessage("Submission failed. Please try again.");
       }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          navigate("/SubmittedClaim");
-        } else {
-          setErrorMessage("Submission failed. Please try again.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setErrorMessage("An error occurred.");
-      })
-      .finally(() => setLoading(false));
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <div className="container text-center">
       <div className="d-flex justify-content-end mb-3">
@@ -77,7 +65,7 @@ function ClaimDataCapture() {
                   autoComplete="off"
                   pattern="[a-zA-Z ]+"
                   name="damage_loss_cause"
-                  value={formData.last_name}
+                  value={formData.damage_loss_cause}
                   onChange={handleChange}
                   required
                 />
@@ -85,7 +73,7 @@ function ClaimDataCapture() {
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                <label for="incidenttime">
+                <label htmlFor="incidenttime">
                   Select the date of the incident
                 </label>
               </th>
@@ -96,7 +84,7 @@ function ClaimDataCapture() {
                   className="form-control"
                   autoComplete="off"
                   name="incident_time_date"
-                  value={formData.date_of_birth}
+                  value={formData.incident_time_date}
                   onChange={handleChange}
                   required
                 />
@@ -127,7 +115,7 @@ function ClaimDataCapture() {
                   type="text"
                   className="form-control"
                   name="damaged_items_list"
-                  value={formData.phone}
+                  value={formData.damaged_items_list}
                   onChange={handleChange}
                   required
                 />
