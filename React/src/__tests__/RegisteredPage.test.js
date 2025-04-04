@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
-import RegisteredPage from "./RegisteredPage";
+import RegisteredPage from "../RegisteredPage";
 
 describe("RegisteredPage", () => {
   it("renders the registered page with thank you message and UserLogin component", () => {

@@ -1,8 +1,8 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import SubmittedClaim from "./SubmittedClaim";
+import SubmittedClaim from "../SubmittedClaim";
 
-jest.mock("./ClaimCalculations.js", () => () => (
+jest.mock("../ClaimCalculations.js", () => () => (
   <div>Mocked Claim Calculations</div>
 ));
 

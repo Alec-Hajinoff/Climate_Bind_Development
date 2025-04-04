@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
-import ClaimCalculations from "./ClaimCalculations";
+import ClaimCalculations from "../ClaimCalculations";
 
 describe("ClaimCalculations Component", () => {
   beforeEach(() => {

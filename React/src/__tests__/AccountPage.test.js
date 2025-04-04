@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
-import AccountPage from "./AccountPage";
+import AccountPage from "../AccountPage";
 
 describe("AccountPage", () => {
   it("renders the account page with welcome message and AccountDataCapture component", () => {

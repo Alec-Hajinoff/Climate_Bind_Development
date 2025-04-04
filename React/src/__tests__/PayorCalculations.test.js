@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
-import PayorCalculations from "./PayorCalculations";
+import PayorCalculations from "../PayorCalculations";
 
 describe("PayorCalculations Component", () => {
   beforeEach(() => {

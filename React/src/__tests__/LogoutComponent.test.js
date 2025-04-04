@@ -2,7 +2,7 @@ import "mutationobserver-shim";
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import LogoutComponent from "./LogoutComponent";
+import LogoutComponent from "../LogoutComponent";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -13,7 +13,7 @@ global.fetch = jest.fn(() =>
 describe("LogoutComponent", () => {
   it("should navigate to the home page on successful logout", async () => {
     render(
-      <MemoryRouter initialEntries={["/LogoutComponent"]}>
+      <MemoryRouter initialEntries={["./LogoutComponent"]}>
         <LogoutComponent />
       </MemoryRouter>
     );
@@ -36,7 +36,7 @@ describe("LogoutComponent", () => {
     const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
     render(
-      <MemoryRouter initialEntries={["/LogoutComponent"]}>
+      <MemoryRouter initialEntries={["./LogoutComponent"]}>
         <LogoutComponent />
       </MemoryRouter>
     );
@@ -46,7 +46,7 @@ describe("LogoutComponent", () => {
 
     await screen.findByText(/logout/i);
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Logout failed");
+    expect(consoleErrorSpy).toHaveBeenCalledWith("An error occurred during logout.");
 
     consoleErrorSpy.mockRestore();
   });

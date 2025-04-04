@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import PayorData from "./PayorData";
+import PayorData from "../PayorData";
 
 test("renders PayorData component with correct text", () => {
   render(
