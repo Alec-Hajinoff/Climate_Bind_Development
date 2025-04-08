@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { useNavigate } from "react-router-dom";
-import UserRegistration from "../UserRegistration";
+import UserRegistration from "../src/UserRegistration";
 
 jest.mock("react-router-dom", () => ({
   useNavigate: jest.fn(),
