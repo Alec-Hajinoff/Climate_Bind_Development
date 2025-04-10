@@ -26,7 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (isset($input['email'], $input['password'])) {
-    $email = trim($input['email']);
+    $email = filter_var(trim($input['email']), FILTER_SANITIZE_EMAIL);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid email format']);
+        exit;
+    }
     $password = $input['password'];
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '', [

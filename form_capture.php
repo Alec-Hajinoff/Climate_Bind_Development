@@ -19,7 +19,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit; 
+    exit;
 }
 
 $servername = "127.0.0.1";
@@ -42,8 +42,13 @@ if ($input === null) {
 }
 
 $name = $input['first_name'] ?? null;
-$email = $input['email'] ?? null;
+$email = filter_var($input['email'] ?? '', FILTER_SANITIZE_EMAIL);
 $password = $input['password'] ?? null;
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(['success' => false, 'message' => 'Invalid email format']);
+    exit;
+}
 
 if (!$name || !$email || !$password) {
     echo json_encode(['success' => false, 'message' => 'Missing required fields']);

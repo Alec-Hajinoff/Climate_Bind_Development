@@ -1,3 +1,4 @@
+//Frontend - backend communication must happen over HTTPS on production
 export const registerUser = async (formData) => {
   try {
     const response = await fetch("http://localhost:8001/Climate_Bind_Development/form_capture.php", {

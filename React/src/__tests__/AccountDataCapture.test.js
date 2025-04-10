@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useNavigate } from "react-router-dom";
-import AccountDataCapture from "../src/AccountDataCapture";
+import AccountDataCapture from "../AccountDataCapture";
 
 jest.mock("react-router-dom", () => ({
   useNavigate: jest.fn(),
