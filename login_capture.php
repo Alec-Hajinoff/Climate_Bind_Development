@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once 'session_config.php';
 
 $allowed_origins = [
     "http://localhost:3000"
