@@ -1,7 +1,0 @@
-{"status":"success","data":"Login successful"}
-{"status":"success","data":"Login successful"}
-{"status":"success","data":"Login successful"}
-{"status":"success","data":"Login successful"}
-{"status":"success","data":"Login successful"}
-{"status":"success","data":"Login successful"}
-{"status":"success","data":"Login successful"}

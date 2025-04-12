@@ -1,4 +1,0 @@
-SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_id' in 'where clause'
-SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_id' in 'where clause'
-SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_id' in 'where clause'
-SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_id' in 'where clause'

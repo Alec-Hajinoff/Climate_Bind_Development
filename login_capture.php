@@ -46,6 +46,7 @@ if (isset($input['email'], $input['password'])) {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
+            session_regenerate_id(true);
             $_SESSION["id"] = $user["id"];
             $stmt = $pdo->prepare('SELECT profile_complete, claims_id, claims_payor_amount FROM users WHERE id = ?');
             $stmt->execute([$user['id']]);
