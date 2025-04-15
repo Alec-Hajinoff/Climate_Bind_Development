@@ -57,17 +57,24 @@ try {
             }
         }
     }
+    /*
     $totalPremiumsCommitted = 0;
     foreach ($premiumData as $data) {
         $totalPremiumsCommitted += $data['monthly_premium'];
     }
+    */
 
     $response = [];
+    $remaining_claim = $claim_amount;
     foreach ($userData as $index => $user) {
+        if ($remaining_claim <= 0) {
+            break;
+        }
         $premium = $premiumData[$index]['monthly_premium'];
-        $premiumPercentage = ($premium / $totalPremiumsCommitted) * 100;
-        $payout = round(($premiumPercentage * $claim_amount / 100), 2);
-        $payout = ($payout < $premium) ? $payout : $premium;
+        $payout = min($premium, $remaining_claim);
+        //$premiumPercentage = ($premium / $totalPremiumsCommitted) * 100;
+        //$payout = round(($premiumPercentage * $claim_amount / 100), 2);
+        //$payout = ($claim_amount < $premium) ? $claim_amount : $premium;
         $userResponse = [
             'name' => $user['first_name'] . ' ' . $user['last_name'],
             'email' => $user['email'],
@@ -78,6 +85,7 @@ try {
         $stmt = $pdo->prepare('UPDATE users SET claims_payor_amount = ? WHERE email = ?');
         $stmt->execute([$payout, $user['email']]);
         $response[] = $userResponse;
+        $remaining_claim -= $payout;
     }
 
     $pdo->commit();
