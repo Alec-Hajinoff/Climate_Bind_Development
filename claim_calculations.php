@@ -29,13 +29,14 @@ try {
 
     $pdo->beginTransaction();
 
-    $stmt = $pdo->prepare('SELECT first_name, last_name, email, phone, address FROM users');
+    $stmt = $pdo->prepare('
+        SELECT u.first_name, u.last_name, u.email, u.phone, u.address, p.monthly_premium 
+        FROM users u
+        INNER JOIN premiums p ON u.premiums_id = p.id
+        ORDER BY p.monthly_premium DESC'
+    );
     $stmt->execute();
-    $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $stmt = $pdo->prepare('SELECT monthly_premium FROM premiums');
-    $stmt->execute();
-    $premiumData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $userPremiumData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $claim_amount = $_SESSION['claim_amount'] ?? null;
 
@@ -57,24 +58,15 @@ try {
             }
         }
     }
-    /*
-    $totalPremiumsCommitted = 0;
-    foreach ($premiumData as $data) {
-        $totalPremiumsCommitted += $data['monthly_premium'];
-    }
-    */
 
     $response = [];
     $remaining_claim = $claim_amount;
-    foreach ($userData as $index => $user) {
+    foreach ($userPremiumData as $user) {
         if ($remaining_claim <= 0) {
             break;
         }
-        $premium = $premiumData[$index]['monthly_premium'];
+        $premium = $user['monthly_premium'];
         $payout = min($premium, $remaining_claim);
-        //$premiumPercentage = ($premium / $totalPremiumsCommitted) * 100;
-        //$payout = round(($premiumPercentage * $claim_amount / 100), 2);
-        //$payout = ($claim_amount < $premium) ? $claim_amount : $premium;
         $userResponse = [
             'name' => $user['first_name'] . ' ' . $user['last_name'],
             'email' => $user['email'],
