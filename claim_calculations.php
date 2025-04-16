@@ -74,8 +74,8 @@ try {
             'address' => $user['address'],
             'payout' => $payout,
         ];
-        $stmt = $pdo->prepare('UPDATE users SET claims_payor_amount = ? WHERE email = ?');
-        $stmt->execute([$payout, $user['email']]);
+        $stmt = $pdo->prepare('UPDATE users SET claims_payor_amount = ?, claims_payor_id = ? WHERE email = ?');
+        $stmt->execute([$payout, $_SESSION['claims_id'], $user['email']]);
         $response[] = $userResponse;
         $remaining_claim -= $payout;
     }

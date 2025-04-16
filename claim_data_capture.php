@@ -69,7 +69,7 @@ try {
         $stmt2->execute();
 
         $last_claim_id = $conn->lastInsertId();
-
+        $_SESSION['claims_id'] = $last_claim_id;
         $sql_update = "UPDATE users SET claims_id = ? WHERE id = ?";
         $stmt_update = $conn->prepare($sql_update);
         if ($stmt_update) {
