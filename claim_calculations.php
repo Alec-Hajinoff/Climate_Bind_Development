@@ -67,6 +67,9 @@ try {
         SELECT u.first_name, u.last_name, u.email, u.phone, u.address, p.monthly_premium 
         FROM users u
         INNER JOIN premiums p ON u.premiums_id = p.id
+        WHERE u.claims_id IS NULL 
+        AND u.claims_payor_id IS NULL 
+        AND u.claims_payor_amount IS NULL
         ORDER BY p.monthly_premium DESC'
     );
     
@@ -110,6 +113,7 @@ try {
             'payout' => $payout,
         ];
         $stmt = $pdo->prepare('UPDATE users SET claims_payor_amount = ?, claims_payor_id = ? WHERE email = ? AND claims_payor_amount IS NULL AND claims_payor_id IS NULL');
+        $stmt->execute([$payout, $user_claims['claims_id'] ?? null, $user['email']]);
         $response[] = $userResponse;
         $remaining_claim -= $payout;
     }
