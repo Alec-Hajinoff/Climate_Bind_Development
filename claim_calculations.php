@@ -61,7 +61,7 @@ try {
             exit;
         }
     }
-
+    
     $stmt = $pdo->prepare(
         '
         SELECT u.first_name, u.last_name, u.email, u.phone, u.address, p.monthly_premium 
@@ -69,6 +69,7 @@ try {
         INNER JOIN premiums p ON u.premiums_id = p.id
         ORDER BY p.monthly_premium DESC'
     );
+    
     $stmt->execute();
     $userPremiumData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -108,8 +109,7 @@ try {
             'address' => $user['address'],
             'payout' => $payout,
         ];
-        $stmt = $pdo->prepare('UPDATE users SET claims_payor_amount = ?, claims_payor_id = ? WHERE email = ?');
-        $stmt->execute([$payout, $_SESSION['claims_id'], $user['email']]);
+        $stmt = $pdo->prepare('UPDATE users SET claims_payor_amount = ?, claims_payor_id = ? WHERE email = ? AND claims_payor_amount IS NULL AND claims_payor_id IS NULL');
         $response[] = $userResponse;
         $remaining_claim -= $payout;
     }
