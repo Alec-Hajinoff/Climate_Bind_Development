@@ -19,7 +19,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit; 
+    exit;
 }
 
 try {
@@ -79,19 +79,8 @@ try {
         } else {
             throw new Exception('Database error preparing statement');
         }
-        /*
-        $sql_update_all = "UPDATE users SET claims_payor_id = ? WHERE claims_payor_id IS NULL";
-        $stmt_update_all = $conn->prepare($sql_update_all);
-        if ($stmt_update_all) {
-            $stmt_update_all->bindParam(1, $last_claim_id);
-            $stmt_update_all->execute();
-        } else {
-            throw new Exception('Database error preparing statement');
-        } */
-    } //else {
-        //throw new Exception('Database error preparing statement');
-    //}
-    
+    }
+
     $sql3 = "INSERT INTO claim_documents (local_authority_report, damaged_items_receipts, photographs) VALUES (?, ?, ?)";
     $stmt3 = $conn->prepare($sql3);
     if ($stmt3) {

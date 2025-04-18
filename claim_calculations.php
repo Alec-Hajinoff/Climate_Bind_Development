@@ -19,7 +19,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit; 
+    exit;
 }
 
 try {
@@ -29,7 +29,41 @@ try {
 
     $pdo->beginTransaction();
 
-    $stmt = $pdo->prepare('
+    $user_id = $_SESSION['id'] ?? null;
+    if ($user_id) {
+
+        $stmt = $pdo->prepare('SELECT claims_id, claims_payor_id FROM users WHERE id = ?');
+        $stmt->execute([$user_id]);
+        $user_claims = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user_claims && $user_claims['claims_id'] && $user_claims['claims_payor_id']) {
+            $stmt = $pdo->prepare('
+                SELECT u.first_name, u.last_name, u.email, u.phone, u.address, u.claims_payor_amount as payout
+                FROM users u 
+                WHERE u.claims_payor_id = ?
+            ');
+
+            $stmt->execute([$user_claims['claims_id']]);
+            $response = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                if ($row['payout'] > 0) {
+                    $response[] = [
+                        'name' => $row['first_name'] . ' ' . $row['last_name'],
+                        'email' => $row['email'],
+                        'phone' => $row['phone'],
+                        'address' => $row['address'],
+                        'payout' => $row['payout']
+                    ];
+                }
+            }
+            echo json_encode($response);
+            $pdo->commit();
+            exit;
+        }
+    }
+
+    $stmt = $pdo->prepare(
+        '
         SELECT u.first_name, u.last_name, u.email, u.phone, u.address, p.monthly_premium 
         FROM users u
         INNER JOIN premiums p ON u.premiums_id = p.id
