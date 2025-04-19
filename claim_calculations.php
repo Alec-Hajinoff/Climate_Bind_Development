@@ -36,7 +36,7 @@ try {
         $stmt->execute([$user_id]);
         $user_claims = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user_claims && $user_claims['claims_id'] && $user_claims['claims_payor_id']) {
+        if ($user_claims && $user_claims['claims_id']) {
             $stmt = $pdo->prepare('
                 SELECT u.first_name, u.last_name, u.email, u.phone, u.address, u.claims_payor_amount as payout
                 FROM users u 
@@ -67,8 +67,7 @@ try {
         SELECT u.first_name, u.last_name, u.email, u.phone, u.address, p.monthly_premium 
         FROM users u
         INNER JOIN premiums p ON u.premiums_id = p.id
-        WHERE u.claims_id IS NULL 
-        AND u.claims_payor_id IS NULL 
+        WHERE u.claims_payor_id IS NULL  
         AND u.claims_payor_amount IS NULL
         ORDER BY p.monthly_premium DESC'
     );
