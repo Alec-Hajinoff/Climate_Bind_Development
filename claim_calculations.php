@@ -32,7 +32,7 @@ try {
     $user_id = $_SESSION['id'] ?? null;
     if ($user_id) {
 
-        $stmt = $pdo->prepare('SELECT claims_id, claims_payor_id FROM users WHERE id = ?');
+        $stmt = $pdo->prepare('SELECT claims_id FROM users WHERE id = ?');
         $stmt->execute([$user_id]);
         $user_claims = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -67,37 +67,42 @@ try {
         SELECT u.first_name, u.last_name, u.email, u.phone, u.address, p.monthly_premium 
         FROM users u
         INNER JOIN premiums p ON u.premiums_id = p.id
-        WHERE u.claims_payor_id IS NULL  
+        WHERE u.claims_id IS NULL  
+        AND u.claims_payor_id IS NULL
         AND u.claims_payor_amount IS NULL
         ORDER BY p.monthly_premium DESC'
     );
     
     $stmt->execute();
+
     $userPremiumData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $claim_amount = $_SESSION['claim_amount'] ?? null;
-
-    if (!$claim_amount && isset($_SESSION['id'])) {
+    
+    if (!$claim_amount && isset($_SESSION['id'])) { //This if statement runs as a check to see if the claim_amount is set in the session (just to make sure it is not null)
         $user_id = $_SESSION['id'];
 
-        $stmt = $pdo->prepare('SELECT claims_id FROM users WHERE id = ?');
+        $stmt = $pdo->prepare('SELECT claims_id FROM users WHERE id = ?'); 
         $stmt->execute([$user_id]);
         $user_claims = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user_claims && $user_claims['claims_id']) {
-            $stmt = $pdo->prepare('SELECT claim_amount FROM claims WHERE id = ?');
+            $stmt = $pdo->prepare('SELECT claim_amount FROM claims WHERE id = ?'); 
             $stmt->execute([$user_claims['claims_id']]);
             $claim_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($claim_data && isset($claim_data['claim_amount'])) {
-                $claim_amount = $claim_data['claim_amount'];
+            if ($claim_data && isset($claim_data['claim_amount'])) { 
+                $claim_amount = $claim_data['claim_amount']; 
                 $_SESSION['claim_amount'] = $claim_amount;
             }
         }
     }
-
+    
     $response = [];
     $remaining_claim = $claim_amount;
+    //new code start
+    $claims_id = $_SESSION['claims_id'] ?? null;
+    //new code end
     foreach ($userPremiumData as $user) {
         if ($remaining_claim <= 0) {
             break;
@@ -111,8 +116,9 @@ try {
             'address' => $user['address'],
             'payout' => $payout,
         ];
-        $stmt = $pdo->prepare('UPDATE users SET claims_payor_amount = ?, claims_payor_id = ? WHERE email = ? AND claims_payor_amount IS NULL AND claims_payor_id IS NULL');
-        $stmt->execute([$payout, $user_claims['claims_id'] ?? null, $user['email']]);
+        $stmt = $pdo->prepare('UPDATE users SET claims_payor_amount = ?, claims_payor_id = ? WHERE email = ?');
+        //$stmt->execute([$payout, $user_claims['claims_id'] ?? null, $user['email']]);
+        $stmt->execute([$payout, $claims_id, $user['email']]);
         $response[] = $userResponse;
         $remaining_claim -= $payout;
     }
