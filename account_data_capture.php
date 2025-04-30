@@ -40,7 +40,7 @@ $last_name = $_POST['last_name'] ?? null;
 $date_of_birth = $_POST['date_of_birth'] ?? null;
 $passport_copy = $_FILES['passport_copy'] ?? null;
 $phone = $_POST['phone'] ?? null;
-$national_insurance = $_POST['national_insurance'] ?? null;
+$wallet_address = $_POST['wallet_address'] ?? null;
 $address = $_POST['address'] ?? null;
 $images = $_FILES['images'] ?? null;
 $ownership_proof = $_FILES['ownership_proof'] ?? null;
@@ -59,7 +59,7 @@ $list_previous_disasters = $_POST['list_previous_disasters'] ?? null;
 $monthly_premium = $_POST['monthly_premium'] ?? null;
 $bank_account_number = $_POST['bank_account_number'] ?? null;
 
-if (!$id || !$last_name || !$date_of_birth || !$passport_copy || !$phone || !$national_insurance || !$address || !$images || !$ownership_proof || !$date_of_construction || !$square_footage || !$type_home || !$building_materials || !$number_levels || !$roof_type || !$heating_systems || !$safety_features || !$home_renovations || !$mortgage_lender || !$current_previous_insurance || !$list_previous_disasters || !$monthly_premium || !$bank_account_number) {
+if (!$id || !$last_name || !$date_of_birth || !$passport_copy || !$phone || !$wallet_address || !$address || !$images || !$ownership_proof || !$date_of_construction || !$square_footage || !$type_home || !$building_materials || !$number_levels || !$roof_type || !$heating_systems || !$safety_features || !$home_renovations || !$mortgage_lender || !$current_previous_insurance || !$list_previous_disasters || !$monthly_premium || !$bank_account_number) {
     echo json_encode(['success' => false, 'message' => 'Missing required fields']);
     exit;
 }
@@ -67,7 +67,7 @@ if (!$id || !$last_name || !$date_of_birth || !$passport_copy || !$phone || !$na
 try {
     $conn->beginTransaction();
 
-    $sql = "UPDATE users SET last_name = ?, date_of_birth = ?, passport_copy = ?, phone = ?, national_insurance = ?, address = ?, profile_complete = ? WHERE id = ?";
+    $sql = "UPDATE users SET last_name = ?, date_of_birth = ?, passport_copy = ?, phone = ?, wallet_address = ?, address = ?, profile_complete = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
         throw new Exception('Failed to prepare users update statement');
@@ -79,7 +79,7 @@ try {
     $stmt->bindParam(2, $date_of_birth);
     $stmt->bindParam(3, $passport_copy_data, PDO::PARAM_LOB);
     $stmt->bindParam(4, $phone);
-    $stmt->bindParam(5, $national_insurance);
+    $stmt->bindParam(5, $wallet_address);
     $stmt->bindParam(6, $address);
     $stmt->bindParam(7, $profile_complete);
     $stmt->bindParam(8, $id);

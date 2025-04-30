@@ -11,7 +11,7 @@ function AccountDataCapture() {
     date_of_birth: "",
     passport_copy: null,
     phone: "",
-    national_insurance: "",
+    wallet_address: "",
     address: "",
     images: null,
     ownership_proof: null,
@@ -146,15 +146,15 @@ function AccountDataCapture() {
             </tr>
             <tr>
               <th scope="row" className="align-middle">
-                National insurance number
+                Wallet Address
               </th>
               <td>
                 <input
                   type="text"
                   className="form-control"
                   placeholder="(or National security number)"
-                  name="national_insurance"
-                  value={formData.national_insurance}
+                  name="wallet_address"
+                  value={formData.wallet_address}
                   onChange={handleChange}
                   required
                 />
