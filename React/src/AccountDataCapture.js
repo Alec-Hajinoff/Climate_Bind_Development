@@ -9,6 +9,175 @@ function AccountDataCapture() {
   const [formData, setFormData] = useState({
     last_name: "",
     date_of_birth: "",
+    phone: "",
+    wallet_address: "",
+    address: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setFormData({
+      ...formData,
+      [name]: files ? files[0] : value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const data = await captureAccountData(formData);
+      if (data.success) {
+        navigate("/DataSubmittedThenClaim");
+      } else {
+        setErrorMessage("Submission failed. Please try again.");
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="container text-center">
+      <div>
+        <p>
+          To initiate your insurance policy, please complete the form below.
+          Please be advised that the insurance cover you provide to another user
+          constitutes a legally binding commitment. You agree to process and
+          make payment for any valid claim within ten working days of receiving
+          a formal pay-out request, which will be sent via email. You warrant
+          that the information provided in the form below is accurate to the
+          best of your knowledge. You agree to be bound by the laws of your
+          country of residence as well as the laws of the country in which the
+          claimant is based.
+        </p>
+      </div>
+      <div className="d-flex justify-content-end mb-3">
+        <LogoutComponent />
+      </div>
+      <form onSubmit={handleSubmit}>
+        <table className="table table-bordered">
+          <tbody>
+            <tr>
+              <th scope="row" className="col-8 align-middle">
+                <label htmlFor="surname">Surname</label>
+              </th>
+              <td className="col-8">
+                <input
+                  id="surname"
+                  type="text"
+                  className="form-control"
+                  autoComplete="off"
+                  pattern="[a-zA-Z ]+"
+                  name="last_name"
+                  value={formData.last_name}
+                  onChange={handleChange}
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <th scope="row" className="align-middle">
+                Date of birth
+              </th>
+              <td>
+                <input
+                  type="date"
+                  className="form-control"
+                  autoComplete="off"
+                  name="date_of_birth"
+                  value={formData.date_of_birth}
+                  onChange={handleChange}
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <th scope="row" className="align-middle">
+                <label htmlFor="phone">Phone number</label>
+              </th>
+              <td>
+                <input
+                  id="phone"
+                  type="tel"
+                  className="form-control"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <th scope="row" className="align-middle">
+                Wallet Address
+              </th>
+              <td>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="(or National security number)"
+                  name="wallet_address"
+                  value={formData.wallet_address}
+                  onChange={handleChange}
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <th scope="row" className="align-middle">
+                Residential Address
+              </th>
+              <td>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="(including the post code or zip code)"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  required
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div className="d-flex justify-content-end mb-3">
+          <div id="error-message" className="error" aria-live="polite">
+            {errorMessage}
+          </div>
+          <button type="submit" className="btn btn-secondary" id="loginBtnOne">
+            Submit
+            <span
+              role="status"
+              aria-hidden="true"
+              id="spinnerLogin"
+              style={{ display: loading ? "inline-block" : "none" }}
+            ></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+export default AccountDataCapture;
+/*
+import React, { useState } from "react";
+import "./AccountDataCapture.css";
+import { useNavigate } from "react-router-dom";
+import LogoutComponent from "./LogoutComponent";
+import { captureAccountData } from "./ApiService";
+
+function AccountDataCapture() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    last_name: "",
+    date_of_birth: "",
     passport_copy: null,
     phone: "",
     wallet_address: "",
@@ -469,3 +638,4 @@ function AccountDataCapture() {
 }
 
 export default AccountDataCapture;
+*/
