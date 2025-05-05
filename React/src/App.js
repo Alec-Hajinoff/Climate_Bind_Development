@@ -10,7 +10,7 @@ import AccountPage from "./AccountPage";
 import DataSubmittedThenClaim from "./DataSubmittedThenClaim";
 import SubmittedClaim from "./SubmittedClaim";
 import AccountDataCapture from "./AccountDataCapture";
-import PayorData from "./PayorData";
+//import PayorData from "./PayorData";
 import LogoutComponent from "./LogoutComponent";
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
           <Route path="DataSubmittedThenClaim" element={<DataSubmittedThenClaim />} /> 
           <Route path="AccountDataCapture" element={<AccountDataCapture />} />
           <Route path="SubmittedClaim" element={<SubmittedClaim />} />
-          <Route path="PayorData" element={<PayorData />} />
+          {/*<Route path="PayorData" element={<PayorData />} />*/}
           <Route path="LogoutComponent" component={LogoutComponent} />
         </Routes>
         <Footer />

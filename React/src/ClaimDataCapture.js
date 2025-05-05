@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ClaimDataCapture.css";
 import LogoutComponent from "./LogoutComponent";
 import { useNavigate } from "react-router-dom";
-import { captureClaimData } from "./ApiService";
+//import { captureClaimData } from "./ApiService";
 import { createPolicy } from "./ApiService";
 
 function ClaimDataCapture() {
