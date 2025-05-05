@@ -10,10 +10,11 @@ function SubmittedClaim() {
       <div className="row">
         <div className="col-12">
           <p>
-            Thank you for submitting your insurance claim! Below, you will find
-            a list of your insurers, the amounts they owe you, and their contact
-            details. Please reach out to them directly to arrange your claim
-            payout.
+            Welcome to your policy summary page. Here you can view the key
+            details of your active coverage, including your premium, payout
+            amounts, trigger conditions, and the latest weather data readings.
+            This page updates automatically as new data is received, so you can
+            stay informed about the status of your policy at a glance.
           </p>
           <ClaimCalculations />
         </div>

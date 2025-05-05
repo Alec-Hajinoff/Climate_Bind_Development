@@ -10,10 +10,11 @@ function DataSubmittedThenClaim() {
       <div className="row">
         <div className="col-12">
           <p>
-            If you'd like to make a claim please fill in the form below. You
-            certify that the information provided in your claim is true and
-            accurate to the best of your knowledge. You acknowledge and agree
-            that your claim is subject to the laws of your country of residence.
+            Please complete the form below to set up your policy. Select the
+            type of cover you need, specify the location you wish to protect,
+            and click Submit to begin. Once submitted, the system will generate
+            your policy terms based on your selected parameters and prepare it
+            for activation.
           </p>
           <ClaimDataCapture />
         </div>

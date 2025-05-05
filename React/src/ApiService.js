@@ -91,21 +91,6 @@ export const fetchClaimCalculations = async () => {
   }
 };
 
-export const fetchPayorCalculations = async () => {
-  try {
-    const response = await fetch("http://localhost:8001/Climate_Bind_Development/payor_calculations.php", {
-      method: "GET",
-      credentials: "include",
-    });
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching payor calculations:", error);
-    throw new Error("An error occurred while fetching payor calculations.");
-  }
-};
-
 export const logoutUser = async () => {
   try {
     const response = await fetch("http://localhost:8001/Climate_Bind_Development/logout_component.php", {
@@ -119,6 +104,27 @@ export const logoutUser = async () => {
   } catch (error) {
     console.error("Error during logout:", error);
     throw new Error("An error occurred during logout.");
+  }
+};
+
+export const fetchPremiumPayout = async (postcode, event) => {
+  try {
+    const response = await fetch('http://localhost:8001/Climate_Bind_Development/payout_premium.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        postcode,
+        event
+      })
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw new Error("Failed to fetch premium and payout data");
   }
 };
 

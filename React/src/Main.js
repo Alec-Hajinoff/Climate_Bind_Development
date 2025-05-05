@@ -6,28 +6,20 @@ function Main() {
   return (
     <div>
       <p>
-        Climate Bind is an open-source, free-to-use peer-to-peer insurance web
-        application offering insurance cover for damage to residential buildings
-        caused by severe weather events.
+        Climate Bind is a web application that enables digital parametric
+        weather insurance using smart contracts and digital currency. Coverage
+        is triggered automatically by predefined weather events - such as
+        extreme rainfall or drought - based on verified third-party data. When
+        conditions are met, payouts are issued directly to the user's digital
+        wallet with no claims process.
       </p>
 
       <p>
-        Peer-to-peer insurance is where policyholders insure each other without
-        an insurance company between them. This insurance model has its pluses
-        and minuses, and our platform aims to maximise the benefits while
-        reducing the disadvantages. This type of insurance may better suit
-        policyholders who cannot insure their property through traditional
-        insurance, or where such insurance is expensive.
-      </p>
-
-      <p>
-        Our insurance service is free to use because we don't actually accept
-        insurance premiums, and we don't pay them out. We merely act as a
-        matching engine between those claiming and those insuring. If two
-        different policyholders insure each other, they each make a legally
-        binding commitment to insure one another (up to the amount they
-        themselves set). The higher the amount a policyholder can pay out to
-        another, the higher the amount they can themselves claim.
+        The platform is offered as a white-label solution for insurers and
+        institutions. Partners can configure trigger conditions, payout rules,
+        and coverage terms, while retaining full control over branding and
+        customer relationships. The system handles event monitoring, contract
+        execution, and digital currency transactions end-to-end.
       </p>
 
       <p>
