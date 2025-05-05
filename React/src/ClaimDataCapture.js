@@ -27,6 +27,7 @@ function ClaimDataCapture() {
 
   useEffect(() => {
     if (postcode && selectedEvent) {
+      //The below fetch() API call pulls premium and payout data from the database to update the interface when a user changes the postcode or selected event.
       fetch('http://localhost:8001/Climate_Bind_Development/payout_premium.php', {
         method: 'POST',
         headers: {
