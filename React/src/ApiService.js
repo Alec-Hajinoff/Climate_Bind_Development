@@ -57,16 +57,14 @@ export const captureAccountData = async (formData) => {
   }
 };
 
-export const captureClaimData = async (formData) => {
+export const createPolicy = async (policyData) => {
   try {
-    const data = new FormData();
-    for (const key in formData) {
-      data.append(key, formData[key]);
-    }
-
     const response = await fetch("http://localhost:8001/Climate_Bind_Development/claim_data_capture.php", {
       method: "POST",
-      body: data,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(policyData),
       credentials: "include",
     });
 

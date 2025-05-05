@@ -3,6 +3,7 @@ import "./ClaimDataCapture.css";
 import LogoutComponent from "./LogoutComponent";
 import { useNavigate } from "react-router-dom";
 import { captureClaimData } from "./ApiService";
+import { createPolicy } from "./ApiService";
 
 function ClaimDataCapture() {
   const navigate = useNavigate();
@@ -59,11 +60,16 @@ function ClaimDataCapture() {
     e.preventDefault();
     setLoading(true);
     try {
-      const data = await captureClaimData(formData);
+      const data = await createPolicy({
+        postcode,
+        premium,
+        payout,
+        event: selectedEvent
+      });
       if (data.success) {
         navigate("/SubmittedClaim");
       } else {
-        setErrorMessage("Submission failed. Please try again.");
+        setErrorMessage(data.message || "Submission failed. Please try again.");
       }
     } catch (error) {
       setErrorMessage(error.message);
