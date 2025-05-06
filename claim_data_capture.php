@@ -53,10 +53,12 @@ try {
 
     $stmt = $pdo->prepare("INSERT INTO policies (premium_amount, payout_amount, location_id) VALUES (?, ?, ?)");
     $stmt->execute([$premium, $payout, $location_id]);
-
+    $policy_id = $pdo->lastInsertId();
+    $stmt = $pdo->prepare("UPDATE users SET policies_id = ? WHERE id = ?");
+    $stmt->execute([$policy_id, $_SESSION['id']]);
     $pdo->commit();
     echo json_encode(['success' => true]);
-
+    
 } catch (Exception $e) {
     if (isset($pdo)) {
         $pdo->rollBack();

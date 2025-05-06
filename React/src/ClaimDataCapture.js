@@ -7,7 +7,7 @@ import { createPolicy, fetchPremiumPayout } from "./ApiService";
 function ClaimDataCapture() {
   const navigate = useNavigate();
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [postcode, setPostcode] = useState('');
+  const [postcode, setPostcode] = useState("");
   const [payout, setPayout] = useState(null);
   const [premium, setPremium] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -17,13 +17,13 @@ function ClaimDataCapture() {
     if (postcode && selectedEvent) {
       //The below API call pulls premium and payout data from the database to update the interface when a user changes the postcode or selected event.
       fetchPremiumPayout(postcode, selectedEvent)
-        .then(data => {
+        .then((data) => {
           setPayout(data.payout);
           setPremium(data.premium);
         })
-        .catch(error => {
-          console.error('Error:', error);
-          setErrorMessage('Failed to fetch premium and payout data');
+        .catch((error) => {
+          console.error("Error:", error);
+          setErrorMessage("Failed to fetch premium and payout data");
         });
     }
   }, [postcode, selectedEvent]);
@@ -32,11 +32,12 @@ function ClaimDataCapture() {
     e.preventDefault();
     setLoading(true);
     try {
+      //The below API call submits the policy data to the database and sends the user to the policy summary page.
       const data = await createPolicy({
         postcode,
         premium,
         payout,
-        event: selectedEvent
+        event: selectedEvent,
       });
       if (data.success) {
         navigate("/SubmittedClaim");
@@ -56,89 +57,126 @@ function ClaimDataCapture() {
         <LogoutComponent />
       </div>
       <form onSubmit={handleSubmit}>
-      <div className="container my-0">
-        <div className="row align-items-center g-0">
-          <div className="col-9">
-            <h5 className="mb-0">Select the postcode of the area you'd like your policy to cover:</h5>
-          </div>
-          <div className="col-3">
-            <input
-              type="text"
-              className="form-control ms-2"
-              placeholder="Enter postcode (e.g. SW1A 1AA)"
-              value={postcode}
-              onChange={(e) => setPostcode(e.target.value)}
-            />
-          </div>
-        </div>
-          <h5 className="mb-3">Select events you'd like your policy to cover:</h5>
-      <div className="d-flex justify-content-center mb-2">
-        <div className="form-check mb-2" style={{ width: "400px" }}>
-          <label className="form-check-label" htmlFor="wind">
-            Wind &gt; 50 km/h
-          </label>
-          <input
-            className="form-check-input float-end"
-            type="checkbox"
-            id="wind"
-            checked={selectedEvent === 'wind'}
-            onChange={() => setSelectedEvent(selectedEvent === 'wind' ? null : 'wind')}
-          />
-        </div>
-      </div>
-      <div className="d-flex justify-content-center mb-2">
-        <div className="form-check mb-2" style={{ width: "400px" }}>
-          <label className="form-check-label" htmlFor="rain">
-            Rainfall &gt; 100 mm in 24h
-          </label>
-          <input
-            className="form-check-input float-end"
-            type="checkbox"
-            id="rain"
-            checked={selectedEvent === 'rain'}
-            onChange={() => setSelectedEvent(selectedEvent === 'rain' ? null : 'rain')}
-          />
-        </div>
-      </div>
-      <div className="d-flex justify-content-center mb-2">
-        <div className="form-check mb-2" style={{ width: "400px" }}>
-          <label className="form-check-label" htmlFor="drought">
-            Drought (No rain &gt; 90 days)
-          </label>
-          <input
-            className="form-check-input float-end"
-            type="checkbox"
-            id="drought"
-            checked={selectedEvent === 'drought'}
-            onChange={() => setSelectedEvent(selectedEvent === 'drought' ? null : 'drought')}
-          />
-        </div>
-      </div>
-      <div className="d-flex justify-content-center mb-4">
-        <div className="form-check mb-2" style={{ width: "400px" }}>
-          <label className="form-check-label" htmlFor="temperature">
-            Temperature &gt; 40°C
-          </label>
-          <input
-            className="form-check-input float-end"
-            type="checkbox"
-            id="temperature"
-            checked={selectedEvent === 'temperature'}
-            onChange={() => setSelectedEvent(selectedEvent === 'temperature' ? null : 'temperature')}
-          />
-        </div>
-      </div>
-
-      <div className="mt-4">
-        <h5>The payout amount for this cover will be USDC:</h5>
-        <p className="lead">{payout !== null ? `${payout} USDC` : '—'}</p>
-      </div>
-
-      <div className="mt-3">
-        <h5>The monthly premium for this cover is USDC:</h5>
-        <p className="lead">{premium !== null ? `${premium} USDC` : '—'}</p>
-      </div>
-    </div>
+        <table className="table table-borderless">
+          <tbody>
+            <tr>
+              <td className="text-end" style={{ width: "70%" }}>
+                <p className="mb-0">
+                  Select the postcode of the area you'd like your policy to
+                  cover:
+                </p>
+              </td>
+              <td className="text-start" style={{ width: "30%" }}>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter postcode (e.g. SW1A 1AA)"
+                  value={postcode}
+                  onChange={(e) => setPostcode(e.target.value)}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="2" className="text-center">
+                <p className="mb-3">
+                  Select events you'd like your policy to cover:
+                </p>
+                <div className="d-flex justify-content-center mb-2">
+                  <div className="form-check mb-2" style={{ width: "400px" }}>
+                    <label className="form-check-label" htmlFor="wind">
+                      Wind &gt; 50 km/h
+                    </label>
+                    <input
+                      className="form-check-input float-end"
+                      type="checkbox"
+                      id="wind"
+                      checked={selectedEvent === "wind"}
+                      onChange={() =>
+                        setSelectedEvent(
+                          selectedEvent === "wind" ? null : "wind"
+                        )
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="d-flex justify-content-center mb-2">
+                  <div className="form-check mb-2" style={{ width: "400px" }}>
+                    <label className="form-check-label" htmlFor="rain">
+                      Rainfall &gt; 100 mm in 24h
+                    </label>
+                    <input
+                      className="form-check-input float-end"
+                      type="checkbox"
+                      id="rain"
+                      checked={selectedEvent === "rain"}
+                      onChange={() =>
+                        setSelectedEvent(
+                          selectedEvent === "rain" ? null : "rain"
+                        )
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="d-flex justify-content-center mb-2">
+                  <div className="form-check mb-2" style={{ width: "400px" }}>
+                    <label className="form-check-label" htmlFor="drought">
+                      Drought (No rain &gt; 90 days)
+                    </label>
+                    <input
+                      className="form-check-input float-end"
+                      type="checkbox"
+                      id="drought"
+                      checked={selectedEvent === "drought"}
+                      onChange={() =>
+                        setSelectedEvent(
+                          selectedEvent === "drought" ? null : "drought"
+                        )
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="d-flex justify-content-center mb-4">
+                  <div className="form-check mb-2" style={{ width: "400px" }}>
+                    <label className="form-check-label" htmlFor="temperature">
+                      Temperature &gt; 40°C
+                    </label>
+                    <input
+                      className="form-check-input float-end"
+                      type="checkbox"
+                      id="temperature"
+                      checked={selectedEvent === "temperature"}
+                      onChange={() =>
+                        setSelectedEvent(
+                          selectedEvent === "temperature" ? null : "temperature"
+                        )
+                      }
+                    />
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td className="text-end">
+                <p>The payout amount for this cover will be USDC:</p>
+              </td>
+              <td className="text-start">
+                <p className="lead mb-0">
+                  {payout !== null ? `${payout}` : "—"}
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td className="text-end">
+                <p>The monthly premium for this cover is USDC:</p>
+              </td>
+              <td className="text-start">
+                <p className="lead mb-0">
+                  {premium !== null ? `${premium}` : "—"}
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <div className="d-flex justify-content-end mb-3">
           <th scope="row" className="align-middle">
             <div id="error-message" className="error" aria-live="polite">

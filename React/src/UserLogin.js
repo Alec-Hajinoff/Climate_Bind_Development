@@ -28,16 +28,9 @@ function UserLogin() {
       if (data.status === "success") {
         if (
           data.registration_status === "Registration data is complete" &&
-          data.claims_status === "No claim submitted" &&
-          data.payor_status === "Payor null"
+          data.claims_status === "No claim submitted"
         ) {
           navigate("/DataSubmittedThenClaim");
-        } else if (
-          data.registration_status === "Registration data is complete" &&
-          data.claims_status === "No claim submitted" &&
-          data.payor_status === "Payor active"
-        ) {
-          navigate("/PayorData");
         } else if (
           data.registration_status === "Registration data is complete" &&
           data.claims_status === "Claim active"

@@ -48,7 +48,7 @@ if (isset($input['email'], $input['password'])) {
         if ($user && password_verify($password, $user['password'])) {
             session_regenerate_id(true);
             $_SESSION["id"] = $user["id"];
-            $stmt = $pdo->prepare('SELECT profile_complete, claims_id, claims_payor_amount FROM users WHERE id = ?');
+            $stmt = $pdo->prepare('SELECT profile_complete, policies_id FROM users WHERE id = ?');
             $stmt->execute([$user['id']]);
             $registrationData = $stmt->fetch();
 
@@ -63,22 +63,10 @@ if (isset($input['email'], $input['password'])) {
                 $response['registration_status'] = 'Registration data is not complete';
             }
 
-            if ($registrationData['claims_id'] === NULL) {
+            if ($registrationData['policies_id'] === NULL) {
                 $response['claims_status'] = 'No claim submitted';
             } else {
                 $response['claims_status'] = 'Claim active';
-                $stmt = $pdo->prepare('SELECT claim_amount FROM claims WHERE id = ?');
-                $stmt->execute([$registrationData['claims_id']]);
-                $claimData = $stmt->fetch();
-
-                if ($claimData && isset($claimData['claim_amount'])) {
-                    $_SESSION['claim_amount'] = $claimData['claim_amount'];
-                }
-            }
-            if ($registrationData['claims_payor_amount'] === NULL) {
-                $response['payor_status'] = 'Payor null';
-            } else {
-                $response['payor_status'] = 'Payor active';
             }
 
             $pdo->commit();
