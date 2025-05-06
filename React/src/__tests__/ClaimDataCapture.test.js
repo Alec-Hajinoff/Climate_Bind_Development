@@ -29,10 +29,10 @@ describe("ClaimDataCapture", () => {
     render(<ClaimDataCapture />);
 
     expect(
-      screen.getByText("Describe the weather event that caused the damage")
+      screen.getByText(/Select the postcode of the area/i)
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Please enter your bank name and account details")
+      screen.getByText("Select events you'd like your policy to cover")
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
   });
@@ -41,7 +41,7 @@ describe("ClaimDataCapture", () => {
     render(<ClaimDataCapture />);
 
     const claimDateInput = screen.getByLabelText(
-      "Select the date of the incident"
+      "Drought"
     );
 
     fireEvent.change(claimDateInput, { target: { value: "2023-10-01" } });

@@ -11,7 +11,7 @@ describe("SubmittedClaim Component", () => {
     render(<SubmittedClaim />);
 
     const thankYouMessage = screen.getByText(
-      /Thank you for submitting your insurance claim!/i
+      /Welcome to your policy summary page./i
     );
     expect(thankYouMessage).toBeInTheDocument();
 

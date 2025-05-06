@@ -1,4 +1,4 @@
-import { fetchPayorCalculations } from "../ApiService";
+import { fetchPremiumPayout } from "../ApiService";
 
 describe("ApiService", () => {
   beforeEach(() => {
@@ -9,23 +9,29 @@ describe("ApiService", () => {
     jest.resetAllMocks();
   });
 
-  describe("fetchPayorCalculations", () => {
-    it("should fetch payor calculations successfully", async () => {
-      const mockData = { calculations: [{ id: 1, value: 100 }] };
+  describe("fetchPremiumPayout", () => {
+    it("should fetch premium payout data successfully", async () => {
+      const mockData = { premium: 100, payout: 1000 };
       global.fetch.mockImplementationOnce(() =>
         Promise.resolve({
           json: () => Promise.resolve(mockData),
         })
       );
 
-      const result = await fetchPayorCalculations();
+      const result = await fetchPremiumPayout("2000", "flood");
 
       expect(result).toEqual(mockData);
       expect(global.fetch).toHaveBeenCalledWith(
-        "http://localhost:8001/Climate_Bind_Development/payor_calculations.php",
+        "http://localhost:8001/Climate_Bind_Development/payout_premium.php",
         {
-          method: "GET",
-          credentials: "include",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            postcode: "2000",
+            event: "flood"
+          })
         }
       );
     });
@@ -35,7 +41,7 @@ describe("ApiService", () => {
         Promise.reject(new Error("Network error"))
       );
 
-      await expect(fetchPayorCalculations()).rejects.toThrow();
+      await expect(fetchPremiumPayout("2000", "flood")).rejects.toThrow();
     });
   });
 });
