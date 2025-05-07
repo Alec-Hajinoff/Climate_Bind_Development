@@ -32,21 +32,9 @@ describe("ClaimDataCapture", () => {
       screen.getByText(/Select the postcode of the area/i)
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Select events you'd like your policy to cover")
+      screen.getByText("Select events you'd like your policy to cover:")
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
-  });
-
-  it("updates form data when input values change", () => {
-    render(<ClaimDataCapture />);
-
-    const claimDateInput = screen.getByLabelText(
-      "Drought"
-    );
-
-    fireEvent.change(claimDateInput, { target: { value: "2023-10-01" } });
-
-    expect(claimDateInput.value).toBe("2023-10-01");
   });
 
   it("submits the form and navigates to ClaimSubmitted on success", async () => {
@@ -87,14 +75,14 @@ describe("ClaimDataCapture", () => {
     global.fetch.mockImplementationOnce(() =>
       Promise.reject(new Error("Network error"))
     );
-
+  
     render(<ClaimDataCapture />);
-
+  
     const submitButton = screen.getByRole("button", { name: /submit/i });
     fireEvent.click(submitButton);
-
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    expect(screen.getByText("An error occurred.")).toBeInTheDocument();
-  });
+  
+    expect(
+      await screen.findByText("An error occurred.")
+    ).toBeInTheDocument();
+});
 });

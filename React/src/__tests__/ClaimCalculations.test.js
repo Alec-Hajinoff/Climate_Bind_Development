@@ -1,74 +1,80 @@
-import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
-import ClaimCalculations from "../ClaimCalculations";
+import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import ClaimCalculations from '../ClaimCalculations';
+import { fetchClaimCalculations } from '../ApiService';
 
-describe("ClaimCalculations Component", () => {
+jest.mock('../ApiService');
+
+const renderWithRouter = (component) => {
+  return render(
+    <BrowserRouter>
+      {component}
+    </BrowserRouter>
+  );
+};
+
+describe('ClaimCalculations Component', () => {
+  const mockData = [
+    {
+      premium_amount: '100',
+      payout_amount: '1000',
+    },
+    {
+      premium_amount: '200',
+      payout_amount: '2000',
+    }
+  ];
+
   beforeEach(() => {
-    global.fetch = jest.fn().mockReturnValue(
-      Promise.resolve({
-        ok: true,
-        status: 200,
-        json: () =>
-          Promise.resolve([
-            {
-              name: "Insurer A",
-              email: "insurerA@example.com",
-              phone: "123-456-7890",
-              address: "123 Main St",
-              payout: "1000",
-            },
-            {
-              name: "Insurer B",
-              email: "insurerB@example.com",
-              phone: "987-654-3210",
-              address: "456 Elm St",
-              payout: "2000",
-            },
-          ]),
-      })
-    );
+    fetchClaimCalculations.mockResolvedValue(mockData);
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
   });
 
-  test("renders table with fetched data", async () => {
-    render(
-      <Router>
-        <ClaimCalculations />
-      </Router>
-    );
+  test('renders component with table headers', () => {
+    renderWithRouter(<ClaimCalculations />);
+    
+    expect(screen.getByText('Your monthly premium amount is USDC:')).toBeInTheDocument();
+    expect(screen.getByText('Automatic payout to you is USDC:')).toBeInTheDocument();
+    expect(screen.getByText('When the following parameters are met:')).toBeInTheDocument();
+    expect(screen.getByText('The most recent parameter reading is:')).toBeInTheDocument();
+    expect(screen.getByText('The amount paid out to you is USDC:')).toBeInTheDocument();
+  });
 
-    expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:8001/Climate_Bind_Development/claim_calculations.php",
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    );
-
+  test('displays fetched data correctly', async () => {
+    renderWithRouter(<ClaimCalculations />);
+    
     await waitFor(() => {
-      expect(screen.getByText("Name of your insurer")).toBeInTheDocument();
-      expect(screen.getByText("Their email address")).toBeInTheDocument();
-      expect(screen.getByText("Phone number")).toBeInTheDocument();
-      expect(screen.getByText("Address")).toBeInTheDocument();
-      expect(
-        screen.getByText("The amount they owe you USD $")
-      ).toBeInTheDocument();
-
-      expect(screen.getByText("Insurer A")).toBeInTheDocument();
-      expect(screen.getByText("insurerA@example.com")).toBeInTheDocument();
-      expect(screen.getByText("123-456-7890")).toBeInTheDocument();
-      expect(screen.getByText("123 Main St")).toBeInTheDocument();
-      expect(screen.getByText("1000")).toBeInTheDocument();
-
-      expect(screen.getByText("Insurer B")).toBeInTheDocument();
-      expect(screen.getByText("insurerB@example.com")).toBeInTheDocument();
-      expect(screen.getByText("987-654-3210")).toBeInTheDocument();
-      expect(screen.getByText("456 Elm St")).toBeInTheDocument();
-      expect(screen.getByText("2000")).toBeInTheDocument();
+      expect(fetchClaimCalculations).toHaveBeenCalledTimes(1);
+      
+      expect(screen.getByText('100')).toBeInTheDocument();
+      expect(screen.getByText('1000')).toBeInTheDocument();
+      expect(screen.getByText('200')).toBeInTheDocument();
+      expect(screen.getByText('2000')).toBeInTheDocument();
     });
+  });
+
+  test('handles API error gracefully', async () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    fetchClaimCalculations.mockRejectedValue(new Error('API Error'));
+
+    renderWithRouter(<ClaimCalculations />);
+    
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Error fetching table data:',
+        expect.any(Error)
+      );
+    });
+
+    consoleErrorSpy.mockRestore();
+  });
+
+  test('renders LogoutComponent', () => {
+    renderWithRouter(<ClaimCalculations />);
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 });
