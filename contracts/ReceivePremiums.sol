@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity ^0.8.0;
 
-contract ReceivePremium {
+contract ReceivePremiums {
 
     mapping(address => uint256) public premiums;
     address[] public insureds;
@@ -15,5 +14,9 @@ contract ReceivePremium {
             insureds.push(msg.sender);
             hasPaid[msg.sender] = true;
         }
+    }
+
+    function getBalance() external view returns (uint256) {
+        return address(this).balance;
     }
 }
