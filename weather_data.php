@@ -1,5 +1,5 @@
 <?php
-/* Call to api.openweathermap.org to fetch weather data*/
+//Call to api.openweathermap.org to fetch weather data
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
 $executionStartTime = microtime(true);
@@ -14,7 +14,7 @@ $decode = json_decode($result, true);
 $tempKelvin = $decode['main']['temp'];
 $tempCelsius = $tempKelvin - 273.15;
 
-//Insert temperature value into database
+//Inserts temperature value into database
 require_once 'session_config.php';
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '');
@@ -41,5 +41,20 @@ try {
     echo json_encode($output);
 } finally {
     $pdo = null;
+}
+// **Trigger payout if temperature is above 10°C**
+if ($tempCelsius > 10) {
+    $nodeApiUrl = 'http://localhost:3000/trigger-payout';
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $nodeApiUrl);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    // Decode response and check success
+    $response = json_decode($result, true);
+    if ($response['status'] !== 'success') {
+        error_log("Payout trigger failed: " . $response['message']);
+    }
 }
 ?>
