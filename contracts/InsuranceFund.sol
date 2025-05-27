@@ -2,16 +2,16 @@
 pragma solidity ^0.8.0;
 
 contract InsuranceFund {
-    mapping(address => uint256) public premiums;
+    mapping(address => uint256) public premiums; // Mapping address-to-integer to store premiums for each insured
     mapping(address => uint256) public pendingPayouts;
     mapping(address => bool) private hasPaid;
-    address[] public insureds;
+    address[] public insureds; // Array to keep track of insured addresses
 
-    event PremiumPaid(address indexed insured, uint256 amount);
+    event PremiumPaid(address indexed insured, uint256 amount); // Event emitted when a premium is paid
     event PayoutRegistered(address indexed insured, uint256 amount);
     event PayoutClaimed(address indexed insured, uint256 amount);
 
-    function payPremium() external payable {
+    function payPremium() external payable { // Function to pay premium and register insured
         require(msg.value > 0, "Must send ETH");
         premiums[msg.sender] += msg.value;
 
@@ -23,19 +23,19 @@ contract InsuranceFund {
         emit PremiumPaid(msg.sender, msg.value);
     }
 
-    function registerPayout(address insured, uint256 amount) external {
+    function registerPayout(address insured, uint256 amount) external { // Function to register a pending payout for an insured address
         require(amount > 0, "Payout must be greater than zero");
         require(premiums[insured] > 0, "Insured has no premiums");
-        pendingPayouts[insured] += amount;
+        pendingPayouts[insured] += amount; // 'insured' is the function parameter, it's not related to the 'insureds' array
 
         emit PayoutRegistered(insured, amount);
     }
 
-    function claimPayout() external {
+    function claimPayout() external { // Function to claim a registered payout
         uint256 payoutAmount = pendingPayouts[msg.sender];
         require(payoutAmount > 0, "No pending payouts");
         require(
-            address(this).balance >= payoutAmount,
+            address(this).balance >= payoutAmount, // 'this' is the contract itself
             "Insufficient contract funds"
         );
 
