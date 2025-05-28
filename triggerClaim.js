@@ -1,15 +1,13 @@
-require("dotenv").config();
+require("dotenv").config(); // Loads environment variables from .env file
 const { ethers } = require("ethers");
 
-// Set up provider and signer
-const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
-const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+const provider = new ethers.JsonRpcProvider(process.env.RPC_URL); // Connects to Ethereum node
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Signs transactions
 if (!process.env.RPC_URL || !process.env.PRIVATE_KEY) {
     throw new Error("Missing required environment variables: RPC_URL or PRIVATE_KEY.");
 }
 
-// Smart contract details
-const insuranceFundABI = [
+const insuranceFundABI = [ // Defines interface for interacting with the contract
   "function claimPayout() external",
 ];
 const insuranceFundAddress = '0xA66dA33E3786629045b8AbFBCC9eEe44D94c58b2'; // Replace with deployed contract address
