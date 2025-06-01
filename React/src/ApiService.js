@@ -107,7 +107,7 @@ export const logoutUser = async () => {
   }
 };
 
-export const fetchPremiumPayout = async (postcode, event) => {
+export const fetchPremiumPayout = async (postcode, event, latitude, longitude) => {
   try {
     const response = await fetch('http://localhost:8001/Climate_Bind_Development/payout_premium.php', {
       method: 'POST',
@@ -116,7 +116,9 @@ export const fetchPremiumPayout = async (postcode, event) => {
       },
       body: JSON.stringify({
         postcode,
-        event
+        event,
+        latitude, 
+        longitude
       })
     });
 
