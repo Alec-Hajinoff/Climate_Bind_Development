@@ -1,6 +1,6 @@
 <?php
-//This files sends updated premium amount and payout amount to the front end when a user selects their postcode and event type.
-//The corresponding front end file is ClaimDataCapture.js
+// This file sends updated premium amount and payout amount to the front end when a user selects their event type.
+// The corresponding front end file is ClaimDataCapture.js
 require_once 'session_config.php';
 
 $allowed_origins = [
@@ -21,7 +21,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit; 
+    exit;
 }
 
 try {
@@ -30,42 +30,49 @@ try {
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
     $data = json_decode(file_get_contents('php://input'), true);
-    $postcode = $data['postcode'] ?? '';
     $event = $data['event'] ?? '';
     $latitude = $data['latitude'] ?? null;
     $longitude = $data['longitude'] ?? null;
 
-    if ($postcode && $event && $latitude !== null && $longitude !== null) {
+    if ($event && $latitude !== null && $longitude !== null) {
         $stmt = $pdo->prepare('
             SELECT cp.premium_amount, cp.payout_amount, l.latitude_min, l.longitude_min, l.latitude_max, l.longitude_max
             FROM cover_pricing cp
             JOIN locations l ON cp.location_id = l.id
-            WHERE l.postcode = ? AND cp.event_type = ?
+            WHERE cp.event_type = ?
         ');
-        $stmt->execute([$postcode, $event]);
-        $pricing = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->execute([$event]);
+        $pricings = $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all matching rows
 
-        if ($pricing) {
-            if ($latitude > $pricing['latitude_min'] && $latitude < $pricing['latitude_max'] &&
-                $longitude > $pricing['longitude_min'] && $longitude < $pricing['longitude_max']) {}
-            echo json_encode([
-                'status' => 'success',
-                'payout' => $pricing['payout_amount'],
-                'premium' => $pricing['premium_amount']
-            ]);
-        } else {
+        $found = false;
+        foreach ($pricings as $pricing) {
+            // Check if the latitude and longitude are within the specified bounds
+            if (
+                $latitude > $pricing['latitude_min'] && $latitude < $pricing['latitude_max'] &&
+                $longitude > $pricing['longitude_min'] && $longitude < $pricing['longitude_max']
+            ) {
+                echo json_encode([
+                    'status' => 'success',
+                    'payout' => $pricing['payout_amount'],
+                    'premium' => $pricing['premium_amount']
+                ]);
+                $found = true;
+                break; // Exit the loop once a match is found
+            }
+        }
+
+        if (!$found) {
             echo json_encode([
                 'status' => 'error',
-                'message' => 'No pricing found for this location and event type'
+                'message' => 'We currently do not offer insurance for your location, apologies!'
             ]);
         }
     } else {
         echo json_encode([
             'status' => 'error',
-            'message' => 'Postcode and event type are required'
+            'message' => 'Event type, latitude, and longitude are required'
         ]);
     }
-
 } catch (PDOException $e) {
     echo json_encode([
         'status' => 'error',

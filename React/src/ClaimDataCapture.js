@@ -7,7 +7,6 @@ import { createPolicy, fetchPremiumPayout } from "./ApiService";
 function ClaimDataCapture() {
   const navigate = useNavigate();
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [postcode, setPostcode] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState(""); 
   const [payout, setPayout] = useState(null);
@@ -16,19 +15,28 @@ function ClaimDataCapture() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (postcode && selectedEvent) {
-      //The below API call pulls premium and payout data from the database to update the interface when a user changes the postcode or selected event.
-      fetchPremiumPayout(postcode, selectedEvent, latitude, longitude)
-        .then((data) => {
+  if (selectedEvent && latitude && longitude) {
+    // The below API call pulls premium and payout data from the database to update the interface when a user changes the postcode or selected event.
+    fetchPremiumPayout(selectedEvent, latitude, longitude)
+      .then((data) => {
+        if (data.status === 'success') {
           setPayout(data.payout);
           setPremium(data.premium);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          setErrorMessage("Failed to fetch premium and payout data");
-        });
-    }
-  }, [postcode, selectedEvent, latitude, longitude]);
+          setErrorMessage(''); // Clear any previous error messages
+        } else {
+          setPayout(null); // Reset payout on error
+          setPremium(null); // Reset premium on error
+          setErrorMessage(data.message || 'An error occurred while fetching data');
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setPayout(null); // Reset payout on error
+        setPremium(null); // Reset premium on error
+        setErrorMessage("Failed to fetch premium and payout data");
+      });
+  }
+}, [selectedEvent, latitude, longitude]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +44,6 @@ function ClaimDataCapture() {
     try {
       //The below API call submits the policy data to the database and sends the user to the policy summary page.
       const data = await createPolicy({
-        postcode,
         latitude, 
         longitude, 
         premium,
@@ -65,23 +72,6 @@ function ClaimDataCapture() {
       <form onSubmit={handleSubmit}>
         <table className="table table-borderless">
           <tbody>
-            <tr>
-              <td className="text-end" style={{ width: "70%" }}>
-                <p className="mb-0">
-                  Select the postcode of the area you'd like your policy to
-                  cover:
-                </p>
-              </td>
-              <td className="text-start" style={{ width: "30%" }}>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter postcode (e.g. SW1A 1AA)"
-                  value={postcode}
-                  onChange={(e) => setPostcode(e.target.value)}
-                />
-              </td>
-            </tr>
             <tr>
               <td className="text-end">
                 <p>Select latitude:</p>
