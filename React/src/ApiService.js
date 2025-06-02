@@ -57,6 +57,7 @@ export const captureAccountData = async (formData) => {
   }
 };
 
+//createPolicy() submits the policy data to the database and sends the user to the policy summary page.
 export const createPolicy = async (policyData) => {
   try {
     const response = await fetch("http://localhost:8001/Climate_Bind_Development/claim_data_capture.php", {
@@ -107,7 +108,8 @@ export const logoutUser = async () => {
   }
 };
 
-export const fetchPremiumPayout = async (event, latitude, longitude) => {
+// fetchPremiumPayout pulls premium and payout data from the database to update the interface when a user changes coordinates or selected event.
+export const fetchPremiumPayout = async (event, latitude, longitude) => { 
   try {
     const response = await fetch('http://localhost:8001/Climate_Bind_Development/payout_premium.php', {
       method: 'POST',
