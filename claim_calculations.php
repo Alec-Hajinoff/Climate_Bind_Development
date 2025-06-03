@@ -28,9 +28,13 @@ try {
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
     $pdo->beginTransaction();
-
-    $stmt = $pdo->prepare('SELECT premium_amount, payout_amount FROM policies');
-    $stmt->execute();
+    // Fetchs the user's policies from the database 'policies' table
+    // 'policies' and 'users' tables are joined to link a logged in user to their policy
+    $stmt = $pdo->prepare('SELECT p.premium_amount, p.payout_amount 
+                          FROM policies p 
+                          INNER JOIN users u ON u.policies_id = p.id 
+                          WHERE u.id = ?');
+    $stmt->execute([$_SESSION['id']]);
     $policies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $pdo->commit();

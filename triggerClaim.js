@@ -10,7 +10,7 @@ if (!process.env.RPC_URL || !process.env.PRIVATE_KEY) {
 const insuranceFundABI = [ // Defines interface for interacting with the contract
   "function claimPayout() external",
 ];
-const insuranceFundAddress = '0x33F5E0df321578FC4E83836409f53946009231fc'; // Replace with deployed contract address
+const insuranceFundAddress = '0xdfAfc4148A7374c81E8f3f583e0d15089D9ca675'; // Replace with deployed contract address
 const insuranceFund = new ethers.Contract(
   insuranceFundAddress,
   insuranceFundABI,
