@@ -32,25 +32,33 @@ try {
     $longitude = $data['longitude'] ?? null;
     $premium = $data['premium'] ?? null;
     $payout = $data['payout'] ?? null;
+    $event = $data['event'] ?? null;
     $temperatureThreshold = $data['temperatureThreshold'] ?? null;
 
-    if (!$latitude || !$longitude || !$premium || !$payout) {
+     $eventTypes = [
+        'wind' => 'Wind',
+        'rain' => 'Rainfall',
+        'drought' => 'Drought',
+        'temperature' => 'Temperature'
+    ];
+
+    $eventType = $eventTypes[$event] ?? null;
+
+    if (!$latitude || !$longitude || !$premium || !$payout || !$eventType) {
         echo json_encode(['success' => false, 'message' => 'Missing required fields']);
         exit;
     }
 
     $pdo->beginTransaction();
 
-    // Inserts latitude, longitude, premium, and payout into the policies table
-    $stmt = $pdo->prepare("INSERT INTO policies (policy_latitude, policy_longitude, premium_amount, payout_amount) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$latitude, $longitude, $premium, $payout]);
+    // Inserts latitude, longitude, premium, payout, event type into the policies table
+    $stmt = $pdo->prepare("INSERT INTO policies (policy_latitude, policy_longitude, premium_amount, payout_amount, event_type) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$latitude, $longitude, $premium, $payout, $eventType]);
     $policy_id = $pdo->lastInsertId();
 
-    // Adds temperature threshold to triggers table
-    if ($temperatureThreshold !== null) {
-        $stmt = $pdo->prepare("INSERT INTO triggers (threshold_value, policies_id) VALUES (?, ?)");
-        $stmt->execute([$temperatureThreshold, $policy_id]);
-    }
+    // Adds temperature threshold and event type to triggers table
+    $stmt = $pdo->prepare("INSERT INTO triggers (threshold_value, policies_id, event_type) VALUES (?, ?, ?)");
+    $stmt->execute([$temperatureThreshold, $policy_id, $eventType]);
 
     // Updates the user's policy ID
     $stmt = $pdo->prepare("UPDATE users SET policies_id = ? WHERE id = ?");
