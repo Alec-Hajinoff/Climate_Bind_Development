@@ -32,6 +32,7 @@ try {
     $longitude = $data['longitude'] ?? null;
     $premium = $data['premium'] ?? null;
     $payout = $data['payout'] ?? null;
+    $temperatureThreshold = $data['temperatureThreshold'] ?? null;
 
     if (!$latitude || !$longitude || !$premium || !$payout) {
         echo json_encode(['success' => false, 'message' => 'Missing required fields']);
@@ -44,6 +45,12 @@ try {
     $stmt = $pdo->prepare("INSERT INTO policies (policy_latitude, policy_longitude, premium_amount, payout_amount) VALUES (?, ?, ?, ?)");
     $stmt->execute([$latitude, $longitude, $premium, $payout]);
     $policy_id = $pdo->lastInsertId();
+
+    // Adds temperature threshold to triggers table
+    if ($temperatureThreshold !== null) {
+        $stmt = $pdo->prepare("INSERT INTO triggers (threshold_value, policies_id) VALUES (?, ?)");
+        $stmt->execute([$temperatureThreshold, $policy_id]);
+    }
 
     // Updates the user's policy ID
     $stmt = $pdo->prepare("UPDATE users SET policies_id = ? WHERE id = ?");
