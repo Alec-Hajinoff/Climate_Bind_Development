@@ -36,7 +36,7 @@ try {
     $temperatureThreshold = $data['temperatureThreshold'] ?? null;
 
      $eventTypes = [
-        'wind' => 'Wind',
+        'wind' => 'Wind', // This mapping converts the frontend id="wind" to 'Wind' for database storage
         'rain' => 'Rainfall',
         'drought' => 'Drought',
         'temperature' => 'Temperature'
@@ -56,9 +56,20 @@ try {
     $stmt->execute([$latitude, $longitude, $premium, $payout, $eventType]);
     $policy_id = $pdo->lastInsertId();
 
-    // Adds temperature threshold and event type to triggers table
-    $stmt = $pdo->prepare("INSERT INTO triggers (threshold_value, policies_id, event_type) VALUES (?, ?, ?)");
-    $stmt->execute([$temperatureThreshold, $policy_id, $eventType]);
+    // Adds thresholds, units, comparison into triggers table (in production these will be input by a user)
+    if ($eventType === 'Wind') {
+        $stmt = $pdo->prepare("INSERT INTO triggers (threshold_value, threshold_unit, comparison_operator, policies_id, event_type) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([50, 'km/h', '>', $policy_id, $eventType]);
+    } elseif ($eventType === 'Rainfall') {
+        $stmt = $pdo->prepare("INSERT INTO triggers (threshold_value, threshold_unit, comparison_operator, policies_id, event_type) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([100, 'mm', '>', $policy_id, $eventType]);
+    } elseif ($eventType === 'Drought') {
+        $stmt = $pdo->prepare("INSERT INTO triggers (threshold_value, threshold_unit, comparison_operator, policies_id, event_type) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([90, 'Days', '>', $policy_id, $eventType]);
+    } else {
+        $stmt = $pdo->prepare("INSERT INTO triggers (threshold_value, threshold_unit, comparison_operator, policies_id, event_type) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$temperatureThreshold, 'C', '>', $policy_id, $eventType]);
+    }
 
     // Updates the user's policy ID
     $stmt = $pdo->prepare("UPDATE users SET policies_id = ? WHERE id = ?");
