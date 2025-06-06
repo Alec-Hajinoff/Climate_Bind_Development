@@ -28,11 +28,12 @@ try {
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
     $pdo->beginTransaction();
-    // Fetchs the user's policies from the database 'policies' table
-    // 'policies' and 'users' tables are joined to link a logged in user to their policy
-    $stmt = $pdo->prepare('SELECT p.premium_amount, p.payout_amount 
+    // Brings data from database to be dislayed on this page http://localhost:3000/SubmittedClaim
+    $stmt = $pdo->prepare('SELECT p.premium_amount, p.payout_amount, t.comparison_operator, 
+                          t.event_type, t.threshold_value, t.threshold_unit 
                           FROM policies p 
                           INNER JOIN users u ON u.policies_id = p.id 
+                          INNER JOIN triggers t ON t.policies_id = p.id 
                           WHERE u.id = ?');
     $stmt->execute([$_SESSION['id']]);
     $policies = $stmt->fetchAll(PDO::FETCH_ASSOC);

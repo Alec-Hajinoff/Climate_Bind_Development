@@ -39,7 +39,7 @@ function ClaimCalculations() {
             <tr key={index}>
               <td>{row.premium_amount}</td>
               <td>{row.payout_amount}</td>
-              <td></td>
+              <td>{row.event_type} {row.comparison_operator} {row.threshold_value} {row.threshold_unit}</td>
               <td></td>
               <td></td>
             </tr>
