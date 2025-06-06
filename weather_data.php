@@ -40,8 +40,9 @@ try {
         $stmt->bindParam(':policyId', $policyId);
         $stmt->execute();
 
-        // **Trigger payout if temperature is above threshold**
-        if ($tempCelsius > 30) {
+        // Trigger payout if temperature is above threshold
+        // Note that this will trigger the contract for each row in the 'policies' table where the condition is met
+        if ($tempCelsius > 10) {
             $nodeApiUrl = 'http://localhost:3000/trigger-payout';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $nodeApiUrl);
@@ -49,7 +50,7 @@ try {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $result = curl_exec($ch);
             curl_close($ch);
-           
+
             $response = json_decode($result, true);
             if ($response['status'] !== 'success') {
                 error_log("Payout trigger failed: " . $response['message']);
@@ -63,7 +64,6 @@ try {
     );
     header('Content-Type: application/json; charset=UTF-8');
     echo json_encode($output);
-
 } catch (PDOException $e) {
     $output = array(
         'status' => 'error',
@@ -74,65 +74,4 @@ try {
 } finally {
     $pdo = null;
 }
-
-/*
-//Call to api.openweathermap.org to fetch weather data
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
-$executionStartTime = microtime(true);
-$url = 'https://api.openweathermap.org/data/2.5/weather?lat=51.635994&lon=-0.090019535&appid=5b25b2d29d964e323a4673212fa148e5';
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_URL, $url);
-$result = curl_exec($ch);
-curl_close($ch);
-$decode = json_decode($result, true);
-$tempKelvin = $decode['main']['temp'];
-$tempCelsius = $tempKelvin - 273.15;
-
-//Inserts temperature value into database
-require_once 'session_config.php';
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=climate_bind', 'root', '');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-
-    $stmt = $pdo->prepare('INSERT INTO readings (value) VALUES (:temperature)'); //'readings' is the name of the table, 'value' is the column name, '(:temperature)' is a placeholder for the temperature value
-    $stmt->bindParam(':temperature', $tempCelsius);
-    $stmt->execute();
-
-    $output = array(
-        'status' => 'success',
-        'message' => 'Temperature inserted successfully',
-        'temperature' => $tempCelsius
-    );
-    header('Content-Type: application/json; charset=UTF-8');
-    echo json_encode($output);
-} catch (PDOException $e) {
-    $output = array(
-        'status' => 'error',
-        'message' => 'Database error: ' . $e->getMessage()
-    );
-    header('Content-Type: application/json; charset=UTF-8');
-    echo json_encode($output);
-} finally {
-    $pdo = null;
-}
-// **Trigger payout if temperature is above 10°C**
-if ($tempCelsius > 10) {
-    $nodeApiUrl = 'http://localhost:3000/trigger-payout';
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $nodeApiUrl);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $result = curl_exec($ch);
-    curl_close($ch);
-    // Decode response and check success
-    $response = json_decode($result, true);
-    if ($response['status'] !== 'success') {
-        error_log("Payout trigger failed: " . $response['message']);
-    }
-}
-*/
 ?>
