@@ -14,7 +14,7 @@ function DataSubmittedThenClaim() {
             type of cover you need, specify the location you wish to protect,
             and click Submit to begin. Once submitted, the system will generate
             your policy terms based on your selected parameters and prepare it
-            for activation.
+            for activation. Cover begins 30 days from the start of the policy.
           </p>
           <ClaimDataCapture />
         </div>
