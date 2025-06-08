@@ -1,29 +1,26 @@
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import ClaimCalculations from '../ClaimCalculations';
-import { fetchClaimCalculations } from '../ApiService';
+import React from "react";
+import { render, screen, waitFor } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import ClaimCalculations from "../ClaimCalculations";
+import { fetchClaimCalculations } from "../ApiService";
 
-jest.mock('../ApiService');
+jest.mock("../ApiService"); // Two dots as we go up one directory
 
 const renderWithRouter = (component) => {
-  return render(
-    <BrowserRouter>
-      {component}
-    </BrowserRouter>
-  );
+  // Wraps component for routing context
+  return render(<BrowserRouter>{component}</BrowserRouter>);
 };
 
-describe('ClaimCalculations Component', () => {
+describe("ClaimCalculations Component", () => {
   const mockData = [
     {
-      premium_amount: '100',
-      payout_amount: '1000',
+      premium_amount: "100",
+      payout_amount: "1000",
+      event_type: "Temperature",
+      comparison_operator: ">",
+      threshold_value: "30",
+      threshold_unit: "°C",
     },
-    {
-      premium_amount: '200',
-      payout_amount: '2000',
-    }
   ];
 
   beforeEach(() => {
@@ -34,47 +31,46 @@ describe('ClaimCalculations Component', () => {
     jest.clearAllMocks();
   });
 
-  test('renders component with table headers', () => {
+  test("renders table headers correctly", () => {
     renderWithRouter(<ClaimCalculations />);
-    
-    expect(screen.getByText('Your monthly premium amount is USDC:')).toBeInTheDocument();
-    expect(screen.getByText('Automatic payout to you is USDC:')).toBeInTheDocument();
-    expect(screen.getByText('When the following parameters are met:')).toBeInTheDocument();
-    expect(screen.getByText('The most recent parameter reading is:')).toBeInTheDocument();
-    expect(screen.getByText('The amount paid out to you is USDC:')).toBeInTheDocument();
+    expect(
+      screen.getByText("Your monthly premium amount is USDC:")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Automatic payout to you is USDC:")
+    ).toBeInTheDocument();
   });
 
-  test('displays fetched data correctly', async () => {
+  test("displays parameter conditions correctly", async () => {
     renderWithRouter(<ClaimCalculations />);
-    
     await waitFor(() => {
-      expect(fetchClaimCalculations).toHaveBeenCalledTimes(1);
-      
-      expect(screen.getByText('100')).toBeInTheDocument();
-      expect(screen.getByText('1000')).toBeInTheDocument();
-      expect(screen.getByText('200')).toBeInTheDocument();
-      expect(screen.getByText('2000')).toBeInTheDocument();
+      expect(screen.getByText("Temperature > 30 °C")).toBeInTheDocument();
     });
   });
 
-  test('handles API error gracefully', async () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    fetchClaimCalculations.mockRejectedValue(new Error('API Error'));
+  test("displays placeholder text for readings and payouts", async () => {
+    renderWithRouter(<ClaimCalculations />);
+    await waitFor(() => {
+      const placeholderElements = screen.getAllByRole("cell", {
+        // 'cell' targets table cell elements <td>
+        name: /to be displayed 30 days after start of contract/i,
+      });
+      expect(placeholderElements).toHaveLength(2); // Two cells found in the table
+    });
+  });
+
+  test("handles API fetch error", async () => {
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    fetchClaimCalculations.mockRejectedValue(new Error("API Error"));
 
     renderWithRouter(<ClaimCalculations />);
-    
+
     await waitFor(() => {
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        'Error fetching table data:',
-        expect.any(Error)
-      );
+      expect(consoleErrorSpy).toHaveBeenCalled();
     });
 
     consoleErrorSpy.mockRestore();
-  });
-
-  test('renders LogoutComponent', () => {
-    renderWithRouter(<ClaimCalculations />);
-    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 });

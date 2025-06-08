@@ -12,14 +12,14 @@ describe("ClaimDataCapture", () => {
 
   beforeEach(() => { // Runs before each test case
     navigateMock = jest.fn(); // Mock function to verify routing behaviour
-    useNavigate.mockReturnValue(navigateMock);
+    useNavigate.mockReturnValue(navigateMock); // Takes useNavigate line 7 and sets it to return mock function line 14
 
-    global.fetch = jest.fn(() =>
+    global.fetch = jest.fn(() => // Replaces the global fetch function with a mock implementation
       Promise.resolve({
-        json: () => Promise.resolve({ success: true }),
+        json: () => Promise.resolve({ success: true }), // Returns API response true
       })
     );
-  });
+  }); // This whole function simulates success API response for each test case
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -28,7 +28,6 @@ describe("ClaimDataCapture", () => {
   it("renders the claim data capture form", () => {
     render(<ClaimDataCapture />);
 
-    // Check if the form elements are rendered
     expect(
       screen.getByPlaceholderText(
         /Enter latitude of location you are insuring/i
@@ -48,7 +47,7 @@ describe("ClaimDataCapture", () => {
   it("submits the form and navigates to ClaimSubmitted on success", async () => {
     render(<ClaimDataCapture />);
 
-    // Simulate user input
+    // Simulates user input
     fireEvent.change(
       screen.getByPlaceholderText(
         /Enter latitude of location you are insuring/i
@@ -68,12 +67,11 @@ describe("ClaimDataCapture", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 50));
 
-    // Check if fetch was called with the correct URL
     expect(global.fetch).toHaveBeenCalledWith(
-      expect.any(String), // URL is dynamic based on the environment
-      expect.any(Object)
+      expect.any(String), // Checks if fetch was called with any URL
+      expect.any(Object) // Contains request parameters (e.g. latitude, longitude, selectedEvent)
     );
-    // Check if navigation occurred
+    // Checks if navigation occurred
     expect(navigateMock).toHaveBeenCalledWith("/SubmittedClaim");
   });
 
@@ -91,7 +89,7 @@ describe("ClaimDataCapture", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 50));
 
-    // Check if the error message is displayed
+    // Checks if the error message is displayed
     expect(
       screen.getByText("Submission failed. Please try again.")
     ).toBeInTheDocument();
@@ -104,7 +102,7 @@ describe("ClaimDataCapture", () => {
 
     render(<ClaimDataCapture />);
 
-    // Set required values to trigger useEffect
+    // Sets required values to trigger useEffect
     fireEvent.change(screen.getByPlaceholderText(/Enter latitude/i), {
       target: { value: "40.7128" },
     });
@@ -113,7 +111,7 @@ describe("ClaimDataCapture", () => {
     });
     fireEvent.click(screen.getByLabelText(/Wind > 50 km\/h/i));
 
-    // Wait for the error message to appear
+    // Waits for the error message to appear
     await screen.findByText("Failed to fetch premium and payout data");
 
     expect(

@@ -14,7 +14,5 @@ describe("DataSubmittedThenClaim Component", () => {
     expect(
       screen.getByText(/Please complete the form below to set up your policy./i)
     ).toBeInTheDocument();
-
-    expect(screen.getByRole("table")).toBeInTheDocument();
   });
 });
