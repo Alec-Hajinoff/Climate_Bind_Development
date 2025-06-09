@@ -42,7 +42,7 @@ try {
 
         // Trigger payout if temperature is above threshold
         // Note that this will trigger the contract for each row in the 'policies' table where the condition is met
-        if ($tempCelsius > 30) {
+        if ($tempCelsius > 0) {
             $nodeApiUrl = 'http://localhost:3000/trigger-payout';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $nodeApiUrl);
