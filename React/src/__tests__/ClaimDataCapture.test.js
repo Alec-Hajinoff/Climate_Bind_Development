@@ -41,7 +41,7 @@ describe("ClaimDataCapture", () => {
     expect(
       screen.getByText("Select events you'd like your policy to cover:")
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Start policy/i })).toBeInTheDocument();
   });
 
   it("submits the form and navigates to ClaimSubmitted on success", async () => {
@@ -62,7 +62,7 @@ describe("ClaimDataCapture", () => {
     );
     fireEvent.click(screen.getByLabelText(/Wind > 50 km\/h/i));
 
-    const submitButton = screen.getByRole("button", { name: /submit/i });
+    const submitButton = screen.getByRole("button", { name: /Start policy/i });
     fireEvent.click(submitButton);
 
     await new Promise((resolve) => setTimeout(resolve, 50));
@@ -84,7 +84,7 @@ describe("ClaimDataCapture", () => {
 
     render(<ClaimDataCapture />);
 
-    const submitButton = screen.getByRole("button", { name: /submit/i });
+    const submitButton = screen.getByRole("button", { name: /Start policy/i });
     fireEvent.click(submitButton);
 
     await new Promise((resolve) => setTimeout(resolve, 50));

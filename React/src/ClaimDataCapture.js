@@ -223,8 +223,7 @@ function ClaimDataCapture() {
               className="btn btn-secondary"
               id="loginBtnOne"
             >
-              Submit
-              <span
+              Start policy            <span
                 role="status"
                 aria-hidden="true"
                 id="spinnerLogin"
