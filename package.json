@@ -5,6 +5,7 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
+    "@matterlabs/hardhat-zksync-verify": "^1.6.0",
     "@nomicfoundation/hardhat-toolbox": "^6.0.0",
     "hardhat": "^2.25.0"
   }
