@@ -1,24 +1,27 @@
+require("dotenv").config();
 require("@matterlabs/hardhat-zksync-verify");
 
 module.exports = {
-  solidity: "0.8.28",
+  solidity: {
+    version: "0.8.0", // must match Remix deployment version exactly
+  },
   networks: {
     zkSyncSepolia: {
-      url: "https://sepolia.era.zksync.dev",
+      url: process.env.RPC_URL,
       chainId: 300,
+      ethNetwork: "sepolia",
       zksync: true,
+      accounts: [process.env.PRIVATE_KEY],
     },
   },
-  etherscan: {
-    customChains: [
-      {
-        network: "zkSyncSepolia",
-        chainId: 300,
-        urls: {
-          apiURL: "https://sepolia.explorer.zksync.io/api",
-          browserURL: "https://sepolia.explorer.zksync.io",
-        },
+  zksolc: {
+    version: "1.3.7", // zkSync compiler used in Remix
+    compilerSource: "binary",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200, // must match Remix optimizer setting
       },
-    ],
+    },
   },
 };
