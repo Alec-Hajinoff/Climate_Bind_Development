@@ -10,7 +10,6 @@ function AccountDataCapture() {
     last_name: "",
     date_of_birth: "",
     phone: "",
-    wallet_address: "",
     address: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
@@ -46,13 +45,12 @@ function AccountDataCapture() {
       <div>
         <p>
           To comply with regulatory standards and ensure secure payouts, we
-          require some basic information during registration to help us verify your
-          identity and meet Know Your Customer (KYC) requirements. This protects
-          against fraud, enables responsible use of the service, and ensures
-          that any payouts reach the correct recipient. Your wallet address is
-          needed to receive digital currency payments if a policy is triggered.
-          All information is handled securely and in accordance with applicable
-          data protection laws.
+          require some basic information during registration to help us verify
+          your identity and meet Know Your Customer (KYC) requirements. This
+          protects against fraud, enables responsible use of the service, and
+          ensures that any payouts reach the correct recipient. All information
+          is handled securely and in accordance with applicable data protection
+          laws.
         </p>
       </div>
       <div className="d-flex justify-content-end mb-3">
@@ -106,22 +104,6 @@ function AccountDataCapture() {
                   className="form-control"
                   name="phone"
                   value={formData.phone}
-                  onChange={handleChange}
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" className="align-middle">
-                Wallet Address
-              </th>
-              <td>
-                <input
-                  type="text"
-                  className="form-control"
-                  //placeholder="(or National security number)"
-                  name="wallet_address"
-                  value={formData.wallet_address}
                   onChange={handleChange}
                   required
                 />

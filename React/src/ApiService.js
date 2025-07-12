@@ -131,7 +131,7 @@ export const fetchPremiumPayout = async (event, latitude, longitude) => {
   }
 };
 
-// Function to save wallet address
+// Sends user's wallet address to the database
 export const saveWalletAddress = async (walletData) => {
   try {
     const response = await fetch("http://localhost:8001/Climate_Bind_Development/save_wallet.php", {

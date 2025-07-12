@@ -44,16 +44,19 @@ try {
 
     $eventType = $eventTypes[$event] ?? null;
 
-    if (!$latitude || !$longitude || !$premium || !$payout || !$eventType) {
+    // Get transaction hash from session in file save_wallet.php
+    $transaction_hash = $_SESSION['premium_transaction_hash'] ?? null;
+
+    if (!$latitude || !$longitude || !$premium || !$payout || !$eventType || !$transaction_hash) {
         echo json_encode(['success' => false, 'message' => 'Missing required fields']);
         exit;
     }
 
     $pdo->beginTransaction();
 
-    // Inserts latitude, longitude, premium, payout, event type into the policies table
-    $stmt = $pdo->prepare("INSERT INTO policies (policy_latitude, policy_longitude, premium_amount, payout_amount, event_type) VALUES (?, ?, ?, ?, ?)");
-    $stmt->execute([$latitude, $longitude, $premium, $payout, $eventType]);
+    // Inserts latitude, longitude, premium, payout, event type, transaction hash into the policies table
+    $stmt = $pdo->prepare("INSERT INTO policies (policy_latitude, policy_longitude, premium_amount, payout_amount, event_type, transaction_hash) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$latitude, $longitude, $premium, $payout, $eventType, $transaction_hash]);
     $policy_id = $pdo->lastInsertId();
 
     // Adds thresholds, units, comparison into triggers table (in production these will be input by a user)
