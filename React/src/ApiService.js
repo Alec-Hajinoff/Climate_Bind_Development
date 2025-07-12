@@ -131,3 +131,23 @@ export const fetchPremiumPayout = async (event, latitude, longitude) => {
   }
 };
 
+// Function to save wallet address
+export const saveWalletAddress = async (walletData) => {
+  try {
+    const response = await fetch("http://localhost:8001/Climate_Bind_Development/save_wallet.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(walletData),
+      credentials: "include",
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw new Error("An error occurred while saving wallet address.");
+  }
+};
+
