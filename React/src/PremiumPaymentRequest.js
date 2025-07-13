@@ -6,10 +6,16 @@ import { saveWalletAddress } from "./ApiService"; // Import saveWalletAddress
 const contractAddress = "0xF038F72f48A28a711459Aac553607A4EE3113DBc"; // Replace with contract address
 const contractAbi = ["function payPremium() external payable"]; // Replace with contract ABI
 
-const PremiumPaymentRequest = () => {
+const PremiumPaymentRequest = ({ premiumAmount }) => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const payPremium = async () => {
+    
+    if (!premiumAmount) {
+      alert("Please select a valid policy first");
+      return;
+    }
+    
     setIsProcessing(true);
 
     try {
@@ -31,8 +37,10 @@ const PremiumPaymentRequest = () => {
         signer
       );
 
+      const premiumInWei = Math.floor(parseFloat(premiumAmount)).toString(); // BigNumber.from() won't take decimal numbers, so here we are converting for example 13.00 into 13
+
       const tx = await contract.payPremium({
-        value: ethers.BigNumber.from("110"), // Enter the amount of wei we are requesting
+        value: ethers.BigNumber.from(premiumInWei), // Amount of wei we are requesting
       });
 
       await tx.wait();

@@ -210,7 +210,7 @@ function ClaimDataCapture() {
                 </p>
               </div>
             </div>
-            <PremiumPaymentRequest /> {/*Brings up Metamask for payment*/}
+            <PremiumPaymentRequest premiumAmount={premium} /> {/*Brings up Metamask for payment & passes the premium prop. This premium prop is used to charge a user the correct premium*/}
           </div>
         </div>
         <div className="d-flex justify-content-end mb-3">
