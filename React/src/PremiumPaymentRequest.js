@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import "./PremiumPaymentRequest.css";
 import { saveWalletAddress } from "./ApiService"; // Import saveWalletAddress
 
-const contractAddress = "0xF038F72f48A28a711459Aac553607A4EE3113DBc"; // Replace with contract address
+const contractAddress = "0x811D1d73E6fae55f5f47B704b4102d5c7FD92903"; // Replace with contract address
 const contractAbi = ["function payPremium() external payable"]; // Replace with contract ABI
 
 const PremiumPaymentRequest = ({ premiumAmount }) => {
