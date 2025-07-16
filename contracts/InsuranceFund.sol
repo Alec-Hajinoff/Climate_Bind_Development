@@ -2,6 +2,17 @@
 pragma solidity ^0.8.30;
 
 contract InsuranceFund {
+    address public backendAdmin;
+
+    constructor() {
+        backendAdmin = msg.sender; // Records the deployer’s wallet as backend admin
+    }
+
+    modifier onlyBackend() {
+        require(msg.sender == backendAdmin, "Unauthorized caller"); // Only the backend admin can call functions with this modifier
+        _;
+    }
+
     mapping(address => uint256) public premiums; // Mapping address-to-integer to store premiums for each insured
     mapping(address => uint256) public pendingPayouts;
     mapping(address => bool) private hasPaid;
@@ -33,7 +44,7 @@ contract InsuranceFund {
         emit PayoutRegistered(insured, amount);
     }
 
-    function claimPayout(address insured) external {
+    function claimPayout(address insured) external onlyBackend {
         // Function to claim a registered payout
         uint256 payoutAmount = pendingPayouts[insured];
         require(payoutAmount > 0, "No pending payout");
