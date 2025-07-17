@@ -8,7 +8,7 @@ if (!process.env.RPC_URL || !process.env.PRIVATE_KEY) {
 }
 
 const insuranceFundABI = [ // Defines interface for interacting with the contract
-  "function claimPayout() external",
+  "function claimPayout(address insured) external",
 ];
 const insuranceFundAddress = '0x811D1d73E6fae55f5f47B704b4102d5c7FD92903'; // Replace with deployed contract address
 const insuranceFund = new ethers.Contract(
@@ -18,9 +18,9 @@ const insuranceFund = new ethers.Contract(
 );
 
 // Function to trigger claimPayout()
-async function triggerClaimPayout() {
+async function triggerClaimPayout(insuredAddress) {
   try {
-    const tx = await insuranceFund.claimPayout();
+    const tx = await insuranceFund.claimPayout(insuredAddress);
     await tx.wait();
     return { status: "success", message: "Payout processed", txHash: tx.hash };
   } catch (error) {
