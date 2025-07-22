@@ -40,7 +40,7 @@ function ClaimCalculations() {
               <td>{row.premium_amount}</td>
               <td>{row.payout_amount}</td>
               <td>{row.event_type} {row.comparison_operator} {row.threshold_value} {row.threshold_unit}</td>
-              <td>To be displayed 30 days after start of contract</td>
+              <td>{row.reading_value}</td>
               <td>To be displayed 30 days after start of contract</td>
             </tr>
           ))}
@@ -51,3 +51,4 @@ function ClaimCalculations() {
 }
 
 export default ClaimCalculations;
+

@@ -20,22 +20,23 @@ try {
     $policies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Runs a comparison based on the operator from the database
-function compareValues($value1, $operator, $value2) {
-    switch ($operator) {
-        case '>':
-            return $value1 > $value2;
-        case '<':
-            return $value1 < $value2;
-        case '>=':
-            return $value1 >= $value2;
-        case '<=':
-            return $value1 <= $value2;
-        case '=':
-            return $value1 == $value2;
-        default:
-            return false;
+    function compareValues($value1, $operator, $value2)
+    {
+        switch ($operator) {
+            case '>':
+                return $value1 > $value2;
+            case '<':
+                return $value1 < $value2;
+            case '>=':
+                return $value1 >= $value2;
+            case '<=':
+                return $value1 <= $value2;
+            case '=':
+                return $value1 == $value2;
+            default:
+                return false;
+        }
     }
-}
 
     foreach ($policies as $policy) {
         $policyId = $policy['id']; // We need id to insert data into correct rows of 'readings' table
@@ -81,7 +82,7 @@ function compareValues($value1, $operator, $value2) {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
                 'address' => $walletAddress,
-                'amount' => $payoutAmount 
+                'amount' => $payoutAmount
             ]));
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
             $result = curl_exec($ch);
