@@ -91,6 +91,16 @@ try {
             $response = json_decode($result, true);
             if ($response['status'] !== 'success') {
                 error_log("Payout trigger failed: " . $response['message']);
+            } else {
+                // Update database columns 'policy_paid_out' & 'paid_out_timestamp' after successful contract call
+                $updateStmt = $pdo->prepare("
+                    UPDATE policies
+                    SET policy_paid_out = 1,
+                        paid_out_timestamp = NOW()
+                    WHERE id = :policyId
+                ");
+                $updateStmt->bindParam(':policyId', $policyId);
+                $updateStmt->execute();
             }
         }
     }
