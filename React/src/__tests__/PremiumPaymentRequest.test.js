@@ -3,8 +3,14 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import PremiumPaymentRequest from "../PremiumPaymentRequest";
 import { ethers } from "ethers";
+import { saveWalletAddress } from "../ApiService";
 
-// Mock ethers
+// Mocks ApiService
+jest.mock("../ApiService", () => ({
+  saveWalletAddress: jest.fn()
+}));
+
+// Mocks ethers
 jest.mock("ethers");
 
 const renderWithRouter = (component) => {
@@ -12,36 +18,35 @@ const renderWithRouter = (component) => {
 };
 
 describe("PremiumPaymentRequest Component", () => {
-  // Mock implementation of window.ethereum
   const mockEthereum = {
-    request: jest.fn(),
+    request: jest.fn()
   };
 
-  // Mock contract instance
   const mockContract = {
-    payPremium: jest.fn(),
+    payPremium: jest.fn()
   };
 
-  // Mock transaction
   const mockTransaction = {
     wait: jest.fn(),
-    hash: "0x123",
+    hash: "0x123"
   };
 
+  const mockAddress = "0xTestAddress";
+
   beforeEach(() => {
-    // Setup window.ethereum mock
     global.window.ethereum = mockEthereum;
     
-    // Setup ethers mocks
     ethers.providers.Web3Provider = jest.fn().mockImplementation(() => ({
       getSigner: () => ({
-        getAddress: jest.fn(),
-      }),
+        getAddress: jest.fn().mockResolvedValue(mockAddress)
+      })
     }));
     
     ethers.Contract = jest.fn().mockImplementation(() => mockContract);
+    ethers.BigNumber = {
+      from: jest.fn().mockImplementation(value => value)
+    };
     
-    // Clear all mocks
     jest.clearAllMocks();
   });
 
@@ -49,33 +54,45 @@ describe("PremiumPaymentRequest Component", () => {
     delete global.window.ethereum;
   });
 
-  test("renders pay premium button", () => {
-    renderWithRouter(<PremiumPaymentRequest />);
-    expect(screen.getByText("Pay Premium")).toBeInTheDocument();
+  test("alerts when no premium amount is provided", async () => {
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation();
+    
+    renderWithRouter(<PremiumPaymentRequest premiumAmount={null} />);
+    const button = screen.getByText("Pay Premium");
+    fireEvent.click(button);
+
+    expect(alertMock).toHaveBeenCalledWith("Please select a valid policy first");
+    alertMock.mockRestore();
   });
 
-  test("shows processing state when transaction is in progress", async () => {
+  test("processes complete transaction flow with premium amount", async () => {
     mockContract.payPremium.mockResolvedValue(mockTransaction);
     mockTransaction.wait.mockResolvedValue({});
+    saveWalletAddress.mockResolvedValue({});
 
-    renderWithRouter(<PremiumPaymentRequest />);
-    
+    renderWithRouter(<PremiumPaymentRequest premiumAmount="13.00" />);
     const button = screen.getByText("Pay Premium");
     fireEvent.click(button);
 
     expect(screen.getByText("Processing...")).toBeInTheDocument();
-    
+
     await waitFor(() => {
+      expect(mockContract.payPremium).toHaveBeenCalledWith({
+        value: "13"
+      });
+      expect(saveWalletAddress).toHaveBeenCalledWith({
+        wallet_address: mockAddress,
+        transaction_hash: "0x123"
+      });
       expect(screen.getByText("Pay Premium")).toBeInTheDocument();
     });
   });
 
   test("handles MetaMask not installed", async () => {
     delete global.window.ethereum;
-    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation();
 
-    renderWithRouter(<PremiumPaymentRequest />);
-    
+    renderWithRouter(<PremiumPaymentRequest premiumAmount="13.00" />);
     const button = screen.getByText("Pay Premium");
     fireEvent.click(button);
 
@@ -83,18 +100,19 @@ describe("PremiumPaymentRequest Component", () => {
     alertMock.mockRestore();
   });
 
-  test("handles successful transaction", async () => {
+  test("handles API save error", async () => {
     mockContract.payPremium.mockResolvedValue(mockTransaction);
     mockTransaction.wait.mockResolvedValue({});
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    saveWalletAddress.mockRejectedValue(new Error("API Error"));
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-    renderWithRouter(<PremiumPaymentRequest />);
-    
+    renderWithRouter(<PremiumPaymentRequest premiumAmount="13.00" />);
     const button = screen.getByText("Pay Premium");
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith("Transaction successful:", "0x123");
+      expect(consoleSpy).toHaveBeenCalled();
+      expect(screen.getByText("Pay Premium")).toBeInTheDocument();
     });
 
     consoleSpy.mockRestore();
@@ -102,15 +120,15 @@ describe("PremiumPaymentRequest Component", () => {
 
   test("handles transaction error", async () => {
     mockContract.payPremium.mockRejectedValue(new Error("Transaction failed"));
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-    renderWithRouter(<PremiumPaymentRequest />);
-    
+    renderWithRouter(<PremiumPaymentRequest premiumAmount="13.00" />);
     const button = screen.getByText("Pay Premium");
     fireEvent.click(button);
 
     await waitFor(() => {
       expect(consoleSpy).toHaveBeenCalled();
+      expect(screen.getByText("Pay Premium")).toBeInTheDocument();
     });
 
     consoleSpy.mockRestore();

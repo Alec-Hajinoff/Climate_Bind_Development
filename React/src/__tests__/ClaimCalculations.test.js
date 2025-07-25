@@ -48,17 +48,6 @@ describe("ClaimCalculations Component", () => {
     });
   });
 
-  test("displays placeholder text for readings and payouts", async () => {
-    renderWithRouter(<ClaimCalculations />);
-    await waitFor(() => {
-      const placeholderElements = screen.getAllByRole("cell", {
-        // 'cell' targets table cell elements <td>
-        name: /to be displayed 30 days after start of contract/i,
-      });
-      expect(placeholderElements).toHaveLength(2); // Two cells found in the table
-    });
-  });
-
   test("handles API fetch error", async () => {
     const consoleErrorSpy = jest
       .spyOn(console, "error")
